@@ -267,7 +267,7 @@
   padding: 0;
   overflow: hidden;
   border: 0;
-  border-radius: 1rem 1rem 0 0;
+  border-radius: var(--radius-lg);
   background-color: transparent;
   cursor: pointer;
   text-align: left;
@@ -283,30 +283,7 @@
   z-index: 1;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  clip-path: polygon(
-    0% 0%,
-    100% 0%,
-    100% 78%,
-    93% 78%,
-    93% 84%,
-    86% 84%,
-    86% 89%,
-    78% 89%,
-    78% 94%,
-    68% 94%,
-    68% 88%,
-    58% 88%,
-    58% 93%,
-    47% 93%,
-    47% 97%,
-    34% 97%,
-    34% 91%,
-    22% 91%,
-    22% 86%,
-    12% 86%,
-    12% 81%,
-    0% 81%
-  );
+  border-radius: var(--radius-lg);
 }
 
 .videos__thumb {
@@ -444,7 +421,7 @@
 .videos__card-media {
   position: relative;
   overflow: hidden;
-  border-radius: 0.55rem 0.55rem 0 0;
+  border-radius: var(--radius-md);
   background-color: transparent;
   aspect-ratio: 4 / 3;
 }
@@ -454,24 +431,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  clip-path: polygon(
-    0% 0%,
-    100% 0%,
-    100% 78%,
-    88% 78%,
-    88% 84%,
-    76% 84%,
-    76% 90%,
-    62% 90%,
-    62% 96%,
-    46% 96%,
-    46% 88%,
-    32% 88%,
-    32% 93%,
-    18% 93%,
-    18% 86%,
-    0% 86%
-  );
 }
 
 .videos__card-copy {
