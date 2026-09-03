@@ -1,0 +1,239 @@
+.about {
+  padding-block: 1.5rem 2.5rem;
+  background:
+    linear-gradient(
+      to bottom,
+      var(--color-cutout) 0,
+      var(--color-cutout) calc(100% - 2.75rem),
+      #ffffff 100%
+    );
+}
+
+.about__inner {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 0.75rem;
+}
+
+.about__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  min-width: 0;
+  padding: 1.25rem 1.125rem;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-white);
+}
+
+.about__label {
+  margin: 0;
+  font-family: var(--font-text);
+  font-size: var(--font-size-body-sm);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-text-dark);
+}
+
+.about__title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: var(--font-size-h2);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-text-dark);
+}
+
+.about__text {
+  margin: 0;
+  font-family: var(--font-text);
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.about__stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 2.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+}
+
+.about__stat-value {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 1.75rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-accent);
+}
+
+.about__stat-label {
+  margin: 0 auto;
+  max-width: 11rem;
+  font-family: var(--font-text);
+  font-size: var(--font-size-body-sm);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.about__media {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.about__figure {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background-color: var(--color-consult-hover);
+}
+
+.about__figure--main {
+  aspect-ratio: 16 / 10;
+}
+
+.about__gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.about__gallery .about__figure {
+  aspect-ratio: 2 / 1;
+  border-radius: 0.75rem;
+}
+
+.about__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+.about__image--sign {
+  object-fit: contain;
+  object-position: center;
+  background-color: #5a1f24;
+}
+
+@media (min-width: 40rem) {
+  .about__inner {
+    padding-inline: 1rem;
+  }
+
+  .about__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .about__stat-value {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 60rem) {
+  .about {
+    padding-block: 1rem 3rem;
+  }
+
+  .about__inner {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 0.875rem;
+    align-items: stretch;
+    min-height: 28rem;
+    padding-inline: 1.125rem;
+  }
+
+  .about__content {
+    gap: 1rem;
+    height: 100%;
+    padding: 2rem 1.75rem 1.75rem;
+  }
+
+  .about__text {
+    max-width: none;
+  }
+
+  .about__text:last-of-type {
+    flex: 1 0 auto;
+    padding-bottom: 2.5rem;
+  }
+
+  .about__stats {
+    margin-top: 0;
+  }
+
+  .about__stat {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .about__stat-label {
+    margin-inline: 0;
+  }
+
+  .about__stat-value {
+    font-size: 2.125rem;
+  }
+
+  .about__media {
+    grid-template-rows: minmax(0, 1.6fr) minmax(0, 1fr);
+    height: 100%;
+    min-height: 0;
+  }
+
+  .about__figure {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .about__figure--main {
+    aspect-ratio: auto;
+  }
+
+  .about__gallery {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .about__gallery .about__figure {
+    aspect-ratio: auto;
+  }
+}
+
+@media (min-width: 75rem) {
+  .about__inner {
+    min-height: 32rem;
+    padding-inline: 1.25rem;
+  }
+
+  .about__content {
+    padding: 2.5rem 2rem 2rem;
+  }
+
+  .about__stat-value {
+    font-size: 2.25rem;
+  }
+}

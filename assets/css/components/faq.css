@@ -1,0 +1,223 @@
+.faq {
+  padding-block: 2.5rem 3rem;
+  color: var(--color-text-dark);
+  background:
+    linear-gradient(
+      to bottom,
+      #ffffff 0,
+      #ffffff calc(100% - 2.75rem),
+      var(--color-cutout) 100%
+    );
+}
+
+.faq__inner {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.25rem);
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 0.75rem;
+}
+
+.faq__title {
+  margin: 0 auto;
+  max-width: 16em;
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--color-text-dark);
+}
+
+.faq__columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.faq__column {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.faq__item {
+  min-width: 0;
+  overflow: clip;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-cutout);
+}
+
+.faq__heading {
+  display: block;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.faq__trigger {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.875rem 0.875rem 0.875rem 1.125rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-dark);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--transition-base);
+}
+
+.faq__trigger:hover .faq__icon {
+  color: var(--color-white);
+  background-color: var(--color-accent);
+}
+
+.faq__trigger:hover .faq__icon-glyph {
+  filter: brightness(0) invert(1);
+}
+
+.faq__trigger:focus-visible {
+  outline: 0.125rem solid var(--color-accent);
+  outline-offset: 0.1875rem;
+}
+
+.faq__trigger[aria-expanded="true"] .faq__icon {
+  color: var(--color-white);
+  background-color: var(--color-accent);
+}
+
+.faq__trigger[aria-expanded="true"] .faq__icon-glyph {
+  filter: brightness(0) invert(1);
+}
+
+.faq__trigger[aria-expanded="true"] .faq__icon-glyph--plus {
+  display: none;
+}
+
+.faq__trigger[aria-expanded="true"] .faq__icon-glyph--minus {
+  display: block;
+}
+
+.faq__question {
+  font-family: var(--font-text);
+  font-size: clamp(0.875rem, 1.8vw, 1rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.faq__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-text-dark);
+  background-color: transparent;
+  border-radius: var(--radius-sm);
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
+}
+
+.faq__icon-glyph {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  transition: filter var(--transition-base);
+}
+
+.faq__icon-glyph--minus {
+  display: none;
+}
+
+.faq__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms ease;
+}
+
+.faq__item.is-open .faq__panel {
+  grid-template-rows: 1fr;
+}
+
+.faq__panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.faq__answer {
+  margin: 0;
+  max-width: 42rem;
+  padding: 0 1.125rem 0.75rem;
+  font-family: var(--font-text);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.faq__answer:last-child {
+  padding-bottom: 1.125rem;
+}
+
+@media (min-width: 40rem) {
+  .faq__inner {
+    padding-inline: 1rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .faq__columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(0.75rem, 2vw, 1.25rem);
+    row-gap: 0;
+  }
+}
+
+@media (min-width: 60rem) {
+  .faq {
+    padding-block: 3rem 3.5rem;
+  }
+
+  .faq__inner {
+    padding-inline: 1.125rem;
+  }
+
+  .faq__trigger {
+    min-height: 3.75rem;
+    padding: 1rem 1rem 1rem 1.25rem;
+  }
+
+  .faq__question {
+    font-size: 1.0625rem;
+  }
+}
+
+@media (min-width: 75rem) {
+  .faq__inner {
+    padding-inline: 1.25rem;
+  }
+
+  .faq__title {
+    font-size: clamp(2.75rem, 3.4vw, 3.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__trigger,
+  .faq__icon,
+  .faq__icon-glyph,
+  .faq__panel {
+    transition: none;
+  }
+}
