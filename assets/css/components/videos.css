@@ -40,7 +40,7 @@
   transform: rotate(-18deg);
 }
 
-.videos__decor-icon--file {
+.videos__decor-icon--newspaper {
   top: 4%;
   left: 38%;
   width: 3.5rem;
@@ -48,7 +48,7 @@
   transform: rotate(12deg);
 }
 
-.videos__decor-icon--flask {
+.videos__decor-icon--hammer {
   top: 6%;
   right: 5%;
   width: 4rem;
@@ -64,7 +64,7 @@
   transform: rotate(-10deg);
 }
 
-.videos__decor-icon--broadcast {
+.videos__decor-icon--toolbox {
   right: 4%;
   bottom: 16%;
   width: 4.75rem;
@@ -72,7 +72,7 @@
   transform: rotate(22deg);
 }
 
-.videos__decor-icon--atom {
+.videos__decor-icon--wrench {
   right: 26%;
   bottom: 6%;
   width: 3.25rem;
@@ -80,7 +80,7 @@
   transform: rotate(-28deg);
 }
 
-.videos__decor-icon--microscope {
+.videos__decor-icon--ruler {
   top: 28%;
   left: 1.5%;
   width: 3.75rem;
@@ -112,7 +112,7 @@
   transform: rotate(-22deg);
 }
 
-.videos__decor-icon--wave {
+.videos__decor-icon--thermometer {
   bottom: 28%;
   left: 18%;
   width: 4rem;
@@ -120,7 +120,7 @@
   transform: rotate(8deg);
 }
 
-.videos__decor-icon--factory {
+.videos__decor-icon--house {
   bottom: 4%;
   left: 36%;
   width: 3.75rem;
@@ -128,7 +128,7 @@
   transform: rotate(-16deg);
 }
 
-.videos__decor-icon--scales {
+.videos__decor-icon--stairs {
   top: 42%;
   left: 48%;
   width: 3rem;
@@ -144,7 +144,7 @@
   transform: rotate(-34deg);
 }
 
-.videos__decor-icon--test-tube {
+.videos__decor-icon--paint {
   top: 52%;
   right: 12%;
   width: 3rem;
@@ -152,7 +152,7 @@
   transform: rotate(40deg);
 }
 
-.videos__decor-icon--chart {
+.videos__decor-icon--check {
   bottom: 38%;
   left: 8%;
   width: 3.25rem;
@@ -160,7 +160,7 @@
   transform: rotate(-8deg);
 }
 
-.videos__decor-icon--warning {
+.videos__decor-icon--wall {
   top: 58%;
   left: 28%;
   width: 2.75rem;
@@ -176,7 +176,7 @@
   transform: rotate(-20deg);
 }
 
-.videos__decor-icon--drop-half {
+.videos__decor-icon--squares {
   bottom: 14%;
   right: 42%;
   width: 3rem;
@@ -184,7 +184,7 @@
   transform: rotate(26deg);
 }
 
-.videos__decor-icon--megaphone {
+.videos__decor-icon--door {
   top: 48%;
   left: 12%;
   width: 3.25rem;
@@ -514,17 +514,17 @@
     height: 5.25rem;
   }
 
-  .videos__decor-icon--flask {
+  .videos__decor-icon--hammer {
     width: 4.75rem;
     height: 4.75rem;
   }
 
-  .videos__decor-icon--microscope {
+  .videos__decor-icon--ruler {
     width: 4.25rem;
     height: 4.25rem;
   }
 
-  .videos__decor-icon--broadcast {
+  .videos__decor-icon--toolbox {
     width: 5.25rem;
     height: 5.25rem;
   }
@@ -580,12 +580,12 @@
     height: 6rem;
   }
 
-  .videos__decor-icon--broadcast {
+  .videos__decor-icon--toolbox {
     width: 5.75rem;
     height: 5.75rem;
   }
 
-  .videos__decor-icon--wave {
+  .videos__decor-icon--thermometer {
     width: 4.75rem;
     height: 4.75rem;
   }
