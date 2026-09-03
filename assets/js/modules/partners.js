@@ -18,7 +18,7 @@ export function initPartners() {
 
   tiles.forEach((tile) => {
     tile.setAttribute("role", "button");
-    tile.setAttribute("aria-label", "Показать кейс партнёра");
+    tile.setAttribute("aria-label", "Показать информацию о бренде");
   });
 
   if (prefersFineHover) {
