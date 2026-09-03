@@ -9,7 +9,7 @@
       content="Sanexpert — комплексные решения и профессиональный подход. Обсудите проект с нашей командой."
     >
     <link rel="stylesheet" href="assets/vendor/lenis/lenis.css">
-    <link rel="stylesheet" href="assets/css/main.css?v=86">
+    <link rel="stylesheet" href="assets/css/main.css?v=93">
   </head>
   <body>
     <header class="hero-header" data-header>
@@ -131,7 +131,7 @@
               <a class="hero-header__nav-link" href="/novosti">Новости</a>
             </li>
             <li>
-              <a class="hero-header__nav-link" href="/projects">Кейсы</a>
+              <a class="hero-header__nav-link" href="#projects">Кейсы</a>
             </li>
             <li>
               <a class="hero-header__nav-link" href="#reviews">Отзывы</a>
@@ -533,8 +533,8 @@
                 decoding="async"
               >
             </figure>
-            <a class="advantages__expert-link" href="/projects">
-              Подробнее о специалисте
+            <a class="advantages__expert-link" href="#projects">
+              Смотреть кейсы
               <svg class="advantages__expert-arrow" viewBox="0 0 256 256" fill="currentColor" width="18" height="18" aria-hidden="true">
                 <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
               </svg>
@@ -1976,65 +1976,567 @@
         </div>
       </section>
 
-      <section class="certificates" id="certificates" data-certificates aria-labelledby="certificates-title">
-        <div class="certificates__inner">
-          <h2 class="certificates__title" id="certificates-title">Аттестаты аккредитации</h2>
-          <ul class="certificates__grid" role="list">
-            <li class="certificates__item">
-              <button
-                class="certificates__trigger"
-                type="button"
-                data-certificates-open="assets/images/certificates/certificate-1.webp"
-                data-certificates-alt="Аттестат аккредитации"
-                aria-label="Открыть аттестат аккредитации"
-              >
-                <span class="certificates__figure">
-                  <img
-                    class="certificates__image"
-                    src="assets/images/certificates/certificate-1.webp"
-                    alt="Аттестат аккредитации"
-                    width="964"
-                    height="788"
-                    loading="lazy"
-                    decoding="async"
-                  >
-                </span>
+      <section class="cases" id="projects" data-cases aria-labelledby="cases-title" tabindex="0">
+        <div class="cases__inner">
+          <div class="cases__top">
+            <header class="cases__header">
+              <h2 class="cases__title" id="cases-title">Наши выполненные объекты</h2>
+              <p class="cases__intro">
+                Объекты с материалами, составом работ и деталями монтажа — не просто фото готового пола.
+              </p>
+            </header>
+
+            <div class="cases__controls">
+              <button class="cases__nav cases__nav--prev" type="button" data-cases-prev aria-label="Предыдущий кейс">
+                <img class="cases__nav-icon" src="assets/icons/arrow-right.svg" alt="" width="16" height="16" decoding="async">
               </button>
-            </li>
-            <li class="certificates__item">
-              <button
-                class="certificates__trigger"
-                type="button"
-                data-certificates-open="assets/images/certificates/certificate-2.webp"
-                data-certificates-alt="Аттестат аккредитации"
-                aria-label="Открыть аттестат аккредитации"
-              >
-                <span class="certificates__figure">
-                  <img
-                    class="certificates__image"
-                    src="assets/images/certificates/certificate-2.webp"
-                    alt="Аттестат аккредитации"
-                    width="895"
-                    height="779"
-                    loading="lazy"
-                    decoding="async"
-                  >
-                </span>
+              <p class="cases__counter" data-cases-counter>1 / 7</p>
+              <button class="cases__nav cases__nav--next" type="button" data-cases-next aria-label="Следующий кейс">
+                <img class="cases__nav-icon" src="assets/icons/arrow-right.svg" alt="" width="16" height="16" decoding="async">
               </button>
+            </div>
+          </div>
+
+          <div class="cases__slider" data-cases-slider>
+            <div class="cases__viewport" data-cases-viewport>
+              <ol class="cases__track" data-cases-track role="list">
+            <li class="cases__slide" data-cases-slide aria-hidden="false">
+              <article class="cases__item">
+                <div class="cases__content">
+                  <p class="cases__meta">
+                    <span class="cases__index">01</span>
+                    <span class="cases__location">Пермь · Стахановская, 44</span>
+                  </p>
+                  <ul class="cases__tags" role="list">
+                    <li class="cases__tag">Под ключ</li>
+                    <li class="cases__tag">Демонтаж</li>
+                    <li class="cases__tag">Стяжка</li>
+                    <li class="cases__tag">Ламинат</li>
+                  </ul>
+                  <h3 class="cases__item-title">Полный цикл: от старого пола до Ideal Form</h3>
+                  <p class="cases__lead">
+                    На объекте сняли старое покрытие полностью, подготовили основание
+                    полусухой стяжкой и уложили ламинат Ideal Form ID78. Типичный сценарий,
+                    когда «просто поменять покрытие» невозможно без нормальной базы.
+                  </p>
+                  <dl class="cases__facts">
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/stack.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Материал</span></dt>
+                      <dd>Ламинат Ideal Form ID78</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/clipboard-text.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Задача</span></dt>
+                      <dd>Демонтаж, выравнивание и новая укладка</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/shield-check.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Результат</span></dt>
+                      <dd>Ровное основание и готовый пол без «плавающих» стыков</dd>
+                    </div>
+                  </dl>
+                  <ul class="cases__works" role="list">
+                    <li class="cases__works-item">Полный демонтаж старого покрытия и вывоз мусора</li>
+                    <li class="cases__works-item">Полусухая стяжка с контролем уровня</li>
+                    <li class="cases__works-item">Поставка и укладка Ideal Form на подготовленное основание</li>
+                  </ul>
+                </div>
+                <div class="cases__media cases__media--triple">
+                  <button
+                    class="cases__shot cases__shot--main"
+                    type="button"
+                    data-cases-open="assets/images/cases/stakhanovskaya.webp"
+                    data-cases-alt="Демонтаж старого пола на объекте Стахановская, 44"
+                    aria-label="Открыть фото демонтажа"
+                  >
+                    <img
+                      class="cases__image"
+                      src="assets/images/cases/stakhanovskaya.webp"
+                      alt="Демонтаж старого пола, мешки со строительным мусором"
+                      width="1280"
+                      height="960"
+                      loading="eager"
+                      decoding="async"
+                    >
+                  </button>
+                  <div class="cases__thumbs">
+                    <button
+                      class="cases__shot cases__shot--thumb"
+                      type="button"
+                      data-cases-open="assets/images/cases/screed.webp"
+                      data-cases-alt="Разметка лазерным уровнем перед стяжкой"
+                      aria-label="Открыть фото подготовки основания"
+                    >
+                      <img
+                        class="cases__image"
+                        src="assets/images/cases/screed.webp"
+                        alt="Лазерный уровень на бетонном основании перед заливкой"
+                        width="1600"
+                        height="1200"
+                        loading="eager"
+                        decoding="async"
+                      >
+                    </button>
+                    <button
+                      class="cases__shot cases__shot--thumb"
+                      type="button"
+                      data-cases-open="assets/images/cases/ideal-form-aqua.webp"
+                      data-cases-alt="Готовый ламинат Ideal Form с плинтусом"
+                      aria-label="Открыть фото готового пола"
+                    >
+                      <img
+                        class="cases__image"
+                        src="assets/images/cases/ideal-form-aqua.webp"
+                        alt="Готовый ламинат светлого оттенка с плинтусом в тон"
+                        width="1260"
+                        height="1680"
+                        loading="eager"
+                        decoding="async"
+                      >
+                    </button>
+                  </div>
+                </div>
+              </article>
             </li>
-          </ul>
+            <li class="cases__slide" data-cases-slide aria-hidden="true">
+              <article class="cases__item">
+                <div class="cases__content">
+                  <p class="cases__meta">
+                    <span class="cases__index">02</span>
+                    <span class="cases__location">Пермь · ул. Ким, 45</span>
+                  </p>
+                  <ul class="cases__tags" role="list">
+                    <li class="cases__tag">Ламинат</li>
+                    <li class="cases__tag">Плавающий монтаж</li>
+                  </ul>
+                  <h3 class="cases__item-title">Art Floor плавающим способом</h3>
+                  <p class="cases__lead">
+                    Укладка ламината Art Floor в квартире на ул.&nbsp;Ким. Плавающий замок,
+                    компенсационные зазоры у стен, аккуратная раскладка вдоль длинной стороны
+                    комнаты&nbsp;— стандартный и самый востребованный сценарий в Перми.
+                  </p>
+                  <dl class="cases__facts">
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/stack.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Материал</span></dt>
+                      <dd>Ламинат Art Floor</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/scales.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Способ</span></dt>
+                      <dd>Плавающая укладка на подложку</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/magnifying-glass.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Нюанс</span></dt>
+                      <dd>Работа в помещении на этапе черновой отделки стен</dd>
+                    </div>
+                  </dl>
+                  <ul class="cases__works" role="list">
+                    <li class="cases__works-item">Проверка ровности основания перед монтажом</li>
+                    <li class="cases__works-item">Укладка подложки и замкового покрытия</li>
+                    <li class="cases__works-item">Технологические зазоры по периметру под плинтус</li>
+                  </ul>
+                </div>
+                <div class="cases__media cases__media--single">
+                  <button
+                    class="cases__shot"
+                    type="button"
+                    data-cases-open="assets/images/cases/artfloor-kim.webp"
+                    data-cases-alt="Укладка ламината Art Floor на ул. Ким, 45"
+                    aria-label="Открыть фото укладки Art Floor"
+                  >
+                    <img
+                      class="cases__image"
+                      src="assets/images/cases/artfloor-kim.webp"
+                      alt="Светлый ламинат Art Floor в комнате с балконной дверью"
+                      width="1280"
+                      height="960"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                  </button>
+                </div>
+              </article>
+            </li>
+            <li class="cases__slide" data-cases-slide aria-hidden="true">
+              <article class="cases__item">
+                <div class="cases__content">
+                  <p class="cases__meta">
+                    <span class="cases__index">03</span>
+                    <span class="cases__location">Пермь</span>
+                  </p>
+                  <ul class="cases__tags" role="list">
+                    <li class="cases__tag">Клеевой винил</li>
+                    <li class="cases__tag">Tarkett</li>
+                    <li class="cases__tag">Стык покрытий</li>
+                  </ul>
+                  <h3 class="cases__item-title">Клеевой винил Tarkett New Age</h3>
+                  <p class="cases__lead">
+                    Монтаж клеевого винила Tarkett New Age с ровным переходом к соседнему
+                    покрытию в дверном проёме. Для клеевых систем критичны чистое основание,
+                    правильный клей и точная подрезка на стыке зон.
+                  </p>
+                  <dl class="cases__facts">
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/stack.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Материал</span></dt>
+                      <dd>Винил клеевой Tarkett New Age</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/factory.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Монтаж</span></dt>
+                      <dd>Клеевая укладка, стыковка разных зон</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/leaf.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Плюс</span></dt>
+                      <dd>Плотное прилегание и аккуратный порог между помещениями</dd>
+                    </div>
+                  </dl>
+                  <ul class="cases__works" role="list">
+                    <li class="cases__works-item">Подготовка и обеспыливание основания</li>
+                    <li class="cases__works-item">Клеевой монтаж виниловых планок</li>
+                    <li class="cases__works-item">Чистая линия стыка с соседним покрытием</li>
+                  </ul>
+                </div>
+                <div class="cases__media cases__media--triple">
+                  <button
+                    class="cases__shot cases__shot--main"
+                    type="button"
+                    data-cases-open="assets/images/cases/tarkett-vinyl.webp"
+                    data-cases-alt="Стык клеевого винила Tarkett New Age с соседним покрытием"
+                    aria-label="Открыть фото винила Tarkett"
+                  >
+                    <img
+                      class="cases__image"
+                      src="assets/images/cases/tarkett-vinyl.webp"
+                      alt="Переход между тёмным винилом и светлым покрытием в дверном проёме"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                  </button>
+                  <div class="cases__thumbs">
+                    <button
+                      class="cases__shot cases__shot--thumb"
+                      type="button"
+                      data-cases-open="assets/images/cases/lvt-modular.webp"
+                      data-cases-alt="Процесс укладки рулонного покрытия на объекте"
+                      aria-label="Открыть фото процесса укладки"
+                    >
+                      <img
+                        class="cases__image"
+                        src="assets/images/cases/lvt-modular.webp"
+                        alt="Мастер укладывает покрытие на подготовленное основание"
+                        width="1600"
+                        height="1200"
+                        loading="lazy"
+                        decoding="async"
+                      >
+                    </button>
+                    <button
+                      class="cases__shot cases__shot--thumb"
+                      type="button"
+                      data-cases-open="assets/images/cases/linoleum.webp"
+                      data-cases-alt="Готовое покрытие после монтажа"
+                      aria-label="Открыть фото готового покрытия"
+                    >
+                      <img
+                        class="cases__image"
+                        src="assets/images/cases/linoleum.webp"
+                        alt="Готовый пол с текстурой дерева и плинтусом"
+                        width="1600"
+                        height="1200"
+                        loading="lazy"
+                        decoding="async"
+                      >
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+            <li class="cases__slide" data-cases-slide aria-hidden="true">
+              <article class="cases__item">
+                <div class="cases__content">
+                  <p class="cases__meta">
+                    <span class="cases__index">04</span>
+                    <span class="cases__location">Пермь · деревянный дом</span>
+                  </p>
+                  <ul class="cases__tags" role="list">
+                    <li class="cases__tag">Ламинат Ideal</li>
+                    <li class="cases__tag">Вырезы под трубы</li>
+                  </ul>
+                  <h3 class="cases__item-title">Ideal 8/33/V4 с обходом труб отопления</h3>
+                  <p class="cases__lead">
+                    Укладка ламината Ideal 8/33/V4 в доме со срубом. Главный акцент кейса&nbsp;—
+                    точные вырезы вокруг труб радиатора: панель подгоняется так, чтобы шов
+                    оставался почти незаметным, без широких щелей и силиконовых «заплаток».
+                  </p>
+                  <dl class="cases__facts">
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/stack.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Материал</span></dt>
+                      <dd>Ламинат Ideal 8/33/V4</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/warning.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Сложность</span></dt>
+                      <dd>Обход вертикальных труб отопления</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/shield-check.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Финиш</span></dt>
+                      <dd>Плотная подгонка без заметных зазоров</dd>
+                    </div>
+                  </dl>
+                  <ul class="cases__works" role="list">
+                    <li class="cases__works-item">Разметка и раскрой панели под трубы</li>
+                    <li class="cases__works-item">Сборка замкового соединения вокруг стояков</li>
+                    <li class="cases__works-item">Контроль зазоров до финишной маскировки плинтусом</li>
+                  </ul>
+                </div>
+                <div class="cases__media cases__media--single">
+                  <button
+                    class="cases__shot"
+                    type="button"
+                    data-cases-open="assets/images/cases/ideal-laminate-pipes.webp"
+                    data-cases-alt="Вырез ламината Ideal вокруг труб отопления"
+                    aria-label="Открыть фото выреза под трубы"
+                  >
+                    <img
+                      class="cases__image"
+                      src="assets/images/cases/ideal-laminate-pipes.webp"
+                      alt="Ламинат с аккуратным вырезом вокруг двух труб отопления"
+                      width="1600"
+                      height="1200"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                  </button>
+                </div>
+              </article>
+            </li>
+            <li class="cases__slide" data-cases-slide aria-hidden="true">
+              <article class="cases__item">
+                <div class="cases__content">
+                  <p class="cases__meta">
+                    <span class="cases__index">05</span>
+                    <span class="cases__location">Пермь</span>
+                  </p>
+                  <ul class="cases__tags" role="list">
+                    <li class="cases__tag">Ideal Form Aqua</li>
+                    <li class="cases__tag">Плинтус Aberhof</li>
+                    <li class="cases__tag">Поставка + монтаж</li>
+                  </ul>
+                  <h3 class="cases__item-title">Ideal Form Aqua 24 и плинтус Aberhof 70</h3>
+                  <p class="cases__lead">
+                    Комплект «под ключ»: влагостойкий ламинат Ideal Form Aqua&nbsp;24,
+                    поставка на объект и монтаж вместе с плинтусом Aberhof&nbsp;70 в тон пола.
+                    Клиент получает и материал, и законченный вид периметра комнаты.
+                  </p>
+                  <dl class="cases__facts">
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/stack.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Покрытие</span></dt>
+                      <dd>Ideal Form Aqua 24 (ID7082)</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/chart-bar.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Плинтус</span></dt>
+                      <dd>Aberhof 70 / дюрополимер</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/file-text.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Формат</span></dt>
+                      <dd>Поставка + укладка + установка плинтуса</dd>
+                    </div>
+                  </dl>
+                  <ul class="cases__works" role="list">
+                    <li class="cases__works-item">Подбор покрытия и плинтуса в одном цветовом решении</li>
+                    <li class="cases__works-item">Укладка влагостойкого ламината</li>
+                    <li class="cases__works-item">Монтаж плинтуса с аккуратными углами и примыканиями</li>
+                  </ul>
+                </div>
+                <div class="cases__media cases__media--triple">
+                  <button
+                    class="cases__shot cases__shot--main"
+                    type="button"
+                    data-cases-open="assets/images/cases/ideal-form-aqua.webp"
+                    data-cases-alt="Ламинат Ideal Form Aqua с плинтусом в тон"
+                    aria-label="Открыть фото Ideal Form Aqua"
+                  >
+                    <img
+                      class="cases__image"
+                      src="assets/images/cases/ideal-form-aqua.webp"
+                      alt="Светлый ламинат Ideal Form с V-фаской и плинтусом"
+                      width="1260"
+                      height="1680"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                  </button>
+                  <div class="cases__thumbs">
+                    <button
+                      class="cases__shot cases__shot--thumb"
+                      type="button"
+                      data-cases-open="assets/images/cases/plinth-duropolymer.webp"
+                      data-cases-alt="Установка дюрополимерного плинтуса"
+                      aria-label="Открыть фото плинтуса"
+                    >
+                      <img
+                        class="cases__image"
+                        src="assets/images/cases/plinth-duropolymer.webp"
+                        alt="Монтаж дюрополимерного плинтуса по стене"
+                        width="800"
+                        height="514"
+                        loading="lazy"
+                        decoding="async"
+                      >
+                    </button>
+                    <button
+                      class="cases__shot cases__shot--thumb"
+                      type="button"
+                      data-cases-open="assets/images/cases/aberhof-7013.webp"
+                      data-cases-alt="Плинтус Aberhof для комплектации объекта"
+                      aria-label="Открыть фото плинтуса Aberhof"
+                    >
+                      <img
+                        class="cases__image"
+                        src="assets/images/cases/aberhof-7013.webp"
+                        alt="Плинтус Aberhof крупным планом"
+                        width="527"
+                        height="620"
+                        loading="lazy"
+                        decoding="async"
+                      >
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </li>
+            <li class="cases__slide" data-cases-slide aria-hidden="true">
+              <article class="cases__item">
+                <div class="cases__content">
+                  <p class="cases__meta">
+                    <span class="cases__index">06</span>
+                    <span class="cases__location">Пермь</span>
+                  </p>
+                  <ul class="cases__tags" role="list">
+                    <li class="cases__tag">Нестандарт</li>
+                    <li class="cases__tag">Ламинат на стену</li>
+                  </ul>
+                  <h3 class="cases__item-title">Обшивка стены ламинатом по обрешётке</h3>
+                  <p class="cases__lead">
+                    Ламинат использовали не только как пол, но и как стеновую отделку:
+                    на блочную стену смонтировали деревянную обрешётку и набрали вертикальные
+                    панели. Показывает, что материал можно применять в декоративных решениях,
+                    а не только «классическим» полом.
+                  </p>
+                  <dl class="cases__facts">
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/drop.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Основание</span></dt>
+                      <dd>Блочная стена + деревянная обрешётка</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/factory.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Монтаж</span></dt>
+                      <dd>Вертикальная раскладка панелей</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/magnifying-glass.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Детали</span></dt>
+                      <dd>Вырезы под розетки, точная подгонка стыков</dd>
+                    </div>
+                  </dl>
+                  <ul class="cases__works" role="list">
+                    <li class="cases__works-item">Разметка и монтаж направляющих на стену</li>
+                    <li class="cases__works-item">Набор ламелей по вертикали</li>
+                    <li class="cases__works-item">Подрезка под электрику и контроль плоскости</li>
+                  </ul>
+                </div>
+                <div class="cases__media cases__media--single">
+                  <button
+                    class="cases__shot"
+                    type="button"
+                    data-cases-open="assets/images/cases/laminate-wall.webp"
+                    data-cases-alt="Укладка ламината на стену по обрешётке"
+                    aria-label="Открыть фото обшивки стены ламинатом"
+                  >
+                    <img
+                      class="cases__image"
+                      src="assets/images/cases/laminate-wall.webp"
+                      alt="Частично обшитая ламинатом стена, лестница и инструменты на объекте"
+                      width="720"
+                      height="960"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                  </button>
+                </div>
+              </article>
+            </li>
+            <li class="cases__slide" data-cases-slide aria-hidden="true">
+              <article class="cases__item">
+                <div class="cases__content">
+                  <p class="cases__meta">
+                    <span class="cases__index">07</span>
+                    <span class="cases__location">Пермь · коммерческий интерьер</span>
+                  </p>
+                  <ul class="cases__tags" role="list">
+                    <li class="cases__tag">Ковролин</li>
+                    <li class="cases__tag">Коммерция</li>
+                  </ul>
+                  <h3 class="cases__item-title">Ковролин в зоне отдыха</h3>
+                  <p class="cases__lead">
+                    Укладка ковролина в помещении с мебелью и проходной зоной. Для таких
+                    объектов важны ровное основание, плотная стыковка полотен и аккуратная
+                    подрезка у стен и дверных проёмов&nbsp;— покрытие должно выглядеть цельно
+                    уже в первый день после монтажа.
+                  </p>
+                  <dl class="cases__facts">
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/stack.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Покрытие</span></dt>
+                      <dd>Ковролин коммерческого назначения</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/clipboard-text.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Задача</span></dt>
+                      <dd>Бесшовный вид на большой площади</dd>
+                    </div>
+                    <div class="cases__fact">
+                      <dt><img class="cases__fact-icon" src="assets/icons/cases/buildings.svg" alt="" width="16" height="16" decoding="async"><span class="cases__fact-label">Контекст</span></dt>
+                      <dd>Интерьер с диванной зоной и смежным помещением</dd>
+                    </div>
+                  </dl>
+                  <ul class="cases__works" role="list">
+                    <li class="cases__works-item">Подготовка основания под текстильное покрытие</li>
+                    <li class="cases__works-item">Раскладка и подгонка полотен</li>
+                    <li class="cases__works-item">Чистовая подрезка по периметру и у проёмов</li>
+                  </ul>
+                </div>
+                <div class="cases__media cases__media--single">
+                  <button
+                    class="cases__shot"
+                    type="button"
+                    data-cases-open="assets/images/cases/aberhof-plinth.webp"
+                    data-cases-alt="Укладка ковролина в коммерческом помещении"
+                    aria-label="Открыть фото укладки ковролина"
+                  >
+                    <img
+                      class="cases__image"
+                      src="assets/images/cases/aberhof-plinth.webp"
+                      alt="Тёмный ковролин в помещении с диваном и дверным проёмом"
+                      width="1280"
+                      height="960"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                  </button>
+                </div>
+              </article>
+            </li>
+              </ol>
+            </div>
+
+            <div class="cases__dots" data-cases-dots role="tablist" aria-label="Список кейсов"></div>
+          </div>
         </div>
 
-        <div class="certificates__lightbox" data-certificates-lightbox data-lenis-prevent hidden>
+        <div class="cases__lightbox" data-cases-lightbox data-lenis-prevent hidden>
           <button
-            class="certificates__lightbox-close"
+            class="cases__lightbox-close"
             type="button"
-            data-certificates-lightbox-close
+            data-cases-lightbox-close
             aria-label="Закрыть"
           >
             ×
           </button>
-          <img class="certificates__lightbox-image" data-certificates-lightbox-image alt="">
+          <img class="cases__lightbox-image" data-cases-lightbox-image alt="">
         </div>
       </section>
 
@@ -3286,7 +3788,7 @@
               <a class="mobile-menu__link" href="/novosti">Новости</a>
             </li>
             <li>
-              <a class="mobile-menu__link" href="/projects">Кейсы</a>
+              <a class="mobile-menu__link" href="#projects" data-menu-close>Кейсы</a>
             </li>
             <li>
               <a class="mobile-menu__link" href="#reviews" data-menu-close>Отзывы</a>
@@ -3392,7 +3894,7 @@
     <script src="assets/js/about-menu.js?v=1" defer></script>
     <script type="module" src="assets/js/main.js?v=26"></script>
     <script src="assets/js/reviews.js?v=5" defer></script>
-    <script src="assets/js/certificates.js?v=1" defer></script>
+    <script src="assets/js/cases.js?v=3" defer></script>
     <script src="assets/js/videos.js?v=6" defer></script>
     <script src="assets/js/faq.js?v=1" defer></script>
     <script src="assets/js/contact.js?v=1" defer></script>
