@@ -37,22 +37,19 @@
   gap: 0.75rem;
 }
 
-.faq__column {
-  display: grid;
-  align-content: start;
-  gap: 0.75rem;
-  min-width: 0;
-}
-
 .faq__item {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
+  min-height: 100%;
   overflow: clip;
   border-radius: var(--radius-sm);
   background-color: var(--color-cutout);
 }
 
 .faq__heading {
-  display: block;
+  display: flex;
+  flex: 1 1 auto;
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
@@ -62,6 +59,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
+  flex: 1 1 auto;
   gap: 1rem;
   width: 100%;
   min-height: 3.5rem;
@@ -142,6 +140,7 @@
 
 .faq__panel {
   display: grid;
+  flex: 0 0 auto;
   grid-template-rows: 0fr;
   transition: grid-template-rows 320ms ease;
 }
@@ -179,8 +178,11 @@
 @media (min-width: 48rem) {
   .faq__columns {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(5, auto);
+    grid-auto-flow: column;
+    align-items: stretch;
     column-gap: clamp(0.75rem, 2vw, 1.25rem);
-    row-gap: 0;
+    row-gap: 0.75rem;
   }
 }
 
