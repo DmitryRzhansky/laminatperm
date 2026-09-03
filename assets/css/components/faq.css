@@ -22,10 +22,10 @@
   margin: 0 auto;
   max-width: 16em;
   font-family: var(--font-headline);
-  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-size: var(--font-size-h2);
   font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   text-align: center;
   text-wrap: balance;
   color: var(--color-text-dark);
@@ -206,10 +206,6 @@
 @media (min-width: 75rem) {
   .faq__inner {
     padding-inline: 1.25rem;
-  }
-
-  .faq__title {
-    font-size: clamp(2.75rem, 3.4vw, 3.5rem);
   }
 }
 

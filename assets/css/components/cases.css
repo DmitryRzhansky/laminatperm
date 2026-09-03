@@ -42,7 +42,7 @@
 .cases__title {
   margin: 0;
   font-family: var(--font-headline);
-  font-size: clamp(1.625rem, 1.4rem + 0.9vw, 2.375rem);
+  font-size: var(--font-size-h2);
   font-weight: 300;
   line-height: 1.15;
   letter-spacing: -0.02em;
