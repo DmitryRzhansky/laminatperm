@@ -3,6 +3,7 @@ const FADE_TARGETS = [
   ".about__inner",
   ".advantages__inner",
   ".services__inner",
+  ".catalog__inner",
   ".partners__inner",
   ".reviews__inner",
   ".videos__inner",
