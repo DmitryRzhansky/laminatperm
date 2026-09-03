@@ -1,6 +1,7 @@
 /* Desktop mega-menu — visual catalog under «Услуги» */
 
-.hero-header__nav-item--services {
+.hero-header__nav-item--services,
+.hero-header__nav-item--catalog {
   position: static;
 }
 
@@ -28,12 +29,14 @@ button.hero-header__nav-link--menu {
   transition: transform var(--transition-base);
 }
 
-.hero-header__nav-item--services.is-open .hero-header__nav-chevron {
+.hero-header__nav-item--services.is-open .hero-header__nav-chevron,
+.hero-header__nav-item--catalog.is-open .hero-header__nav-chevron {
   transform: rotate(180deg);
 }
 
 .hero-header__nav-link--active,
-.hero-header__nav-item--services.is-open > .hero-header__nav-link {
+.hero-header__nav-item--services.is-open > .hero-header__nav-link,
+.hero-header__nav-item--catalog.is-open > .hero-header__nav-link {
   color: var(--color-text-hover);
   background-color: var(--color-white);
 }
@@ -78,24 +81,44 @@ button.hero-header__nav-link--menu {
   list-style: none;
 }
 
+.services-menu__grid--services {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.services-menu__grid--catalog {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.4rem 1.25rem;
+}
+
+.services-menu__grid--catalog .services-menu__category {
+  grid-template-columns: 4.75rem minmax(0, 1fr);
+  gap: 0.8rem;
+}
+
+.services-menu__grid--catalog .services-menu__image {
+  width: 4.75rem;
+  height: 4.75rem;
+}
+
 .services-menu__column {
   min-width: 0;
 }
 
 .services-menu__category {
   display: grid;
-  grid-template-columns: 2.5rem minmax(0, 1fr);
+  grid-template-columns: 4.5rem minmax(0, 1fr);
   gap: 0.75rem;
   align-items: start;
 }
 
-.services-menu__icon {
+.services-menu__image {
   display: block;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0.4rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: contain;
+  object-position: center;
   border-radius: var(--radius-md);
-  background-color: rgba(28, 163, 151, 0.1);
+  background-color: transparent;
 }
 
 .services-menu__category-body {
@@ -182,7 +205,8 @@ button.hero-header__nav-link--menu {
 
 /* Mobile nested services under existing overlay menu */
 
-.mobile-menu__item--services {
+.mobile-menu__item--services,
+.mobile-menu__item--catalog {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -236,9 +260,19 @@ button.hero-header__nav-link--menu {
 
 .mobile-menu__services-category-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 3.5rem minmax(0, 1fr) auto;
   gap: 0.5rem;
   align-items: center;
+}
+
+.mobile-menu__services-image {
+  display: block;
+  width: 3.5rem;
+  height: 2.75rem;
+  object-fit: contain;
+  object-position: center;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
 }
 
 .mobile-menu__services-category-link {

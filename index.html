@@ -9,7 +9,7 @@
       content="Sanexpert — комплексные решения и профессиональный подход. Обсудите проект с нашей командой."
     >
     <link rel="stylesheet" href="assets/vendor/lenis/lenis.css">
-    <link rel="stylesheet" href="assets/css/main.css?v=100">
+    <link rel="stylesheet" href="assets/css/main.css?v=101">
   </head>
   <body>
     <header class="hero-header" data-header>
@@ -119,6 +119,21 @@
                 aria-controls="services-mega-menu"
               >
                 Услуги
+                <svg class="hero-header__nav-chevron" aria-hidden="true" width="12" height="12" viewBox="0 0 256 256" fill="currentColor">
+                  <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
+                </svg>
+              </button>
+            </li>
+            <li class="hero-header__nav-item hero-header__nav-item--catalog" data-catalog-menu>
+              <button
+                class="hero-header__nav-link hero-header__nav-link--menu"
+                type="button"
+                data-catalog-menu-trigger
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="catalog-mega-menu"
+              >
+                Каталог
                 <svg class="hero-header__nav-chevron" aria-hidden="true" width="12" height="12" viewBox="0 0 256 256" fill="currentColor">
                   <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
                 </svg>
@@ -3833,6 +3848,7 @@
               </div>
             </li>
             <li class="mobile-menu__item mobile-menu__item--services" data-services-menu-mobile></li>
+            <li class="mobile-menu__item mobile-menu__item--catalog" data-catalog-menu-mobile></li>
             <li>
               <a class="mobile-menu__link" href="/blog">Блог</a>
             </li>
@@ -3942,7 +3958,7 @@
       </div>
     </div>
 
-    <script src="assets/js/services-menu.js?v=21" defer></script>
+    <script src="assets/js/services-menu.js?v=23" defer></script>
     <script src="assets/js/about-menu.js?v=1" defer></script>
     <script type="module" src="assets/js/main.js?v=26"></script>
     <script src="assets/js/reviews.js?v=5" defer></script>
