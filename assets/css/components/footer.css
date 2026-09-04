@@ -208,7 +208,7 @@
   width: 1.25rem;
   height: 1.25rem;
   object-fit: contain;
-  filter: invert(48%) sepia(52%) saturate(528%) hue-rotate(131deg) brightness(92%) contrast(91%);
+  filter: invert(37%) sepia(93%) saturate(1806%) hue-rotate(212deg) brightness(96%) contrast(94%);
 }
 
 .site-footer__contacts-bar-item--static {

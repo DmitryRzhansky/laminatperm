@@ -1,7 +1,7 @@
 .floating-actions {
   --floating-ink: #101820;
   --floating-ink-hover: #1a2430;
-  --floating-accent-hover: #178f85;
+  --floating-accent-hover: #1d4ed8;
 
   position: fixed;
   right: max(1rem, env(safe-area-inset-right));
