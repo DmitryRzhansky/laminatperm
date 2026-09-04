@@ -2,13 +2,14 @@
   --floating-ink: #101820;
   --floating-ink-hover: #1a2430;
   --floating-accent-hover: #1d4ed8;
+  --floating-offset: 0px;
 
   position: fixed;
   right: max(1rem, env(safe-area-inset-right));
   bottom: max(
     1rem,
     env(safe-area-inset-bottom),
-    var(--floating-bottom, 0px)
+    var(--floating-offset)
   );
   z-index: 120;
   display: grid;
@@ -198,7 +199,7 @@
     bottom: max(
       1.5rem,
       env(safe-area-inset-bottom),
-      var(--floating-bottom, 0px)
+      var(--floating-offset)
     );
     gap: 0.875rem;
   }

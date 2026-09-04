@@ -1,7 +1,6 @@
 (() => {
   const SCROLL_TOP_THRESHOLD_PX = 240;
-  const FOOTER_GAP_PX = 12;
-  const MAX_FOOTER_LIFT_RATIO = 0.45;
+  const FOOTER_GAP_PX = 20;
 
   const root = document.querySelector("[data-floating-actions]");
   const chatRoot = root?.querySelector("[data-floating-chat]");
@@ -71,24 +70,23 @@
 
   const updateFooterOffset = () => {
     if (!footer) {
-      root.style.removeProperty("--floating-bottom");
+      root.style.setProperty("--floating-offset", "0px");
       return;
     }
 
     const footerTop = footer.getBoundingClientRect().top;
-    const overlap = Math.max(0, window.innerHeight - footerTop);
-    const maxLift = window.innerHeight * MAX_FOOTER_LIFT_RATIO;
-    const bottom = Math.min(
-      overlap > 0 ? overlap + FOOTER_GAP_PX : 0,
-      maxLift,
-    );
+    const rootHeight = root.getBoundingClientRect().height || 0;
+    const overlap = window.innerHeight - footerTop;
 
-    if (bottom > 0) {
-      root.style.setProperty("--floating-bottom", `${bottom}px`);
+    if (overlap <= 0) {
+      root.style.setProperty("--floating-offset", "0px");
       return;
     }
 
-    root.style.removeProperty("--floating-bottom");
+    const maxOffset = Math.max(0, window.innerHeight - rootHeight - 16);
+    const offset = Math.min(overlap + FOOTER_GAP_PX, maxOffset);
+
+    root.style.setProperty("--floating-offset", `${Math.round(offset)}px`);
   };
 
   const update = () => {
