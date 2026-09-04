@@ -1,5 +1,6 @@
 html {
   scroll-padding-top: var(--header-offset);
+  overflow-x: clip;
 }
 
 html,
@@ -9,11 +10,8 @@ body {
   padding: 0;
 }
 
-body {
-  overflow-x: clip;
-}
-
-body.is-menu-open {
+body.is-menu-open,
+body.is-scroll-locked {
   overflow: hidden;
 }
 

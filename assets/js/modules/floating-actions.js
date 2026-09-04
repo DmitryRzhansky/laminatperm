@@ -1,11 +1,5 @@
-import { getLenis } from "./scroll.js";
-
-const SCROLL_TOP_THRESHOLD = 320;
 const FOOTER_GAP_PX = 12;
-
-function prefersReducedMotion() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
+const MAX_FOOTER_LIFT_RATIO = 0.45;
 
 export function initFloatingActions() {
   const root = document.querySelector("[data-floating-actions]");
@@ -17,17 +11,16 @@ export function initFloatingActions() {
   const chatRoot = root.querySelector("[data-floating-chat]");
   const chatToggle = root.querySelector("[data-floating-chat-toggle]");
   const chatPanel = root.querySelector("[data-floating-chat-panel]");
-  const scrollTopButton = root.querySelector("[data-floating-scroll-top]");
   const footer = document.querySelector("[data-site-footer]");
 
-  if (!chatRoot || !chatToggle || !chatPanel || !scrollTopButton) {
+  if (!chatRoot || !chatToggle || !chatPanel) {
     return;
   }
 
-  const setChatOpen = (isOpen, { restoreFocus = false } = {}) => {
-    const wasOpen = chatToggle.getAttribute("aria-expanded") === "true";
+  let isChatOpen = false;
 
-    if (isOpen === wasOpen) {
+  const setChatOpen = (nextOpen, { restoreFocus = false } = {}) => {
+    if (nextOpen === isChatOpen) {
       if (restoreFocus) {
         chatToggle.focus();
       }
@@ -35,34 +28,17 @@ export function initFloatingActions() {
       return;
     }
 
-    root.classList.toggle("is-chat-open", isOpen);
-    chatToggle.setAttribute("aria-expanded", String(isOpen));
+    isChatOpen = nextOpen;
+    root.classList.toggle("is-chat-open", isChatOpen);
+    chatToggle.setAttribute("aria-expanded", String(isChatOpen));
     chatToggle.setAttribute(
       "aria-label",
-      isOpen ? "Закрыть чат" : "Открыть чат",
+      isChatOpen ? "Закрыть чат" : "Открыть чат",
     );
-    chatPanel.hidden = !isOpen;
+    chatPanel.hidden = !isChatOpen;
 
     if (restoreFocus) {
       chatToggle.focus();
-    }
-  };
-
-  const updateScrollTopVisibility = () => {
-    const scrollY = getLenis()?.scroll ?? window.scrollY;
-    const shouldShow = scrollY > SCROLL_TOP_THRESHOLD;
-    const isVisible = scrollTopButton.classList.contains("is-visible");
-
-    if (shouldShow === isVisible) {
-      return;
-    }
-
-    scrollTopButton.classList.toggle("is-visible", shouldShow);
-    scrollTopButton.tabIndex = shouldShow ? 0 : -1;
-    scrollTopButton.setAttribute("aria-hidden", String(!shouldShow));
-
-    if (!shouldShow && document.activeElement === scrollTopButton) {
-      scrollTopButton.blur();
     }
   };
 
@@ -74,7 +50,11 @@ export function initFloatingActions() {
 
     const footerTop = footer.getBoundingClientRect().top;
     const overlap = Math.max(0, window.innerHeight - footerTop);
-    const bottom = overlap > 0 ? overlap + FOOTER_GAP_PX : 0;
+    const maxLift = window.innerHeight * MAX_FOOTER_LIFT_RATIO;
+    const bottom = Math.min(
+      overlap > 0 ? overlap + FOOTER_GAP_PX : 0,
+      maxLift,
+    );
 
     if (bottom > 0) {
       root.style.setProperty("--floating-bottom", `${bottom}px`);
@@ -86,38 +66,21 @@ export function initFloatingActions() {
 
   let frameId = 0;
 
-  const update = () => {
-    frameId = 0;
-    updateScrollTopVisibility();
-    updateFooterOffset();
-  };
-
   const requestUpdate = () => {
     if (frameId) {
       return;
     }
 
-    frameId = window.requestAnimationFrame(update);
-  };
-
-  const scrollToTop = () => {
-    setChatOpen(false);
-
-    const lenis = getLenis();
-
-    if (lenis) {
-      lenis.scrollTo(0);
-      return;
-    }
-
-    window.scrollTo({
-      top: 0,
-      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    frameId = window.requestAnimationFrame(() => {
+      frameId = 0;
+      updateFooterOffset();
     });
   };
 
-  chatToggle.addEventListener("click", () => {
-    setChatOpen(chatToggle.getAttribute("aria-expanded") !== "true");
+  chatToggle.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setChatOpen(!isChatOpen);
   });
 
   chatPanel.addEventListener("click", (event) => {
@@ -126,36 +89,27 @@ export function initFloatingActions() {
     }
   });
 
-  scrollTopButton.addEventListener("click", scrollToTop);
-
   document.addEventListener("keydown", (event) => {
-    if (
-      event.key === "Escape"
-      && chatToggle.getAttribute("aria-expanded") === "true"
-    ) {
+    if (event.key === "Escape" && isChatOpen) {
       setChatOpen(false, { restoreFocus: true });
     }
   });
 
-  document.addEventListener("click", (event) => {
-    if (
-      chatToggle.getAttribute("aria-expanded") === "true"
-      && !chatRoot.contains(event.target)
-    ) {
-      setChatOpen(false);
+  document.addEventListener("pointerdown", (event) => {
+    if (!isChatOpen || chatRoot.contains(event.target)) {
+      return;
     }
+
+    setChatOpen(false);
   });
 
-  scrollTopButton.tabIndex = -1;
-  scrollTopButton.setAttribute("aria-hidden", "true");
-  update();
+  setChatOpen(false);
+  updateFooterOffset();
 
   window.addEventListener("scroll", requestUpdate, { passive: true });
+  document.addEventListener("scroll", requestUpdate, {
+    passive: true,
+    capture: true,
+  });
   window.addEventListener("resize", requestUpdate, { passive: true });
-
-  const lenis = getLenis();
-
-  if (lenis) {
-    lenis.on("scroll", requestUpdate);
-  }
 }

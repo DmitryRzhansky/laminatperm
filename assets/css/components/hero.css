@@ -37,51 +37,6 @@
   display: none;
 }
 
-.hero__play {
-  position: absolute;
-  z-index: 2;
-  inset: auto 1.25rem 1.25rem auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 50%;
-  color: var(--color-white);
-  background-color: rgba(16, 24, 32, 0.55);
-  backdrop-filter: blur(8px);
-  cursor: pointer;
-  transition:
-    background-color var(--transition-base),
-    border-color var(--transition-base),
-    transform var(--transition-base);
-}
-
-.hero__play:hover {
-  background-color: rgba(37, 99, 235, 0.85);
-  border-color: transparent;
-}
-
-.hero__play:focus-visible {
-  outline: 0.125rem solid var(--color-white);
-  outline-offset: 0.1875rem;
-}
-
-.hero__play-icon {
-  display: block;
-  margin-left: 0.125rem;
-}
-
-.hero__play--playing .hero__play-icon {
-  margin-left: 0;
-}
-
-.hero__play[hidden] {
-  display: none;
-}
-
 .hero__content {
   position: relative;
   z-index: 3;
@@ -194,8 +149,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__video,
-  .hero__play {
+  .hero__video {
     display: none;
   }
 

@@ -1,59 +1,37 @@
-import Lenis from "../../vendor/lenis/lenis.mjs";
-
-let lenis = null;
-
-function getHeaderOffset() {
-  const value = getComputedStyle(document.documentElement).getPropertyValue("--header-offset");
-  return Number.parseFloat(value) || 0;
-}
-
 function bindHeaderScrollState() {
   const header = document.querySelector("[data-header]");
 
-  if (!header || !lenis) {
+  if (!header) {
     return;
   }
 
-  lenis.on("scroll", ({ scroll }) => {
-    header.classList.toggle("hero-header--scrolled", scroll > 24);
-  });
+  const getScrollY = () =>
+    window.scrollY ||
+    window.pageYOffset ||
+    document.scrollingElement?.scrollTop ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop ||
+    0;
+
+  const update = () => {
+    header.classList.toggle("hero-header--scrolled", getScrollY() > 24);
+  };
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  document.addEventListener("scroll", update, { passive: true, capture: true });
 }
 
-export function initSmoothScroll() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return null;
-  }
-
-  lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => 1 - (1 - t) ** 3,
-    smoothWheel: true,
-    wheelMultiplier: 0.8,
-    touchMultiplier: 1,
-    anchors: {
-      offset: -getHeaderOffset(),
-    },
-  });
-
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-
-  requestAnimationFrame(raf);
+export function initScroll() {
   bindHeaderScrollState();
-
-  return lenis;
-}
-
-export function getLenis() {
-  return lenis;
 }
 
 export function pauseScroll() {
-  lenis?.stop();
+  document.documentElement.classList.add("is-scroll-locked");
+  document.body.classList.add("is-scroll-locked");
 }
 
 export function resumeScroll() {
-  lenis?.start();
+  document.documentElement.classList.remove("is-scroll-locked");
+  document.body.classList.remove("is-scroll-locked");
 }
