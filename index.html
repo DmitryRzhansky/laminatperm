@@ -12,7 +12,7 @@
     <link rel="icon" href="assets/images/favicons/favicon.ico" sizes="32x32" media="(prefers-color-scheme: light)">
     <link rel="icon" href="assets/images/favicons/favicon-dark.ico" sizes="32x32" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" href="assets/images/favicons/apple-touch-icon.png">
-    <link rel="stylesheet" href="assets/css/main.css?v=105">
+    <link rel="stylesheet" href="assets/css/main.css?v=114">
   </head>
   <body>
     <header class="hero-header" data-header>
@@ -184,25 +184,16 @@
         </nav>
 
         <div class="hero-header__actions">
-          <a class="hero-header__phone" href="tel:+79091125205">
+          <a
+            class="hero-header__phone"
+            href="tel:+79091125205"
+            aria-label="Позвонить: +7 (909) 112-52-05"
+          >
             <svg class="hero-header__phone-icon" aria-hidden="true" width="15" height="15" viewBox="0 0 256 256" fill="currentColor">
               <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/>
             </svg>
-            +7 (909) 112-52-05
+            <span class="hero-header__phone-text">+7 (909) 112-52-05</span>
           </a>
-
-          <button
-            class="hero-header__burger"
-            type="button"
-            data-menu-toggle
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-            aria-label="Открыть меню"
-          >
-            <svg class="hero-header__burger-icon" aria-hidden="true" width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
-              <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
-            </svg>
-          </button>
 
           <div class="hero-header__socials">
             <a
@@ -238,7 +229,7 @@
               >
             </a>
             <a
-              class="hero-header__social"
+              class="hero-header__social hero-header__social--mail"
               href="mailto:vip.shapen@mail.ru"
               aria-label="Написать на vip.shapen@mail.ru"
             >
@@ -252,6 +243,19 @@
               >
             </a>
           </div>
+
+          <button
+            class="hero-header__burger"
+            type="button"
+            data-menu-toggle
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Открыть меню"
+          >
+            <svg class="hero-header__burger-icon" aria-hidden="true" width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
+              <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
+            </svg>
+          </button>
 
           <a class="button button--consult" href="#consultation">
             <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
@@ -2682,11 +2686,6 @@
                   <span class="videos__overlay-line">Выбор ламината.</span>
                   <span class="videos__overlay-line">Класс и влагостойкость.</span>
                 </span>
-                <span class="videos__play" aria-hidden="true">
-                  <svg class="videos__play-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-                    <path d="M8 5.2v13.6L19.4 12Z"/>
-                  </svg>
-                </span>
               </button>
 
               <div class="videos__featured-copy">
@@ -3853,10 +3852,10 @@
             <li class="mobile-menu__item mobile-menu__item--services" data-services-menu-mobile></li>
             <li class="mobile-menu__item mobile-menu__item--catalog" data-catalog-menu-mobile></li>
             <li>
-              <a class="mobile-menu__link" href="#videos">Блог</a>
+              <a class="mobile-menu__link" href="#videos" data-menu-close>Блог</a>
             </li>
             <li>
-              <a class="mobile-menu__link" href="#videos">Новости</a>
+              <a class="mobile-menu__link" href="#videos" data-menu-close>Новости</a>
             </li>
             <li>
               <a class="mobile-menu__link" href="#projects" data-menu-close>Кейсы</a>
@@ -3865,10 +3864,7 @@
               <a class="mobile-menu__link" href="#reviews" data-menu-close>Отзывы</a>
             </li>
             <li>
-              <a class="mobile-menu__link" href="#videos" data-menu-close>Блог</a>
-            </li>
-            <li>
-              <a class="mobile-menu__link" href="#services">Цены</a>
+              <a class="mobile-menu__link" href="#services" data-menu-close>Цены</a>
             </li>
             <li>
               <a class="mobile-menu__link" href="#consultation" data-menu-close>Контакты</a>
@@ -3961,9 +3957,10 @@
     </div>
 
     <script src="assets/js/floating-actions.js?v=5" defer></script>
+    <script src="assets/js/mobile-menu.js?v=2" defer></script>
     <script src="assets/js/services-menu.js?v=24" defer></script>
     <script src="assets/js/about-menu.js?v=1" defer></script>
-    <script type="module" src="assets/js/main.js?v=33"></script>
+    <script type="module" src="assets/js/main.js?v=35"></script>
     <script src="assets/js/reviews.js?v=5" defer></script>
     <script src="assets/js/cases.js?v=3" defer></script>
     <script src="assets/js/videos.js?v=6" defer></script>

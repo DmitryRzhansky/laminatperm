@@ -1,5 +1,4 @@
 import { initFadeMotion } from "./modules/motion.js";
-import { initMenu } from "./modules/menu.js";
 import { initPartners } from "./modules/partners.js";
 import { initScroll } from "./modules/scroll.js";
 
@@ -67,7 +66,6 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 }
 
 safeInit("scroll", initScroll);
-safeInit("mobile-menu", initMenu);
 safeInit("partners", initPartners);
 safeInit("hero-video", initHeroVideo);
 safeInit("fade-motion", initFadeMotion);

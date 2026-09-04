@@ -370,11 +370,11 @@
 .reviews__lightbox {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: 150;
   display: grid;
   place-items: center;
   padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.72);
+  background-color: rgba(0, 0, 0, 0.78);
 }
 
 .reviews__lightbox[hidden] {
@@ -382,17 +382,21 @@
 }
 
 .reviews__lightbox-image {
-  max-width: min(100%, 42rem);
-  max-height: 90vh;
+  display: block;
+  width: auto;
+  height: auto;
+  min-width: min(85vw, 22rem);
+  max-width: min(calc(100vw - 2rem), 56rem);
+  max-height: min(90dvh, calc(100dvh - 2rem));
   object-fit: contain;
   border-radius: 0.5rem;
-  background-color: var(--color-white);
 }
 
 .reviews__lightbox-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: max(1rem, env(safe-area-inset-top, 0px));
+  right: max(1rem, env(safe-area-inset-right, 0px));
+  z-index: 1;
   width: 2.5rem;
   height: 2.5rem;
   font-size: 1.5rem;
@@ -401,6 +405,11 @@
   background: transparent;
   border: 0;
   cursor: pointer;
+}
+
+.reviews__lightbox-close:focus-visible {
+  outline: 0.125rem solid var(--color-white);
+  outline-offset: 0.2rem;
 }
 
 @media (min-width: 40rem) {

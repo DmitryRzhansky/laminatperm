@@ -8,20 +8,20 @@
 @import url("./utilities/visually-hidden.css");
 
 @import url("./components/button.css?v=46");
-@import url("./components/header.css?v=50");
-@import url("./components/mobile-menu.css?v=50");
-@import url("./components/services-menu.css?v=50");
-@import url("./components/about-menu.css?v=3");
+@import url("./components/header.css?v=54");
+@import url("./components/mobile-menu.css?v=54");
+@import url("./components/services-menu.css?v=51");
+@import url("./components/about-menu.css?v=4");
 @import url("./components/hero.css?v=6");
 @import url("./components/about.css?v=46");
-@import url("./components/advantages.css?v=45");
+@import url("./components/advantages.css?v=46");
 @import url("./components/services.css?v=47");
 @import url("./components/catalog.css?v=2");
 @import url("./components/partners.css?v=48");
-@import url("./components/reviews.css?v=50");
+@import url("./components/reviews.css?v=51");
 @import url("./components/cases.css?v=9");
 @import url("./components/video-process.css?v=3");
-@import url("./components/videos.css?v=49");
+@import url("./components/videos.css?v=50");
 @import url("./components/faq.css?v=44");
 @import url("./components/contact.css?v=45");
 @import url("./components/footer.css?v=47");

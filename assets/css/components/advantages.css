@@ -109,7 +109,6 @@
   font-weight: 600;
   line-height: 1.4;
   color: var(--color-white);
-  white-space: nowrap;
 }
 
 .advantages__expert-highlight {
@@ -222,6 +221,10 @@
     column-gap: 0.875rem;
     row-gap: 2.5rem;
     padding-inline: 1.125rem;
+  }
+
+  .advantages__expert-role {
+    white-space: nowrap;
   }
 
   .advantages__title {
