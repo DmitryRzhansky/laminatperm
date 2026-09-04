@@ -269,14 +269,13 @@
       <section class="hero" aria-label="Главный экран">
         <div class="hero__media">
           <video
-            class="hero__video"
+            class="hero__video hero__video--paused"
             data-hero-video
-            autoplay
             muted
             loop
             playsinline
             webkit-playsinline
-            preload="auto"
+            preload="metadata"
             poster="assets/video/hero-poster.webp"
             width="1920"
             height="1080"
@@ -284,7 +283,7 @@
             <source src="assets/video/hero.mp4" type="video/mp4">
           </video>
           <img
-            class="hero__poster hero__poster--hidden"
+            class="hero__poster"
             data-hero-poster
             src="assets/video/hero-poster.webp"
             alt=""
@@ -293,6 +292,16 @@
             fetchpriority="high"
             decoding="async"
           >
+          <button
+            class="hero__play"
+            type="button"
+            data-hero-play
+            aria-label="Смотреть видео"
+          >
+            <svg class="hero__play-icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="28" height="28">
+              <path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z"/>
+            </svg>
+          </button>
         </div>
 
         <div class="hero__content">
@@ -3964,7 +3973,7 @@
 
     <script src="assets/js/services-menu.js?v=23" defer></script>
     <script src="assets/js/about-menu.js?v=1" defer></script>
-    <script type="module" src="assets/js/main.js?v=26"></script>
+    <script type="module" src="assets/js/main.js?v=27"></script>
     <script src="assets/js/reviews.js?v=5" defer></script>
     <script src="assets/js/cases.js?v=3" defer></script>
     <script src="assets/js/videos.js?v=6" defer></script>

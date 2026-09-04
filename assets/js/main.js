@@ -7,86 +7,89 @@ import { initFloatingActions } from "./modules/floating-actions.js";
 function initHeroVideo() {
   const video = document.querySelector("[data-hero-video]");
   const poster = document.querySelector("[data-hero-poster]");
+  const playButton = document.querySelector("[data-hero-play]");
 
-  if (!video) {
+  if (!video || !playButton) {
     return;
   }
 
   const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const playIcon = playButton.querySelector(".hero__play-icon path");
+  const playPath =
+    "M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z";
+  const pausePath =
+    "M200,32H160a16,16,0,0,0-16,16V208a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V48A16,16,0,0,0,200,32Zm0,176H160V48h40ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Zm0,176H56V48H96Z";
 
-  const showPoster = () => {
+  const showPausedState = () => {
     video.classList.add("hero__video--paused");
     poster?.classList.remove("hero__poster--hidden");
+    playButton.classList.remove("hero__play--playing");
+    playButton.setAttribute("aria-label", "Смотреть видео");
+    if (playIcon) {
+      playIcon.setAttribute("d", playPath);
+    }
   };
 
-  const hidePoster = () => {
+  const showPlayingState = () => {
     video.classList.remove("hero__video--paused");
     poster?.classList.add("hero__poster--hidden");
+    playButton.classList.add("hero__play--playing");
+    playButton.setAttribute("aria-label", "Остановить видео");
+    if (playIcon) {
+      playIcon.setAttribute("d", pausePath);
+    }
   };
 
-  const prepareVideo = () => {
-    video.muted = true;
-    video.defaultMuted = true;
-    video.playsInline = true;
-    video.setAttribute("muted", "");
-    video.setAttribute("playsinline", "");
-    video.setAttribute("webkit-playsinline", "");
+  const pauseVideo = () => {
+    video.pause();
+    showPausedState();
   };
 
-  const tryPlay = () => {
+  const playVideo = () => {
     if (motionQuery.matches) {
-      video.pause();
-      showPoster();
+      pauseVideo();
       return;
     }
 
-    prepareVideo();
+    video.muted = true;
+    video.playsInline = true;
 
     const playPromise = video.play();
 
     if (playPromise && typeof playPromise.then === "function") {
-      playPromise.then(hidePoster).catch(() => {
-        poster?.classList.remove("hero__poster--hidden");
+      playPromise.then(showPlayingState).catch(() => {
+        showPausedState();
       });
+      return;
     }
+
+    showPlayingState();
   };
 
   if (motionQuery.matches) {
-    video.pause();
-    showPoster();
+    pauseVideo();
+    playButton.hidden = true;
     return;
   }
 
-  prepareVideo();
-  video.addEventListener("playing", hidePoster);
-  video.addEventListener("canplay", tryPlay, { once: true });
-  video.addEventListener("ended", () => {
-    video.currentTime = 0;
-    tryPlay();
-  });
-  tryPlay();
+  showPausedState();
 
-  const unlock = () => {
+  playButton.addEventListener("click", () => {
     if (video.paused) {
-      tryPlay();
+      playVideo();
+      return;
     }
-  };
 
-  ["pointerdown", "touchstart", "keydown"].forEach((eventName) => {
-    document.addEventListener(eventName, unlock, { passive: true });
+    pauseVideo();
   });
 
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && video.paused) {
-      tryPlay();
+  video.addEventListener("pause", () => {
+    if (!video.ended) {
+      showPausedState();
     }
   });
 
-  window.addEventListener("pageshow", () => {
-    if (video.paused) {
-      tryPlay();
-    }
-  });
+  video.addEventListener("playing", showPlayingState);
 }
 
 function safeInit(label, fn) {
