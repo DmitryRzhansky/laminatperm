@@ -2,7 +2,6 @@ import { initFadeMotion } from "./modules/motion.js";
 import { initMenu } from "./modules/menu.js";
 import { initPartners } from "./modules/partners.js";
 import { initScroll } from "./modules/scroll.js";
-import { initFloatingActions } from "./modules/floating-actions.js";
 
 function initHeroVideo() {
   const video = document.querySelector("[data-hero-video]");
@@ -72,4 +71,3 @@ safeInit("mobile-menu", initMenu);
 safeInit("partners", initPartners);
 safeInit("hero-video", initHeroVideo);
 safeInit("fade-motion", initFadeMotion);
-safeInit("floating-actions", initFloatingActions);
