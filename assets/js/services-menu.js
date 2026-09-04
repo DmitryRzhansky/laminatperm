@@ -5,31 +5,31 @@
     {
       name: "services", label: "Услуги", desktopRoot: "[data-services-menu]", desktopTrigger: "[data-services-menu-trigger]", desktopPanel: "[data-services-menu-panel]", mobileRoot: "[data-services-menu-mobile]", panelId: "services-mega-menu", mobilePanelId: "mobile-services-panel",
       items: [
-        { title: "Укладка покрытий", url: "/uslugi", image: "assets/images/menu/services/installation.webp", links: [
-          { title: "Укладка ламината", url: "/uslugi/ukladka-laminata" }, { title: "Укладка SPC", url: "/uslugi/ukladka-spc" }, { title: "Укладка кварцвинила и LVT", url: "/uslugi/ukladka-kvartsvinila-lvt" }, { title: "Укладка линолеума", url: "/uslugi/ukladka-linoleuma" }, { title: "Укладка ковролина", url: "/uslugi/ukladka-kovrolina" }
+        { title: "Укладка покрытий", url: "#services", image: "assets/images/menu/services/installation.webp", links: [
+          { title: "Укладка ламината", url: "#services" }, { title: "Укладка SPC", url: "#services" }, { title: "Укладка кварцвинила и LVT", url: "#services" }, { title: "Укладка линолеума", url: "#services" }, { title: "Укладка ковролина", url: "#services" }
         ] },
-        { title: "Подготовка основания", url: "/uslugi/podgotovka-osnovaniya", image: "assets/images/menu/services/subfloor.webp", links: [
-          { title: "Проверка перепадов", url: "/uslugi/podgotovka-osnovaniya" }, { title: "Выравнивание пола", url: "/uslugi/podgotovka-osnovaniya" }, { title: "Полусухая стяжка", url: "/uslugi/podgotovka-osnovaniya" }, { title: "Подготовка под тёплый пол", url: "/uslugi/podgotovka-osnovaniya" }
+        { title: "Подготовка основания", url: "#services", image: "assets/images/menu/services/subfloor.webp", links: [
+          { title: "Проверка перепадов", url: "#services" }, { title: "Выравнивание пола", url: "#services" }, { title: "Полусухая стяжка", url: "#services" }, { title: "Подготовка под тёплый пол", url: "#services" }
         ] },
-        { title: "Демонтаж и подготовка", url: "/uslugi/demontazh-pokrytiya", image: "assets/images/menu/services/demolition.webp", links: [
-          { title: "Демонтаж старого покрытия", url: "/uslugi/demontazh-pokrytiya" }, { title: "Очистка основания", url: "/uslugi/demontazh-pokrytiya" }, { title: "Вынос и утилизация", url: "/uslugi/demontazh-pokrytiya" }, { title: "Замер и расчёт материалов", url: "#consultation" }
+        { title: "Демонтаж и подготовка", url: "#services", image: "assets/images/menu/services/demolition.webp", links: [
+          { title: "Демонтаж старого покрытия", url: "#services" }, { title: "Очистка основания", url: "#services" }, { title: "Вынос и утилизация", url: "#services" }, { title: "Замер и расчёт материалов", url: "#consultation" }
         ] },
-        { title: "Завершение отделки", url: "/uslugi/montazh-plintusa", image: "assets/images/menu/services/finishing.webp", links: [
-          { title: "Монтаж плинтуса", url: "/uslugi/montazh-plintusa" }, { title: "Установка порогов", url: "/uslugi/montazh-plintusa" }, { title: "Оформление примыканий", url: "/uslugi/montazh-plintusa" }, { title: "Подрезка дверных коробок", url: "/uslugi/montazh-plintusa" }
+        { title: "Завершение отделки", url: "#services", image: "assets/images/menu/services/finishing.webp", links: [
+          { title: "Монтаж плинтуса", url: "#services" }, { title: "Установка порогов", url: "#services" }, { title: "Оформление примыканий", url: "#services" }, { title: "Подрезка дверных коробок", url: "#services" }
         ] }
       ]
     },
     {
       name: "catalog", label: "Каталог", desktopRoot: "[data-catalog-menu]", desktopTrigger: "[data-catalog-menu-trigger]", desktopPanel: "[data-catalog-menu-panel]", mobileRoot: "[data-catalog-menu-mobile]", panelId: "catalog-mega-menu", mobilePanelId: "mobile-catalog-panel",
       items: [
-        { title: "Ламинат", url: "/katalog/laminat", image: "assets/images/menu/catalog/laminate.webp", links: makeLinks(["Tarkett", "Egger", "Kronospan", "Classen"], "/katalog/laminat") },
-        { title: "SPC", url: "/katalog/spc", image: "assets/images/menu/catalog/spc.webp", links: makeLinks(["Alpine Floor", "Fargo", "Stone Floor", "Vinilam"], "/katalog/spc") },
-        { title: "Кварцвинил / LVT", url: "/katalog/kvartsvinil-lvt", image: "assets/images/menu/catalog/lvt.webp", links: makeLinks(["Замковый", "Клеевой", "Под дерево", "Под камень"], "/katalog/kvartsvinil-lvt") },
-        { title: "Линолеум", url: "/katalog/linoleum", image: "assets/images/menu/catalog/linoleum.webp", links: makeLinks(["Tarkett", "Juteks", "Sinteros", "Бытовой и коммерческий"], "/katalog/linoleum") },
-        { title: "Ковролин", url: "/katalog/kovrolin", image: "assets/images/menu/catalog/carpet.webp", links: makeLinks(["Для дома", "Для офиса", "Короткий ворс", "Ковровая плитка"], "/katalog/kovrolin") },
-        { title: "Плинтусы", url: "/katalog/plintusy", image: "assets/images/menu/catalog/skirting.webp", links: makeLinks(["Дюрополимер", "МДФ", "ПВХ", "Теневой профиль"], "/katalog/plintusy") },
-        { title: "Подложки", url: "/katalog/podlozhki", image: "assets/images/menu/catalog/underlay.webp", links: makeLinks(["Под ламинат", "Под SPC", "Акустические", "Для тёплого пола"], "/katalog/podlozhki") },
-        { title: "Комплектующие", url: "/katalog/komplektuyushchie", image: "assets/images/menu/catalog/accessories.webp", links: makeLinks(["Пороги и профили", "Клей и герметики", "Крепёж", "Средства для ухода"], "/katalog/komplektuyushchie") }
+        { title: "Ламинат", url: "#catalog", image: "assets/images/menu/catalog/laminate.webp", links: makeLinks(["Tarkett", "Egger", "Kronospan", "Classen"], "#catalog") },
+        { title: "SPC", url: "#catalog", image: "assets/images/menu/catalog/spc.webp", links: makeLinks(["Alpine Floor", "Fargo", "Stone Floor", "Vinilam"], "#catalog") },
+        { title: "Кварцвинил / LVT", url: "#catalog", image: "assets/images/menu/catalog/lvt.webp", links: makeLinks(["Замковый", "Клеевой", "Под дерево", "Под камень"], "#catalog") },
+        { title: "Линолеум", url: "#catalog", image: "assets/images/menu/catalog/linoleum.webp", links: makeLinks(["Tarkett", "Juteks", "Sinteros", "Бытовой и коммерческий"], "#catalog") },
+        { title: "Ковролин", url: "#catalog", image: "assets/images/menu/catalog/carpet.webp", links: makeLinks(["Для дома", "Для офиса", "Короткий ворс", "Ковровая плитка"], "#catalog") },
+        { title: "Плинтусы", url: "#catalog", image: "assets/images/menu/catalog/skirting.webp", links: makeLinks(["Дюрополимер", "МДФ", "ПВХ", "Теневой профиль"], "#catalog") },
+        { title: "Подложки", url: "#catalog", image: "assets/images/menu/catalog/underlay.webp", links: makeLinks(["Под ламинат", "Под SPC", "Акустические", "Для тёплого пола"], "#catalog") },
+        { title: "Комплектующие", url: "#catalog", image: "assets/images/menu/catalog/accessories.webp", links: makeLinks(["Пороги и профили", "Клей и герметики", "Крепёж", "Средства для ухода"], "#catalog") }
       ]
     }
   ];
