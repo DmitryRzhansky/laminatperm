@@ -144,8 +144,14 @@
 }
 
 .service-related {
-  padding: 3rem 0 4rem;
+  padding-block: 2.5rem 3rem;
   background-color: var(--color-surface, #f7f7f7);
+}
+
+.service-related__inner {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 0.75rem;
 }
 
 .service-related__header {
@@ -157,12 +163,18 @@
   font-family: var(--font-headline);
   font-size: var(--font-size-h2);
   font-weight: 300;
+  line-height: 1.15;
   letter-spacing: -0.02em;
+  color: var(--color-text-dark);
 }
 
 .service-related__intro {
   margin: 0;
   max-width: 40rem;
+  font-family: var(--font-text);
+  font-size: clamp(0.875rem, 0.84rem + 0.15vw, 1rem);
+  font-weight: 400;
+  line-height: 1.45;
   color: var(--color-text-muted);
 }
 
@@ -225,24 +237,10 @@
   color: var(--color-accent);
 }
 
-.service-related__more {
-  margin: 1.5rem 0 0;
-}
-
-.service-related__all {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: var(--font-headline);
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--color-text-dark);
-  text-decoration: none;
-}
-
-.service-related__all:hover,
-.service-related__all:focus-visible {
-  color: var(--color-accent);
+@media (min-width: 40rem) {
+  .service-related__inner {
+    padding-inline: 1rem;
+  }
 }
 
 @media (min-width: 48rem) {
@@ -250,8 +248,22 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .service-related {
+    padding-block: 3rem 3.5rem;
+  }
+
+  .service-related__header {
+    margin-bottom: 1.75rem;
+  }
+
   .service-related__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 60rem) {
+  .service-related__inner {
+    padding-inline: 1.125rem;
   }
 }
 
@@ -279,5 +291,11 @@
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 3;
+  }
+}
+
+@media (min-width: 75rem) {
+  .service-related__inner {
+    padding-inline: 1.25rem;
   }
 }

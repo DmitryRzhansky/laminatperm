@@ -46,7 +46,7 @@
 {% include "components/contact_section.html" %}
 
 <section class="service-related" aria-labelledby="service-related-title">
-  <div class="container">
+  <div class="service-related__inner">
     <header class="service-related__header">
       <h2 class="service-related__title" id="service-related-title">Другие услуги</h2>
       <p class="service-related__intro">
@@ -74,12 +74,6 @@
         </li>
       {% endfor %}
     </ul>
-    <p class="service-related__more">
-      <a class="service-related__all" href="{{ url_for('services.index') }}">
-        Все услуги
-        <span aria-hidden="true">→</span>
-      </a>
-    </p>
   </div>
 </section>
 {% endblock %}
