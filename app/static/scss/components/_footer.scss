@@ -139,7 +139,8 @@
   list-style: none;
 }
 
-.site-footer__list a {
+.site-footer__list a,
+.site-footer__text {
   font-family: var(--font-text);
   font-size: 0.8125rem;
   line-height: 1.3;

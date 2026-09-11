@@ -85,19 +85,30 @@ button.hero-header__nav-link--menu {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.services-menu__panel--catalog {
+  padding: 0.75rem 0.875rem;
+}
+
 .services-menu__grid--catalog {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1.4rem 1.25rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
 }
 
 .services-menu__grid--catalog .services-menu__category {
-  grid-template-columns: 4.75rem minmax(0, 1fr);
-  gap: 0.8rem;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: center;
 }
 
 .services-menu__grid--catalog .services-menu__image {
-  width: 4.75rem;
-  height: 4.75rem;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: var(--radius-sm);
+}
+
+.services-menu__grid--catalog .services-menu__category-link {
+  margin: 0;
+  font-size: 0.875rem;
 }
 
 .services-menu__column {
@@ -137,8 +148,12 @@ button.hero-header__nav-link--menu {
   transition: color var(--transition-base);
 }
 
-.services-menu__category-link:hover {
+a.services-menu__category-link:hover {
   color: var(--color-accent);
+}
+
+.services-menu__category-body > .services-menu__category-link:only-child {
+  margin-bottom: 0;
 }
 
 .services-menu__category-link:focus-visible,
@@ -167,7 +182,7 @@ button.hero-header__nav-link--menu {
   transition: color var(--transition-base);
 }
 
-.services-menu__link:hover {
+a.services-menu__link:hover {
   color: var(--color-accent);
 }
 
@@ -188,8 +203,16 @@ button.hero-header__nav-link--menu {
     padding: 1.5rem 1.25rem 1.75rem;
   }
 
+  .services-menu__panel--catalog {
+    padding: 0.875rem 1rem;
+  }
+
   .services-menu__category-link {
     font-size: 1.0625rem;
+  }
+
+  .services-menu__grid--catalog .services-menu__category-link {
+    font-size: 0.9375rem;
   }
 
   .services-menu__link {
@@ -265,6 +288,10 @@ button.hero-header__nav-link--menu {
   align-items: center;
 }
 
+.mobile-menu__services-category-row--solo {
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+}
+
 .mobile-menu__services-image {
   display: block;
   width: 3.5rem;
@@ -286,7 +313,7 @@ button.hero-header__nav-link--menu {
   transition: color var(--transition-base);
 }
 
-.mobile-menu__services-category-link:hover {
+a.mobile-menu__services-category-link:hover {
   color: var(--color-accent);
 }
 
@@ -341,7 +368,7 @@ button.hero-header__nav-link--menu {
   transition: color var(--transition-base);
 }
 
-.mobile-menu__services-link:hover {
+a.mobile-menu__services-link:hover {
   color: var(--color-accent);
 }
 
