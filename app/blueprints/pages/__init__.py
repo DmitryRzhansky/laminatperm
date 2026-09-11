@@ -89,12 +89,12 @@ def partners():
 
 @pages_bp.route("/akciya/")
 def promo():
-    return _page("akciya")
+    return _page("akciya", template="public/pages/promo.html")
 
 
 @pages_bp.route("/garantiya/")
 def warranty():
-    return _page("garantiya")
+    return _page("garantiya", template="public/pages/warranty.html")
 
 
 @pages_bp.route("/oplata/")
