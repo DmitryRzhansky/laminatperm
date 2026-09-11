@@ -4846,6 +4846,16 @@ a.mobile-menu__services-link:hover {
   background-color: var(--color-cutout);
 }
 
+.contact-section--page {
+  padding-block: 0.25rem 3rem;
+  background-color: transparent;
+}
+
+.contact-section--page .contact-section__inner {
+  width: min(100% - 1.875rem, var(--container-width));
+  padding-inline: 0;
+}
+
 .contact-section__inner {
   display: grid;
   grid-template-columns: 1fr;
@@ -4902,6 +4912,10 @@ a.mobile-menu__services-link:hover {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
+  margin-top: 0;
+}
+
+.contact-info__title + .contact-info__grid {
   margin-top: 1.5rem;
 }
 
@@ -4932,15 +4946,27 @@ a.mobile-menu__services-link:hover {
   color: var(--color-text-dark);
 }
 
-.contact-info__value a {
+.contact-info__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   color: inherit;
   text-decoration: none;
   transition: color var(--transition-base);
 }
 
-.contact-info__value a:hover,
-.contact-info__value a:focus-visible {
+.contact-info__link:hover,
+.contact-info__link:focus-visible {
   color: var(--color-accent);
+}
+
+.contact-info__icon {
+  display: block;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  filter: invert(37%) sepia(93%) saturate(1806%) hue-rotate(212deg) brightness(96%) contrast(94%);
 }
 
 .contact-info__map {
@@ -5248,6 +5274,9 @@ a.mobile-menu__services-link:hover {
   .contact-section__inner {
     padding-inline: 1rem;
   }
+  .contact-section--page .contact-section__inner {
+    padding-inline: 0;
+  }
   .contact-info__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem 2rem;
@@ -5257,10 +5286,16 @@ a.mobile-menu__services-link:hover {
   .contact-section {
     padding-block: 3rem 3.5rem;
   }
+  .contact-section--page {
+    padding-block: 0.25rem 3rem;
+  }
   .contact-section__inner {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 1.25rem;
     padding-inline: 1.125rem;
+  }
+  .contact-section--page .contact-section__inner {
+    padding-inline: 0;
   }
   .contact-section__info-panel {
     padding: 2.25rem 2.5rem 2rem;
@@ -5278,6 +5313,10 @@ a.mobile-menu__services-link:hover {
 @media (min-width: 75rem) {
   .contact-section__inner {
     padding-inline: 1.25rem;
+  }
+  .contact-section--page .contact-section__inner {
+    width: min(100%, var(--container-width));
+    padding-inline: 2.5rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -5894,6 +5933,10 @@ a.mobile-menu__services-link:hover {
 
 .page-hero--compact {
   padding-bottom: 0.5rem;
+}
+
+.page-hero--compact .page-hero__title {
+  margin-bottom: 0;
 }
 
 .page-hero__title {

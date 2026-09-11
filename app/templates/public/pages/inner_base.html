@@ -2,7 +2,7 @@
 {% block title %}{{ title }} — Ламинейшен{% endblock %}
 {% block description %}{{ description or intro or title }}{% endblock %}
 {% block content %}
-<section class="page-hero">
+<section class="page-hero{% if page_hero_compact %} page-hero--compact{% endif %}">
   <div class="container">
     {% if breadcrumbs %}
       {% include "components/breadcrumbs.html" %}
