@@ -1,0 +1,53 @@
+:root {
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-text-dark: #191919;
+  --color-text-muted: #595959;
+  --color-text-hover: #2b2c2c;
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --color-cutout: #f2f3f5;
+  --color-consult-bg: #f9f9f9;
+  --color-consult-hover: #e6dbd0;
+  --color-border-light: #fafafa;
+  --color-plus: #2563eb;
+  --color-advantages-card: #2563eb;
+
+  --font-headline: "Fixel", Arial, sans-serif;
+  --font-text: "Manrope", Arial, sans-serif;
+  --font-size-h2: clamp(2.25rem, 1.9rem + 1.2vw, 2.875rem);
+  --font-size-body: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --font-size-body-sm: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+
+  --container-width: 75rem;
+
+  --radius-sm: 0.3125rem;
+  --radius-md: 0.4375rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 1.875rem;
+  --radius-button: 0.5rem;
+
+  --transition-base: 0.2s ease;
+
+  --glass-logo-bg: rgba(16, 16, 18, 0.68);
+  --glass-nav-bg: rgba(16, 16, 18, 0.68);
+  --header-offset: 5.5rem;
+  --hero-video-opacity: 0.4;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --header-offset: 7.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

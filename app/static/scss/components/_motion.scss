@@ -1,0 +1,16 @@
+@media (prefers-reduced-motion: no-preference) {
+  html.has-motion [data-fade] {
+    opacity: 0;
+    transition: opacity 0.9s ease;
+  }
+
+  html.has-motion [data-fade].is-visible {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-fade] {
+    opacity: 1;
+  }
+}

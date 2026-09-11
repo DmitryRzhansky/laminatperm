@@ -1,0 +1,47 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = "Оформление заказа" %}
+{% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Корзина", "url": url_for("catalog.cart_view")}, {"label": "Оформление"}] %}
+{% block page_body %}
+<div class="container shop-checkout">
+  <p class="shop-checkout__total">Итого: <strong>{{ total|rub }} ₽</strong></p>
+  <form class="shop-checkout__form" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label class="shop-filters__field">
+      <span class="shop-filters__label">Имя</span>
+      <input class="shop-filters__control" name="name" required autocomplete="name">
+    </label>
+    <label class="shop-filters__field">
+      <span class="shop-filters__label">Телефон</span>
+      <input class="shop-filters__control" name="phone" type="tel" required autocomplete="tel">
+    </label>
+    <label class="shop-filters__field">
+      <span class="shop-filters__label">Email</span>
+      <input class="shop-filters__control" name="email" type="email" autocomplete="email">
+    </label>
+    <label class="shop-filters__field">
+      <span class="shop-filters__label">Доставка</span>
+      <select class="shop-filters__control" name="delivery_method">
+        <option value="pickup">Самовывоз, Агатовая 28</option>
+        <option value="delivery">Доставка по Перми</option>
+      </select>
+    </label>
+    <label class="shop-filters__field">
+      <span class="shop-filters__label">Адрес, если нужна доставка</span>
+      <input class="shop-filters__control" name="address" autocomplete="street-address">
+    </label>
+    <label class="shop-filters__field">
+      <span class="shop-filters__label">Оплата</span>
+      <select class="shop-filters__control" name="payment_method">
+        <option value="cash">Наличные</option>
+        <option value="card">Карта при получении</option>
+        <option value="transfer">Перевод</option>
+      </select>
+    </label>
+    <label class="shop-filters__field">
+      <span class="shop-filters__label">Комментарий</span>
+      <textarea class="shop-filters__control shop-filters__control--area" name="comment"></textarea>
+    </label>
+    <button class="button button--accent" type="submit">Отправить заказ</button>
+  </form>
+</div>
+{% endblock %}

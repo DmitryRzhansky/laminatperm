@@ -1,0 +1,25 @@
+<ul class="catalog__grid catalog__grid--five" role="list">
+  {% for category in categories %}
+    <li>
+      <a class="catalog__card" href="{{ url_for('catalog.category', category_slug=category.slug) }}">
+        <span class="catalog__media">
+          <img
+            class="catalog__image"
+            src="{{ category.cover|media }}"
+            alt=""
+            width="1448"
+            height="1086"
+            loading="lazy"
+            decoding="async"
+          >
+        </span>
+        <span class="catalog__body">
+          <h3 class="catalog__card-title">{{ category.name }}</h3>
+          {% if category.intro %}
+            <p class="catalog__card-text">{{ category.intro }}</p>
+          {% endif %}
+        </span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>

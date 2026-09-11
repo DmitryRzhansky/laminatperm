@@ -1,0 +1,19 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = "Наши работы" %}
+{% set intro = "Реальные объекты: подготовка основания, укладка и результат." %}
+{% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Кейсы"}] %}
+{% block page_body %}
+<div class="container page-grid">
+  {% for item in items %}
+    <a class="page-card page-card--link" href="{{ url_for('cases.detail', slug=item.slug) }}">
+      {% if item.cover %}
+        <img class="page-card__image" src="{{ item.cover|media }}" alt="{{ item.title }}" width="800" height="500" loading="lazy">
+      {% endif %}
+      <div class="page-card__body">
+        <p class="page-card__text">{{ item.location }}</p>
+        <h2 class="page-card__title">{{ item.title }}</h2>
+      </div>
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}

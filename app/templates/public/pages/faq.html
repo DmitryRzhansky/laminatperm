@@ -1,0 +1,14 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = "Ответы на вопросы" %}
+{% set intro = "Коротко про замер, укладку, сроки и стоимость." %}
+{% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Вопросы"}] %}
+{% block page_body %}
+<div class="container page-prose">
+  {% for item in items %}
+    <section class="page-faq">
+      <h2 class="page-faq__question">{{ item.question }}</h2>
+      <p>{{ item.answer }}</p>
+    </section>
+  {% endfor %}
+</div>
+{% endblock %}

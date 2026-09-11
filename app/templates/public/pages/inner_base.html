@@ -1,0 +1,17 @@
+{% extends "public/base.html" %}
+{% block title %}{{ title }} — Ламинейшен{% endblock %}
+{% block description %}{{ description or intro or title }}{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    {% if breadcrumbs %}
+      {% include "components/breadcrumbs.html" %}
+    {% endif %}
+    <h1 class="page-hero__title">{{ title }}</h1>
+    {% if intro %}
+      <p class="page-hero__text">{{ intro }}</p>
+    {% endif %}
+  </div>
+</section>
+{% block page_body %}{% endblock %}
+{% endblock %}

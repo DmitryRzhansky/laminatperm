@@ -1,0 +1,20 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = "Команда" %}
+{% set intro = "Люди, которые подбирают покрытие и отвечают за укладку." %}
+{% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Команда"}] %}
+{% block page_body %}
+<div class="container page-grid">
+  {% for item in items %}
+    <article class="page-card">
+      {% if item.photo %}
+        <img class="page-card__image page-card__image--portrait" src="{{ item.photo|media }}" alt="{{ item.name }}" width="640" height="800" loading="lazy">
+      {% endif %}
+      <div class="page-card__body">
+        <h2 class="page-card__title">{{ item.name }}</h2>
+        <p class="page-card__text">{{ item.role }}</p>
+        <p>{{ item.text }}</p>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+{% endblock %}

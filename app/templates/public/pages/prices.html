@@ -1,0 +1,17 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = "Цены" %}
+{% set intro = "Ориентиры по укладке. Точную смету считаем после замера." %}
+{% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Цены"}] %}
+{% block page_body %}
+<div class="container page-grid">
+  {% for item in items %}
+    <article class="page-card page-card--price">
+      <div class="page-card__body">
+        <h2 class="page-card__title">{{ item.title }}</h2>
+        <p class="page-card__price">{{ item.price }}</p>
+        <p class="page-card__text">{{ item.text }}</p>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = item.title %}
+{% set description = item.seo_description or item.lead %}
+{% set intro = item.location %}
+{% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Кейсы", "url": url_for("cases.index")}, {"label": item.title}] %}
+{% block page_body %}
+<article class="container page-prose">
+  <p>{{ item.lead }}</p>
+  {% if item.tag_list %}
+    <ul class="page-tags" role="list">
+      {% for tag in item.tag_list %}<li>{{ tag }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+  <dl class="page-facts">
+    <div><dt>Материал</dt><dd>{{ item.fact_material }}</dd></div>
+    <div><dt>Задача</dt><dd>{{ item.fact_task }}</dd></div>
+    <div><dt>Результат</dt><dd>{{ item.fact_result }}</dd></div>
+  </dl>
+  {% if item.work_list %}
+    <ul>
+      {% for work in item.work_list %}<li>{{ work }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+  {% for image in item.images %}
+    <p><img src="{{ image.filename|media }}" alt="{{ item.title }}" width="1200" height="800" loading="lazy"></p>
+  {% endfor %}
+</article>
+{% endblock %}

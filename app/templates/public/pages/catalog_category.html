@@ -1,0 +1,89 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = current_category.name %}
+{% set intro = current_category.intro %}
+{% block page_body %}
+<div class="container shop">
+  <form class="shop-filters" method="get">
+    <p class="shop-filters__title">Фильтры</p>
+    <label class="shop-filters__field">
+      <span class="shop-filters__label">Бренд</span>
+      <select class="shop-filters__control" name="brand">
+        <option value="">Все</option>
+        {% for brand in brands %}
+          <option value="{{ brand }}" {% if request.args.get('brand') == brand %}selected{% endif %}>{{ brand }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <div class="shop-filters__row">
+      <label class="shop-filters__field">
+        <span class="shop-filters__label">Цена от</span>
+        <input class="shop-filters__control" type="number" name="price_min" min="0" inputmode="numeric" value="{{ request.args.get('price_min', '') }}" placeholder="0">
+      </label>
+      <label class="shop-filters__field">
+        <span class="shop-filters__label">Цена до</span>
+        <input class="shop-filters__control" type="number" name="price_max" min="0" inputmode="numeric" value="{{ request.args.get('price_max', '') }}" placeholder="∞">
+      </label>
+    </div>
+    {% if thicknesses %}
+      <label class="shop-filters__field">
+        <span class="shop-filters__label">Толщина</span>
+        <select class="shop-filters__control" name="thickness">
+          <option value="">Любая</option>
+          {% for item in thicknesses %}
+            <option value="{{ item }}" {% if request.args.get('thickness') == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    {% endif %}
+    {% if wears %}
+      <label class="shop-filters__field">
+        <span class="shop-filters__label">Класс нагрузки</span>
+        <select class="shop-filters__control" name="wear">
+          <option value="">Любой</option>
+          {% for item in wears %}
+            <option value="{{ item }}" {% if request.args.get('wear') == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    {% endif %}
+    <label class="shop-filters__field">
+      <span class="shop-filters__label">Сортировка</span>
+      <select class="shop-filters__control" name="sort">
+        <option value="default">По умолчанию</option>
+        <option value="price_asc" {% if request.args.get('sort') == 'price_asc' %}selected{% endif %}>Сначала дешевле</option>
+        <option value="price_desc" {% if request.args.get('sort') == 'price_desc' %}selected{% endif %}>Сначала дороже</option>
+        <option value="name" {% if request.args.get('sort') == 'name' %}selected{% endif %}>По названию</option>
+      </select>
+    </label>
+    <button class="button button--accent shop-filters__submit" type="submit">Показать</button>
+  </form>
+
+  <div class="shop__results">
+    {% if products %}
+      <p class="shop__count">{{ products|length }} товаров</p>
+      <div class="shop-grid">
+        {% for item in products %}
+          <article class="product-card">
+            <a class="product-card__media" href="{{ url_for('catalog.product', category_slug=item.category.slug, product_slug=item.slug) }}">
+              {% if item.cover %}
+                <img class="product-card__image" src="{{ item.cover|media }}" alt="{{ item.name }}" width="600" height="600" loading="lazy" decoding="async">
+              {% endif %}
+            </a>
+            <div class="product-card__body">
+              {% if item.brand %}
+                <p class="product-card__brand">{{ item.brand }}</p>
+              {% endif %}
+              <h2 class="product-card__title">
+                <a href="{{ url_for('catalog.product', category_slug=item.category.slug, product_slug=item.slug) }}">{{ item.name }}</a>
+              </h2>
+              <p class="product-card__price">{{ item.price|rub }} {{ item.unit_label }}</p>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="shop__empty">В этом разделе пока нет товаров по выбранным фильтрам.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

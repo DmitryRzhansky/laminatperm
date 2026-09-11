@@ -1,0 +1,248 @@
+    <header class="hero-header" data-header>
+      <div class="hero-header__logo-wrap">
+        <a class="hero-header__logo" href="{{ url_for('main.home') }}" aria-label="Ламинейшен — на главную">
+          <img
+            class="hero-header__logo-img"
+            src="/static/images/logo.png?v=3"
+            alt="Ламинейшен"
+            width="309"
+            height="323"
+          >
+        </a>
+      </div>
+
+      <div class="hero-header__body">
+        <div class="hero-header__meta">
+          <address class="hero-header__meta-item hero-header__address">
+            <a class="hero-header__meta-link" href="#consultation">
+              <svg class="hero-header__meta-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 256 256" fill="currentColor">
+                <path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"/>
+              </svg>
+              <span class="hero-header__meta-text">
+                <span class="hero-header__meta-label">Адрес</span>
+                <span class="hero-header__meta-value">
+                  Агатовая улица, 28, Пермь
+                </span>
+              </span>
+            </a>
+          </address>
+
+          <p class="hero-header__org">Ламинейшен — подбор и укладка напольных покрытий</p>
+
+          <p class="hero-header__meta-item hero-header__hours">
+            <svg class="hero-header__meta-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 256 256" fill="currentColor">
+              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/>
+            </svg>
+            <span class="hero-header__meta-text">
+              <span class="hero-header__meta-label">Время работы</span>
+              <span class="hero-header__meta-value hero-header__hours-value">
+                <span>7 дней в неделю: 09:00–20:00</span>
+              </span>
+            </span>
+          </p>
+        </div>
+
+        <div class="hero-header__bar">
+        <nav class="hero-header__nav" aria-label="Основная навигация">
+          <ul class="hero-header__nav-list" role="list">
+            <li class="hero-header__nav-item hero-header__nav-item--about" data-about-menu>
+              <button
+                class="hero-header__nav-link hero-header__nav-link--menu"
+                type="button"
+                data-about-menu-trigger
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="about-dropdown"
+              >
+                О компании
+                <svg class="hero-header__nav-chevron" aria-hidden="true" width="12" height="12" viewBox="0 0 256 256" fill="currentColor">
+                  <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
+                </svg>
+              </button>
+              <div class="about-menu" id="about-dropdown" data-about-menu-panel hidden>
+                <ul class="about-menu__list" role="list">
+                  <li>
+                    <a class="about-menu__link" href="{{ url_for('pages.team') }}">
+                      <img class="about-menu__icon" src="/static/icons/nav/users-three.svg" alt="" width="20" height="20" decoding="async">
+                      <span>Команда</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="about-menu__link" href="{{ url_for('pages.documents') }}">
+                      <img class="about-menu__icon" src="/static/icons/nav/certificate.svg" alt="" width="20" height="20" decoding="async">
+                      <span>Лицензии и документы</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="about-menu__link" href="{{ url_for('pages.partners') }}">
+                      <img class="about-menu__icon" src="/static/icons/nav/handshake.svg" alt="" width="20" height="20" decoding="async">
+                      <span>Партнеры</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="about-menu__link" href="{{ url_for('pages.promo') }}">
+                      <img class="about-menu__icon" src="/static/icons/nav/tag.svg" alt="" width="20" height="20" decoding="async">
+                      <span>Акция</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="about-menu__link" href="{{ url_for('pages.warranty') }}">
+                      <img class="about-menu__icon" src="/static/icons/nav/shield-check.svg" alt="" width="20" height="20" decoding="async">
+                      <span>Гарантия</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="about-menu__link" href="{{ url_for('pages.payment') }}">
+                      <img class="about-menu__icon" src="/static/icons/nav/credit-card.svg" alt="" width="20" height="20" decoding="async">
+                      <span>Оплата</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="about-menu__link" href="{{ url_for('pages.delivery') }}">
+                      <img class="about-menu__icon" src="/static/icons/nav/truck.svg" alt="" width="20" height="20" decoding="async">
+                      <span>Доставка</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="about-menu__link" href="{{ url_for('pages.faq') }}">
+                      <img class="about-menu__icon" src="/static/icons/nav/chat-circle.svg" alt="" width="20" height="20" decoding="async">
+                      <span>Ответы на вопросы</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="hero-header__nav-item hero-header__nav-item--services" data-services-menu>
+              <button
+                class="hero-header__nav-link hero-header__nav-link--menu"
+                type="button"
+                data-services-menu-trigger
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="services-mega-menu"
+              >
+                Услуги
+                <svg class="hero-header__nav-chevron" aria-hidden="true" width="12" height="12" viewBox="0 0 256 256" fill="currentColor">
+                  <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
+                </svg>
+              </button>
+            </li>
+            <li class="hero-header__nav-item hero-header__nav-item--catalog" data-catalog-menu>
+              <button
+                class="hero-header__nav-link hero-header__nav-link--menu"
+                type="button"
+                data-catalog-menu-trigger
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="catalog-mega-menu"
+              >
+                Каталог
+                <svg class="hero-header__nav-chevron" aria-hidden="true" width="12" height="12" viewBox="0 0 256 256" fill="currentColor">
+                  <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <a class="hero-header__nav-link" href="{{ url_for('news.index') }}">Новости</a>
+            </li>
+            <li>
+              <a class="hero-header__nav-link" href="{{ url_for('cases.index') }}">Кейсы</a>
+            </li>
+            <li>
+              <a class="hero-header__nav-link" href="{{ url_for('pages.reviews') }}">Отзывы</a>
+            </li>
+            <li>
+              <a class="hero-header__nav-link" href="{{ url_for('pages.prices') }}">Цены</a>
+            </li>
+            <li>
+              <a class="hero-header__nav-link" href="{{ url_for('pages.contacts') }}">Контакты</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="hero-header__actions">
+          <a
+            class="hero-header__phone"
+            href="tel:+79091125205"
+            aria-label="Позвонить: +7 (909) 112-52-05"
+          >
+            <svg class="hero-header__phone-icon" aria-hidden="true" width="15" height="15" viewBox="0 0 256 256" fill="currentColor">
+              <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/>
+            </svg>
+            <span class="hero-header__phone-text">+7 (909) 112-52-05</span>
+          </a>
+          <a class="hero-header__nav-link" href="{{ url_for('catalog.cart_view') }}">Корзина{% if cart_count %} ({{ cart_count }}){% endif %}</a>
+
+          <div class="hero-header__socials">
+            <a
+              class="hero-header__social"
+              href="https://max.ru/u/f9LHodD0cOJn8FkkZd1O-lNHWqNZ83X7cdXFjJJ8cQlIXpKIIY-59eLlxj8"
+              aria-label="MAX"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                class="hero-header__social-icon"
+                src="/static/icons/max-logo.svg"
+                alt=""
+                width="15"
+                height="15"
+                decoding="async"
+              >
+            </a>
+            <a
+              class="hero-header__social"
+              href="https://vk.com/permi/"
+              aria-label="ВКонтакте"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                class="hero-header__social-icon"
+                src="/static/icons/vk-logo.svg"
+                alt=""
+                width="15"
+                height="15"
+                decoding="async"
+              >
+            </a>
+            <a
+              class="hero-header__social hero-header__social--mail"
+              href="mailto:vip.shapen@mail.ru"
+              aria-label="Написать на vip.shapen@mail.ru"
+            >
+              <img
+                class="hero-header__social-icon"
+                src="/static/icons/contact/envelope.svg"
+                alt=""
+                width="15"
+                height="15"
+                decoding="async"
+              >
+            </a>
+          </div>
+
+          <button
+            class="hero-header__burger"
+            type="button"
+            data-menu-toggle
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Открыть меню"
+          >
+            <svg class="hero-header__burger-icon" aria-hidden="true" width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
+              <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
+            </svg>
+          </button>
+
+          <a class="button button--consult" href="#consultation">
+            <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
+              <path d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z"/>
+            </svg>
+            Консультация
+          </a>
+        </div>
+        </div>
+      </div>
+    </header>
+

@@ -1,0 +1,21 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = "Новости" %}
+{% set intro = "Полезные материалы про выбор и укладку напольных покрытий." %}
+{% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Новости"}] %}
+{% block page_body %}
+<div class="container page-grid page-grid--3">
+  {% for item in items %}
+    <article class="page-card">
+      {% if item.image %}
+        <a href="{{ url_for('news.detail', slug=item.slug) }}">
+          <img class="page-card__image" src="{{ item.image|media }}" alt="{{ item.title }}" width="800" height="500" loading="lazy">
+        </a>
+      {% endif %}
+      <div class="page-card__body">
+        <h2 class="page-card__title"><a href="{{ url_for('news.detail', slug=item.slug) }}">{{ item.title }}</a></h2>
+        <p class="page-card__text">{{ item.summary }}</p>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+{% endblock %}

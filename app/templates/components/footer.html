@@ -1,0 +1,167 @@
+    <footer class="site-footer" data-site-footer>
+      <div class="site-footer__inner">
+        <div class="site-footer__brand">
+          <a class="site-footer__logo" href="{{ url_for('main.home') }}" aria-label="Ламинейшен — на главную">
+            <img
+              src="/static/images/logo.png?v=3"
+              alt="Ламинейшен"
+              width="309"
+              height="323"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+          <p class="site-footer__brand-name">Ламинейшен</p>
+          <p class="site-footer__description">
+            Подбор и укладка напольных покрытий в Перми: ламинат, SPC, кварцвинил,
+            линолеум и другие материалы. Привозим образцы, рассчитываем метраж,
+            доставляем на объект и при необходимости готовим основание и монтируем пол.
+          </p>
+          <div class="site-footer__socials">
+            <a
+              class="site-footer__social"
+              href="https://max.ru/u/f9LHodD0cOJn8FkkZd1O-lNHWqNZ83X7cdXFjJJ8cQlIXpKIIY-59eLlxj8"
+              aria-label="MAX"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                class="site-footer__social-icon"
+                src="/static/icons/max-logo.svg"
+                alt=""
+                width="16"
+                height="16"
+                decoding="async"
+              >
+            </a>
+            <a
+              class="site-footer__social"
+              href="https://vk.com/permi/"
+              aria-label="ВКонтакте"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                class="site-footer__social-icon"
+                src="/static/icons/vk-logo.svg"
+                alt=""
+                width="16"
+                height="16"
+                decoding="async"
+              >
+            </a>
+            <a
+              class="site-footer__social"
+              href="mailto:vip.shapen@mail.ru"
+              aria-label="Написать на vip.shapen@mail.ru"
+            >
+              <img
+                class="site-footer__social-icon"
+                src="/static/icons/contact/envelope.svg"
+                alt=""
+                width="16"
+                height="16"
+                decoding="async"
+              >
+            </a>
+          </div>
+          <div class="site-footer__requisites">
+            <p>ОГРН 1215900004968</p>
+            <p>ИНН 5903148864</p>
+            <p>КПП 590301001</p>
+            <p>Учредитель: Аверьянов Сергей Юрьевич</p>
+            <p>ИНН учредителя 590316190920</p>
+            <p>ОКВЭД 43.33 — устройство покрытий полов</p>
+          </div>
+        </div>
+
+        <nav class="site-footer__column" aria-label="Услуги">
+          <span class="site-footer__title">
+            <a href="#services">Услуги</a>
+          </span>
+          <ul class="site-footer__list" role="list">
+            <li><a href="#services">Укладка ламината</a></li>
+            <li><a href="#services">Укладка SPC</a></li>
+            <li><a href="#services">Укладка кварцвинила и LVT</a></li>
+            <li><a href="#services">Укладка линолеума</a></li>
+            <li><a href="#services">Укладка ковролина</a></li>
+            <li><a href="#services">Демонтаж старого покрытия</a></li>
+            <li><a href="#services">Подготовка основания</a></li>
+            <li><a href="#services">Монтаж плинтуса</a></li>
+          </ul>
+        </nav>
+
+        <nav class="site-footer__column" aria-label="Каталог">
+          <span class="site-footer__title">
+            <a href="{{ url_for('catalog.index') }}">Каталог</a>
+          </span>
+          <ul class="site-footer__list" role="list">
+            <li><a href="{{ url_for('catalog.category', category_slug='laminat') }}">Ламинат</a></li>
+            <li><a href="{{ url_for('catalog.category', category_slug='linoleum') }}">Линолеум</a></li>
+            <li><a href="{{ url_for('catalog.category', category_slug='spc') }}">SPC</a></li>
+            <li><a href="{{ url_for('catalog.category', category_slug='aksessuary') }}">Аксессуары</a></li>
+            <li><a href="{{ url_for('catalog.category', category_slug='kleevoy-lvt') }}">Клеевой LVT</a></li>
+          </ul>
+        </nav>
+
+        <nav class="site-footer__column" aria-label="Компания">
+          <span class="site-footer__title">Компания</span>
+          <ul class="site-footer__list" role="list">
+            <li><a href="{{ url_for('pages.team') }}">Команда</a></li>
+            <li><a href="{{ url_for('pages.documents') }}">Лицензии и документы</a></li>
+            <li><a href="{{ url_for('pages.partners') }}">Партнеры</a></li>
+            <li><a href="{{ url_for('pages.promo') }}">Акция</a></li>
+            <li><a href="{{ url_for('pages.warranty') }}">Гарантия</a></li>
+            <li><a href="{{ url_for('pages.payment') }}">Оплата</a></li>
+            <li><a href="{{ url_for('pages.delivery') }}">Доставка</a></li>
+            <li><a href="{{ url_for('pages.faq') }}">Ответы на вопросы</a></li>
+            <li><a href="{{ url_for('pages.prices') }}">Цены</a></li>
+            <li><a href="{{ url_for('pages.contacts') }}">Контакты</a></li>
+          </ul>
+          <a class="button button--primary site-footer__cta" href="#consultation">
+            <svg class="button__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 256 256" fill="currentColor">
+              <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/>
+            </svg>
+            Оставить заявку
+          </a>
+        </nav>
+      </div>
+
+      <div class="site-footer__contacts-wrap">
+        <div class="site-footer__contacts-bar" aria-label="Контакты">
+          <div class="site-footer__contacts-bar-inner">
+            <a class="site-footer__contacts-bar-item" href="tel:+79091125205">
+              <img class="site-footer__contacts-bar-icon" src="/static/icons/footer/phone.svg" alt="" width="20" height="20" decoding="async">
+              <span>+7 (909) 112-52-05</span>
+            </a>
+            <a class="site-footer__contacts-bar-item" href="mailto:vip.shapen@mail.ru">
+              <img class="site-footer__contacts-bar-icon" src="/static/icons/footer/envelope.svg" alt="" width="20" height="20" decoding="async">
+              <span>vip.shapen@mail.ru</span>
+            </a>
+            <span class="site-footer__contacts-bar-item site-footer__contacts-bar-item--static site-footer__contacts-bar-item--address">
+              <img class="site-footer__contacts-bar-icon" src="/static/icons/footer/map-pin.svg" alt="" width="20" height="20" decoding="async">
+              <span>Агатовая улица, 28, Пермь</span>
+            </span>
+            <span class="site-footer__contacts-bar-item site-footer__contacts-bar-item--static">
+              <img class="site-footer__contacts-bar-icon" src="/static/icons/footer/clock.svg" alt="" width="20" height="20" decoding="async">
+              <span>7 дней в неделю: 09:00–20:00</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p class="site-footer__copyright">© 2026 ООО «Ламинейшен»</p>
+        <div class="site-footer__legal">
+          <a href="#consultation">Политика конфиденциальности</a>
+          <a href="#consultation">Согласие на обработку персональных данных</a>
+          <a href="https://dmitry-rzhansky.ru" target="_blank" rel="noopener noreferrer">
+            Разработка и продвижение сайта — Ржанский Дмитрий
+          </a>
+        </div>
+      </div>
+    </footer>
+
+
+
+

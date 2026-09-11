@@ -1,0 +1,97 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  font-family: var(--font-text);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.3;
+  white-space: nowrap;
+  border-radius: var(--radius-button);
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.button--primary {
+  padding: 1rem 1.75rem;
+  color: var(--color-text-dark);
+  background-color: var(--color-white);
+}
+
+.button--primary:hover {
+  color: var(--color-white);
+  background-color: var(--color-accent);
+}
+
+.button--outline {
+  padding: 0.9375rem 1.75rem;
+  color: var(--color-white);
+  background-color: transparent;
+  border: 1px solid var(--color-white);
+}
+
+.button--outline:hover {
+  color: var(--color-white);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.button--consult {
+  min-width: 7.5rem;
+  height: 2.5rem;
+  padding: 0 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background-color: var(--color-consult-bg);
+  border-radius: var(--radius-sm);
+}
+
+.button:focus-visible {
+  outline: 0.1875rem solid var(--color-accent);
+  outline-offset: 0.1875rem;
+}
+
+.button--consult .button__icon {
+  width: 0.9375rem;
+  height: 0.9375rem;
+}
+
+.button--consult:hover {
+  color: var(--color-white);
+  background-color: var(--color-accent);
+}
+
+.button__icon {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+}
+
+.button--accent {
+  padding: 0.85rem 1.25rem;
+  color: var(--color-white);
+  background-color: var(--color-accent);
+}
+
+.button--accent:hover,
+.button--accent:focus-visible {
+  background-color: var(--color-accent-hover);
+}
+
+.button--ghost {
+  padding: 0.85rem 1.25rem;
+  color: var(--color-text-dark);
+  background-color: transparent;
+  border: 1px solid rgba(25, 25, 25, 0.18);
+}
+
+.button--ghost:hover,
+.button--ghost:focus-visible {
+  color: var(--color-white);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}

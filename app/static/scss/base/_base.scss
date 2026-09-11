@@ -1,0 +1,24 @@
+html {
+  scroll-padding-top: var(--header-offset);
+  overflow-x: clip;
+}
+
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body.is-menu-open,
+body.is-scroll-locked {
+  overflow: hidden;
+}
+
+main {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}

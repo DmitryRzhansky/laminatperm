@@ -1,0 +1,10 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = "Каталог" %}
+{% set intro = "Ламинат, линолеум, SPC, клеевой LVT и аксессуары." %}
+{% block page_body %}
+<section class="catalog catalog--page" aria-label="Категории каталога">
+  <div class="catalog__inner">
+    {% include "components/category-grid.html" %}
+  </div>
+</section>
+{% endblock %}

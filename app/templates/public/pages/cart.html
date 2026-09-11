@@ -1,0 +1,33 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = "Корзина" %}
+{% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Каталог", "url": url_for("catalog.index")}, {"label": "Корзина"}] %}
+{% block page_body %}
+<div class="container shop-cart">
+  {% if items %}
+    <ul class="shop-cart__list" role="list">
+      {% for item in items %}
+        <li class="shop-cart__item">
+          <div>
+            <p class="shop-cart__name">{{ item.product.name }}</p>
+            <p class="shop-cart__meta">{{ item.product.price|rub }} {{ item.product.unit_label }}</p>
+          </div>
+          <form class="shop-cart__qty" method="post" action="{{ url_for('catalog.cart_update') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+            <label class="visually-hidden" for="qty-{{ item.product.id }}">Количество</label>
+            <input class="shop-filters__control" id="qty-{{ item.product.id }}" type="number" name="quantity" min="0" step="0.1" value="{{ item.quantity }}">
+            <button class="button button--ghost" type="submit">Обновить</button>
+          </form>
+          <p class="product-card__price">{{ item.sum|rub }} ₽</p>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="shop-cart__total">
+      <p>Итого: <strong>{{ total|rub }} ₽</strong></p>
+      <a class="button button--accent" href="{{ url_for('catalog.checkout') }}">Оформить заказ</a>
+    </div>
+  {% else %}
+    <p class="shop__empty">Корзина пуста. <a href="{{ url_for('catalog.index') }}">Перейти в каталог</a></p>
+  {% endif %}
+</div>
+{% endblock %}

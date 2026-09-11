@@ -1,0 +1,62 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = "Отзывы" %}
+{% set intro = "Что говорят клиенты после подбора и укладки." %}
+{% block page_body %}
+<section class="reviews reviews--page" data-reviews aria-label="Отзывы по площадкам">
+  <input class="reviews__tab-input" type="radio" name="reviews-tab" id="reviews-tab-avito" data-reviews-tab="avito" checked>
+  <input class="reviews__tab-input" type="radio" name="reviews-tab" id="reviews-tab-yandex" data-reviews-tab="yandex">
+  <input class="reviews__tab-input" type="radio" name="reviews-tab" id="reviews-tab-vk" data-reviews-tab="vk">
+  <div class="reviews__inner">
+    <div class="reviews__filters" role="tablist" aria-label="Источники отзывов">
+      <label class="reviews__filter" for="reviews-tab-avito" data-reviews-filter="avito">
+        <img class="reviews__filter-icon" src="/static/icons/reviews/avito.webp" alt="" width="16" height="16" decoding="async">
+        Авито
+      </label>
+      <label class="reviews__filter" for="reviews-tab-yandex" data-reviews-filter="yandex">
+        <img class="reviews__filter-icon" src="/static/icons/reviews/yandex.webp" alt="" width="16" height="16" decoding="async">
+        Яндекс
+      </label>
+      <label class="reviews__filter" for="reviews-tab-vk" data-reviews-filter="vk">
+        <img class="reviews__filter-icon" src="/static/icons/reviews/vk.png" alt="" width="16" height="16" decoding="async">
+        ВКонтакте
+      </label>
+    </div>
+
+    {% for platform, label in [("avito", "Авито"), ("yandex", "Яндекс"), ("vk", "ВКонтакте")] %}
+      <div class="reviews__panel" data-reviews-panel="{{ platform }}" role="tabpanel">
+        <div class="reviews__viewport">
+          <ul class="reviews__track" role="list" data-reviews-track>
+            {% for item in groups.get(platform, []) %}
+              <li class="reviews__slide" data-reviews-slide="{{ platform }}">
+                <article class="reviews__card">
+                  <div class="reviews__card-top">
+                    {% if item.avatar %}
+                      <img class="reviews__avatar reviews__avatar--image" src="{{ item.avatar|media }}" alt="" width="40" height="40" loading="lazy" decoding="async">
+                    {% endif %}
+                    <div class="reviews__person">
+                      <p class="reviews__name">{{ item.author }}</p>
+                      <p class="reviews__meta">{{ item.role }}</p>
+                    </div>
+                  </div>
+                  <div class="reviews__rating">
+                    <p class="reviews__stars" aria-label="Оценка {{ item.rating }} из 5">{{ "★" * (item.rating or 5) }}</p>
+                    <p class="reviews__date">{{ item.date_text }}</p>
+                  </div>
+                  {% if item.item %}
+                    <p class="reviews__item">{{ item.item }}</p>
+                  {% endif %}
+                  <p class="reviews__text">{{ item.text }}</p>
+                </article>
+              </li>
+            {% else %}
+              <li class="reviews__slide">
+                <p class="shop__empty">Пока нет отзывов с {{ label }}.</p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

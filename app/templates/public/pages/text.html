@@ -1,0 +1,12 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = page.title %}
+{% set description = page.seo_description or page.summary %}
+{% set intro = page.summary %}
+{% block page_body %}
+<div class="container page-prose">
+  {% if page.image %}
+    <p><img src="/static/{{ page.image }}" alt="{{ page.title }}" width="1200" height="675"></p>
+  {% endif %}
+  {{ body|safe }}
+</div>
+{% endblock %}

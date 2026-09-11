@@ -1,0 +1,12 @@
+{% extends "public/pages/inner_base.html" %}
+{% set title = item.title %}
+{% set description = item.seo_description or item.summary %}
+{% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Новости", "url": url_for("news.index")}, {"label": item.title}] %}
+{% block page_body %}
+<article class="container page-prose">
+  {% if item.image %}
+    <p><img src="{{ item.image|media }}" alt="{{ item.title }}" width="1200" height="675"></p>
+  {% endif %}
+  {{ body|safe }}
+</article>
+{% endblock %}

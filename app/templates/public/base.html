@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ get_setting('seo.title', 'Ламинейшен') }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ get_setting('seo.description', '') }}{% endblock %}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="32x32">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicons/favicon.ico') }}" sizes="32x32" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicons/favicon-dark.ico') }}" sizes="32x32" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicons/apple-touch-icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body>
+    {% include "components/header.html" %}
+    <main>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="container" role="status">
+            {% for category, message in messages %}
+              <p>{{ message }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+    {% include "components/footer.html" %}
+    {% include "components/chrome.html" %}
+    <script src="{{ url_for('static', filename='js/floating-actions.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/mobile-menu.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/services-menu.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/about-menu.js') }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/reviews.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/cases.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/faq.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/contact.js') }}" defer></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>
