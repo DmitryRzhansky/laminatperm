@@ -1,0 +1,36 @@
+{% extends "admin/layout.html" %}
+{% block title %}Новость{% endblock %}
+{% block heading %}{{ 'Изменить новость' if item.id else 'Добавить новость' }}{% endblock %}
+{% block content %}
+<form class="admin-form" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Заголовок <input name="title" required value="{{ item.title or '' }}"></label>
+  <label>Коротко в двух словах <textarea name="summary">{{ item.summary or '' }}</textarea></label>
+  <label>Текст <textarea id="body-md" name="body_md" placeholder="Напишите текст новости">{{ item.body_md or '' }}</textarea></label>
+  <label>Обложка <input type="file" name="image" accept="image/*">{% if item.image %}<span>сейчас: {{ item.image }}</span>{% endif %}</label>
+  <label><input type="checkbox" name="is_published" {% if item.is_published %}checked{% endif %}> Опубликовать</label>
+  <details class="admin-details">
+    <summary>Для поисковиков — обычно трогать не нужно</summary>
+    <label>Адрес страницы <input name="slug" value="{{ item.slug or '' }}"></label>
+    <label>Заголовок во вкладке <input name="seo_title" value="{{ item.seo_title or '' }}"></label>
+    <label>Короткое описание для поиска <textarea name="seo_description">{{ item.seo_description or '' }}</textarea></label>
+  </details>
+  <div class="admin-actions">
+    <button class="admin-btn" type="submit">Сохранить</button>
+    {% if item.id %}
+      <a class="admin-btn admin-btn--ghost" href="{{ url_for('news.detail', slug=item.slug) }}">Смотреть на сайте</a>
+      <button class="admin-btn admin-btn--danger" form="delete-form" type="submit" onclick="return confirm('Убрать с сайта?')">Удалить</button>
+    {% endif %}
+  </div>
+</form>
+{% if item.id %}
+  <form id="delete-form" method="post" action="{{ url_for('admin.news_delete', item_id=item.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  </form>
+{% endif %}
+{% endblock %}
+{% block extra_js %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easymde/easymde.min.css') }}">
+<script src="{{ url_for('static', filename='vendor/easymde/easymde.min.js') }}"></script>
+<script>new EasyMDE({ element: document.getElementById('body-md'), spellChecker: false, status: false });</script>
+{% endblock %}

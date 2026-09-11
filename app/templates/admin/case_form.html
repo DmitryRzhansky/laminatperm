@@ -1,0 +1,19 @@
+{% extends "admin/layout.html" %}
+{% block heading %}{{ 'Изменить кейс' if item.id else 'Добавить кейс' }}{% endblock %}
+{% block content %}
+<form class="admin-form" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Название работы <input name="title" required value="{{ item.title or '' }}"></label>
+  <label>Адрес <input name="location" value="{{ item.location or '' }}"></label>
+  <label>Коротко что сделали <textarea name="lead">{{ item.lead or '' }}</textarea></label>
+  <label>Метки через запятую <input name="tags" value="{{ item.tags or '' }}"></label>
+  <label>Материал <input name="fact_material" value="{{ item.fact_material or '' }}"></label>
+  <label>Задача <input name="fact_task" value="{{ item.fact_task or '' }}"></label>
+  <label>Результат <input name="fact_result" value="{{ item.fact_result or '' }}"></label>
+  <label>Что делали, каждая строка — отдельный пункт <textarea name="works">{{ item.works or '' }}</textarea></label>
+  <label>Фото <input type="file" name="images" accept="image/*" multiple></label>
+  <label><input type="checkbox" name="show_on_home" {% if item.show_on_home or not item.id %}checked{% endif %}> Показать на главной</label>
+  <label><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Показать на сайте</label>
+  <button class="admin-btn" type="submit">Сохранить</button>
+</form>
+{% endblock %}

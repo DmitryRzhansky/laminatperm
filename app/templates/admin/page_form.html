@@ -1,0 +1,17 @@
+{% extends "admin/layout.html" %}
+{% block heading %}{{ heading }}{% endblock %}
+{% block content %}
+<form class="admin-form" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Заголовок <input name="title" required value="{{ item.title or '' }}"></label>
+  <label>Коротко <textarea name="summary">{{ item.summary or '' }}</textarea></label>
+  <label>Текст <textarea id="body-md" name="body_md">{{ item.body_md or '' }}</textarea></label>
+  <label>Картинка <input type="file" name="image" accept="image/*"></label>
+  <button class="admin-btn" type="submit">Сохранить</button>
+</form>
+{% endblock %}
+{% block extra_js %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easymde/easymde.min.css') }}">
+<script src="{{ url_for('static', filename='vendor/easymde/easymde.min.js') }}"></script>
+<script>new EasyMDE({ element: document.getElementById('body-md'), spellChecker: false, status: false });</script>
+{% endblock %}

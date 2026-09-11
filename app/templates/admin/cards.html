@@ -1,0 +1,20 @@
+{% extends "admin/layout.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block heading %}{{ title }}{% endblock %}
+{% block content %}
+<p class="admin-toolbar"><a class="admin-btn" href="{{ create_url }}">Добавить</a></p>
+<div class="admin-cards">
+  {% for item in items %}
+    <article class="admin-card">
+      {% if item.image %}<img src="/static/{{ item.image }}" alt="{{ item.title }}">{% endif %}
+      <div class="admin-card__body">
+        <h2>{{ item.title }}</h2>
+        <div class="admin-actions">
+          <a class="admin-btn" href="{{ item.edit }}">Изменить</a>
+          {% if item.preview %}<a class="admin-btn admin-btn--ghost" href="{{ item.preview }}">Смотреть на сайте</a>{% endif %}
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+{% endblock %}

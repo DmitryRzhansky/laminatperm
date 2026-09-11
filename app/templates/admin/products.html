@@ -1,0 +1,28 @@
+{% extends "admin/layout.html" %}
+{% block heading %}Товары{% endblock %}
+{% block content %}
+<p class="admin-toolbar"><a class="admin-btn" href="{{ url_for('admin.products_edit') }}">Добавить товар</a></p>
+<div class="admin-table-wrap">
+  <table class="admin-table">
+    <thead><tr><th>Название</th><th>Категория</th><th>Цена</th><th></th></tr></thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.category.name }}</td>
+          <td>{{ item.price }}</td>
+          <td>
+            <div class="admin-row-actions">
+              <a class="admin-btn" href="{{ url_for('admin.products_edit', item_id=item.id) }}">Изменить</a>
+              <form method="post" action="{{ url_for('admin.products_delete', item_id=item.id) }}" onsubmit="return confirm('Убрать с сайта?')">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="admin-btn admin-btn--danger" type="submit">Удалить</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

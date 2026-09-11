@@ -1,0 +1,11 @@
+{% extends "admin/layout.html" %}
+{% block heading %}Вопрос{% endblock %}
+{% block content %}
+<form class="admin-form" method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Вопрос <input name="question" required value="{{ item.question or '' }}"></label>
+  <label>Ответ <textarea name="answer">{{ item.answer or '' }}</textarea></label>
+  <label><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Показать на сайте</label>
+  <button class="admin-btn" type="submit">Сохранить</button>
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "admin/layout.html" %}
+{% block title %}Заказы{% endblock %}
+{% block heading %}Заказы{% endblock %}
+{% block content %}
+<div class="admin-table-wrap">
+<table class="admin-table">
+  <thead><tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Сумма</th><th>Статус</th></tr></thead>
+  <tbody>
+    {% for item in items %}
+      <tr>
+        <td>{{ item.created_at.strftime('%d.%m.%Y %H:%M') if item.created_at else '' }}</td>
+        <td>{{ item.first_name }}</td>
+        <td>{{ item.phone }}</td>
+        <td>{{ item.total }} ₽</td>
+        <td>
+          <form method="post" action="{{ url_for('admin.order_status', item_id=item.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <select name="status" onchange="this.form.submit()">
+              <option value="new" {% if item.status == 'new' %}selected{% endif %}>Новый</option>
+              <option value="in_progress" {% if item.status == 'in_progress' %}selected{% endif %}>В работе</option>
+              <option value="closed" {% if item.status == 'closed' %}selected{% endif %}>Закрыт</option>
+            </select>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

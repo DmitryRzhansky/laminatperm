@@ -1,0 +1,22 @@
+{% extends "admin/layout.html" %}
+{% block heading %}Отзыв{% endblock %}
+{% block content %}
+<form class="admin-form" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Площадка
+    <select name="platform">
+      <option value="avito" {% if item.platform == 'avito' %}selected{% endif %}>Авито</option>
+      <option value="yandex" {% if item.platform == 'yandex' %}selected{% endif %}>Яндекс</option>
+      <option value="vk" {% if item.platform == 'vk' %}selected{% endif %}>ВК</option>
+    </select>
+  </label>
+  <label>Имя <input name="author" value="{{ item.author or '' }}"></label>
+  <label>Кто это <input name="role" value="{{ item.role or '' }}"></label>
+  <label>Дата текстом <input name="date_text" value="{{ item.date_text or '' }}"></label>
+  <label>Что заказывали <input name="item" value="{{ item.item or '' }}"></label>
+  <label>Текст отзыва <textarea name="text">{{ item.text or '' }}</textarea></label>
+  <label>Фото профиля <input type="file" name="avatar" accept="image/*"></label>
+  <label><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Показать на сайте</label>
+  <button class="admin-btn" type="submit">Сохранить</button>
+</form>
+{% endblock %}

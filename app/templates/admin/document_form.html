@@ -1,0 +1,10 @@
+{% extends "admin/layout.html" %}
+{% block heading %}Документ{% endblock %}
+{% block content %}
+<form class="admin-form" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Название <input name="title" required value="{{ item.title or '' }}"></label>
+  <label>Файл <input type="file" name="file"></label>
+  <button class="admin-btn" type="submit">Сохранить</button>
+</form>
+{% endblock %}

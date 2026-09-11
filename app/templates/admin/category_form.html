@@ -1,0 +1,11 @@
+{% extends "admin/layout.html" %}
+{% block heading %}Категория{% endblock %}
+{% block content %}
+<form class="admin-form" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Название <input name="name" required value="{{ item.name }}"></label>
+  <label>Короткий текст <textarea name="intro">{{ item.intro }}</textarea></label>
+  <label>Обложка <input type="file" name="cover" accept="image/*"></label>
+  <button class="admin-btn" type="submit">Сохранить</button>
+</form>
+{% endblock %}

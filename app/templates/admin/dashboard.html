@@ -1,0 +1,31 @@
+{% extends "admin/layout.html" %}
+{% block title %}Заявки{% endblock %}
+{% block heading %}Заявки{% endblock %}
+{% block content %}
+<p class="admin-lead">Новых заявок: {{ new_leads }}. Новых заказов: {{ new_orders }}.</p>
+<div class="admin-table-wrap">
+<table class="admin-table">
+  <thead><tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Что нужно</th><th>Статус</th></tr></thead>
+  <tbody>
+    {% for lead in leads %}
+      <tr>
+        <td>{{ lead.created_at.strftime('%d.%m.%Y %H:%M') if lead.created_at else '' }}</td>
+        <td>{{ lead.first_name }} {{ lead.last_name }}</td>
+        <td>{{ lead.phone }}</td>
+        <td>{{ lead.product }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin.lead_status', item_id=lead.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <select name="status" onchange="this.form.submit()">
+              <option value="new" {% if lead.status == 'new' %}selected{% endif %}>Новая</option>
+              <option value="in_progress" {% if lead.status == 'in_progress' %}selected{% endif %}>В работе</option>
+              <option value="closed" {% if lead.status == 'closed' %}selected{% endif %}>Закрыта</option>
+            </select>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

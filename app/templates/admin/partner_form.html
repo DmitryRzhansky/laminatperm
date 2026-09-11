@@ -1,0 +1,12 @@
+{% extends "admin/layout.html" %}
+{% block heading %}Партнёр{% endblock %}
+{% block content %}
+<form class="admin-form" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Название <input name="name" required value="{{ item.name or '' }}"></label>
+  <label>Коротко <textarea name="text">{{ item.text or '' }}</textarea></label>
+  <label>Логотип <input type="file" name="image" accept="image/*"></label>
+  <label><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Показать на сайте</label>
+  <button class="admin-btn" type="submit">Сохранить</button>
+</form>
+{% endblock %}

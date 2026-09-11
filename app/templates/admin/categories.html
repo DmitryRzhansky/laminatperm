@@ -1,0 +1,14 @@
+{% extends "admin/layout.html" %}
+{% block heading %}Категории{% endblock %}
+{% block content %}
+<div class="admin-table-wrap">
+  <table class="admin-table">
+    {% for item in items %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td><a class="admin-btn" href="{{ url_for('admin.categories_edit', item_id=item.id) }}">Изменить</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

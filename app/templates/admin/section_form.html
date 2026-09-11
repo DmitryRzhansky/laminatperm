@@ -1,0 +1,17 @@
+{% extends "admin/layout.html" %}
+{% block heading %}{{ title }}{% endblock %}
+{% block content %}
+<form class="admin-form" method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  {% for key, label in fields %}
+    <label>{{ label }}
+      {% if 'text' in key or 'map' in key or 'checkout' in key %}
+        <textarea name="{{ key }}">{{ values[key] }}</textarea>
+      {% else %}
+        <input name="{{ key }}" value="{{ values[key] }}">
+      {% endif %}
+    </label>
+  {% endfor %}
+  <button class="admin-btn" type="submit">Сохранить</button>
+</form>
+{% endblock %}

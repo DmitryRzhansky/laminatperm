@@ -1,0 +1,26 @@
+{% extends "admin/layout.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block heading %}{{ title }}{% endblock %}
+{% block content %}
+<p class="admin-toolbar"><a class="admin-btn" href="{{ create_url }}">Добавить</a></p>
+<div class="admin-table-wrap">
+  <table class="admin-table">
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row.title }}</td>
+          <td>
+            <div class="admin-row-actions">
+              <a class="admin-btn" href="{{ row.edit }}">Изменить</a>
+              <form method="post" action="{{ row.delete }}" onsubmit="return confirm('Убрать с сайта?')">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="admin-btn admin-btn--danger" type="submit">Удалить</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
