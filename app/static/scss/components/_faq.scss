@@ -219,3 +219,12 @@
     transition: none;
   }
 }
+
+.faq--product {
+  padding-block: 0;
+  background: none;
+}
+
+.faq--product .faq__columns {
+  gap: 0.65rem;
+}

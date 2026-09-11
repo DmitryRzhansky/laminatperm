@@ -53,6 +53,10 @@ function initGallery(root) {
       }
 
       main.src = src;
+      const alt = thumb.getAttribute("data-alt");
+      if (alt) {
+        main.alt = alt;
+      }
       thumbs.forEach((item) => {
         const isActive = item === thumb;
         item.classList.toggle("product__thumb--active", isActive);

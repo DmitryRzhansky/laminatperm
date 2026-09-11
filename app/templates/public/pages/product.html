@@ -18,7 +18,7 @@
           <img
             class="product__image"
             src="{{ item.images[0].filename|media }}"
-            alt="{{ item.name }}"
+            alt="{{ item.images[0].alt or item.name }}"
             width="800"
             height="800"
             data-product-main
@@ -34,6 +34,7 @@
                   type="button"
                   data-product-thumb
                   data-src="{{ image.filename|media }}"
+                  data-alt="{{ image.alt or item.name }}"
                   aria-label="Показать фото {{ loop.index }}"
                   aria-pressed="{{ 'true' if loop.first else 'false' }}"
                 >
@@ -161,6 +162,21 @@
         <img class="product-tabs__icon" src="{{ url_for('static', filename='icons/cases/file-text.svg') }}" alt="" width="20" height="20" decoding="async">
         <span>Описание товара</span>
       </button>
+      {% if item.faqs %}
+        <button
+          class="product-tabs__tab"
+          type="button"
+          role="tab"
+          id="product-tab-faq"
+          aria-controls="product-panel-faq"
+          aria-selected="false"
+          tabindex="-1"
+          data-product-tab="faq"
+        >
+          <img class="product-tabs__icon" src="{{ url_for('static', filename='icons/nav/chat-circle.svg') }}" alt="" width="20" height="20" decoding="async">
+          <span>FAQ</span>
+        </button>
+      {% endif %}
       <button
         class="product-tabs__tab"
         type="button"
@@ -241,6 +257,54 @@
         <p class="product-tabs__empty">Описание появится позже. Позвоните — расскажем о коллекции и покажем образцы.</p>
       {% endif %}
     </div>
+
+    {% if item.faqs %}
+      <div
+        class="product-tabs__panel"
+        role="tabpanel"
+        id="product-panel-faq"
+        aria-labelledby="product-tab-faq"
+        data-product-panel="faq"
+        hidden
+      >
+        <div class="faq faq--product" data-faq>
+          <div class="faq__columns">
+            {% for faq in item.faqs %}
+              <div class="faq__item" data-faq-item>
+                <span class="faq__heading">
+                  <button
+                    class="faq__trigger"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="product-faq-panel-{{ loop.index }}"
+                    id="product-faq-trigger-{{ loop.index }}"
+                    data-faq-trigger
+                  >
+                    <span class="faq__question">{{ faq.question }}</span>
+                    <span class="faq__icon" aria-hidden="true">
+                      <img class="faq__icon-glyph faq__icon-glyph--plus" src="{{ url_for('static', filename='icons/faq/plus.svg') }}" alt="" width="16" height="16" decoding="async">
+                      <img class="faq__icon-glyph faq__icon-glyph--minus" src="{{ url_for('static', filename='icons/faq/minus.svg') }}" alt="" width="16" height="16" decoding="async">
+                    </span>
+                  </button>
+                </span>
+                <div
+                  class="faq__panel"
+                  id="product-faq-panel-{{ loop.index }}"
+                  role="region"
+                  aria-labelledby="product-faq-trigger-{{ loop.index }}"
+                  aria-hidden="true"
+                  data-faq-panel
+                >
+                  <div class="faq__panel-inner">
+                    <p class="faq__answer">{{ faq.answer }}</p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
 
     <div
       class="product-tabs__panel"

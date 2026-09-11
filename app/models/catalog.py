@@ -29,6 +29,8 @@ class Product(db.Model):
     old_price = db.Column(db.Numeric(12, 2), nullable=True)
     unit = db.Column(db.String(16), default="m2")
     sku = db.Column(db.String(120), default="")
+    short_description = db.Column(db.Text, default="")
+    description_md = db.Column(db.Text, default="")
     description_html = db.Column(db.Text, default="")
     seo_title = db.Column(db.String(255), default="")
     seo_description = db.Column(db.String(500), default="")
@@ -47,6 +49,12 @@ class Product(db.Model):
         backref="product",
         cascade="all, delete-orphan",
         order_by="ProductAttribute.sort_order",
+    )
+    faqs = db.relationship(
+        "ProductFaq",
+        backref="product",
+        cascade="all, delete-orphan",
+        order_by="ProductFaq.sort_order",
     )
 
     @property
@@ -72,6 +80,7 @@ class ProductImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False, index=True)
     filename = db.Column(db.String(500), nullable=False)
+    alt = db.Column(db.String(255), default="")
     sort_order = db.Column(db.Integer, default=0)
 
 
@@ -82,6 +91,16 @@ class ProductAttribute(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False, index=True)
     name = db.Column(db.String(120), nullable=False, index=True)
     value = db.Column(db.String(255), default="")
+    sort_order = db.Column(db.Integer, default=0)
+
+
+class ProductFaq(db.Model):
+    __tablename__ = "product_faqs"
+
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False, index=True)
+    question = db.Column(db.String(500), nullable=False)
+    answer = db.Column(db.Text, default="")
     sort_order = db.Column(db.Integer, default=0)
 
 

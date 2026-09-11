@@ -92,6 +92,10 @@ def display_name(product: Product) -> str:
 
 def product_buybox_teaser(product: Product) -> str:
     """Short buy-box blurb without repeating the full product title."""
+    custom = (product.short_description or "").strip()
+    if custom:
+        return custom
+
     attrs = _attr_map(product)
     brand = _brand_label(product)
     title = display_name(product) or product.name

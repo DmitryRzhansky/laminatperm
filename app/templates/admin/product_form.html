@@ -1,33 +1,392 @@
 {% extends "admin/layout.html" %}
-{% block heading %}Товар{% endblock %}
+{% block title %}{{ 'Изменить товар' if item.id else 'Добавить товар' }}{% endblock %}
+{% block heading %}{{ 'Изменить товар' if item.id else 'Добавить товар' }}{% endblock %}
 {% block content %}
-<form class="admin-form" method="post" enctype="multipart/form-data">
+<form class="admin-form admin-form--wide" method="post" enctype="multipart/form-data" data-product-form>
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-  <label>Название <input name="name" required value="{{ item.name or '' }}"></label>
-  <label>Категория
-    <select name="category_id">
-      {% for category in categories %}
-        <option value="{{ category.id }}" {% if item.category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
-      {% endfor %}
-    </select>
-  </label>
-  <label>Бренд <input name="brand" value="{{ item.brand or '' }}"></label>
-  <label>Цена <input name="price" type="number" step="0.01" value="{{ item.price or '' }}"></label>
-  <label>Единица
-    <select name="unit">
-      <option value="m2" {% if item.unit == 'm2' %}selected{% endif %}>м²</option>
-      <option value="pcs" {% if item.unit == 'pcs' %}selected{% endif %}>шт</option>
-    </select>
-  </label>
-  <label>Описание <textarea name="description_html">{{ item.description_html or '' }}</textarea></label>
-  <p>Характеристики</p>
-  {% for attr in item.attributes %}
-    <p><input name="attr_name" value="{{ attr.name }}"> <input name="attr_value" value="{{ attr.value }}"></p>
-  {% endfor %}
-  <p><input name="attr_name" placeholder="Название"> <input name="attr_value" placeholder="Значение"></p>
-  <p><input name="attr_name" placeholder="Название"> <input name="attr_value" placeholder="Значение"></p>
-  <label>Фото <input type="file" name="images" accept="image/*" multiple></label>
-  <label><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Показать в каталоге</label>
-  <button class="admin-btn" type="submit">Сохранить</button>
+
+  <div class="admin-tabs" data-admin-tabs>
+    <div class="admin-tabs__list" role="tablist" aria-label="Разделы товара">
+      <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-main" aria-controls="admin-panel-main" aria-selected="true" data-admin-tab="main">
+        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/blog/squares-four.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span>Основное</span>
+      </button>
+      <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-seo" aria-controls="admin-panel-seo" aria-selected="false" tabindex="-1" data-admin-tab="seo">
+        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/blog/magnifying-glass.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span>SEO</span>
+      </button>
+      <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-photos" aria-controls="admin-panel-photos" aria-selected="false" tabindex="-1" data-admin-tab="photos">
+        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/blog/paint-brush.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span>Фото</span>
+      </button>
+      <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-specs" aria-controls="admin-panel-specs" aria-selected="false" tabindex="-1" data-admin-tab="specs">
+        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/cases/clipboard-text.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span>Характеристики</span>
+      </button>
+      <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-description" aria-controls="admin-panel-description" aria-selected="false" tabindex="-1" data-admin-tab="description">
+        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/cases/file-text.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span>Описание</span>
+      </button>
+      <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-faq" aria-controls="admin-panel-faq" aria-selected="false" tabindex="-1" data-admin-tab="faq">
+        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/nav/chat-circle.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span>FAQ</span>
+      </button>
+      <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-json" aria-controls="admin-panel-json" aria-selected="false" tabindex="-1" data-admin-tab="json">
+        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/cases/file-text.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span>JSON</span>
+      </button>
+    </div>
+
+    <div class="admin-tabs__panel" role="tabpanel" id="admin-panel-main" aria-labelledby="admin-tab-main" data-admin-panel="main">
+      <div class="admin-tabs__grid">
+        <label>Категория
+          <select name="category_id" required>
+            {% for category in categories %}
+              <option value="{{ category.id }}" {% if item.category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>H1 <input name="name" required value="{{ item.name or '' }}"></label>
+        <label>Краткое описание товара <textarea name="short_description" rows="3">{{ item.short_description or '' }}</textarea></label>
+        <label>Бренд <input name="brand" value="{{ item.brand or '' }}"></label>
+        <label>Цена <input name="price" type="number" step="0.01" value="{{ item.price or '' }}"></label>
+        <label>Единица
+          <select name="unit">
+            <option value="m2" {% if item.unit == 'm2' %}selected{% endif %}>м²</option>
+            <option value="pcs" {% if item.unit == 'pcs' %}selected{% endif %}>шт</option>
+          </select>
+        </label>
+        <label class="admin-check"><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Опубликовать</label>
+      </div>
+    </div>
+
+    <div class="admin-tabs__panel" role="tabpanel" id="admin-panel-seo" aria-labelledby="admin-tab-seo" data-admin-panel="seo" hidden>
+      <div class="admin-tabs__grid">
+        <label>Title <input name="seo_title" value="{{ item.seo_title or '' }}"></label>
+        <label>Description <textarea name="seo_description" rows="3">{{ item.seo_description or '' }}</textarea></label>
+        <label>URL <input name="slug" value="{{ item.slug or '' }}" placeholder="slug-tovara"></label>
+      </div>
+    </div>
+
+    <div class="admin-tabs__panel" role="tabpanel" id="admin-panel-photos" aria-labelledby="admin-tab-photos" data-admin-panel="photos" hidden>
+      <div class="admin-tabs__grid">
+        {% if item.images %}
+          <div class="admin-media-list">
+            {% for image in item.images %}
+              <div class="admin-media-item">
+                <img class="admin-thumb" src="{{ image.filename|media }}" alt="" width="96" height="96" loading="lazy" decoding="async">
+                <label>Alt
+                  <input name="image_alt_{{ image.id }}" value="{{ image.alt or '' }}" placeholder="Описание фото">
+                </label>
+                <label class="admin-check">
+                  <input type="checkbox" name="delete_image" value="{{ image.id }}">
+                  Удалить
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <label>Добавить фото <input type="file" name="images" accept="image/*" multiple></label>
+      </div>
+    </div>
+
+    <div class="admin-tabs__panel" role="tabpanel" id="admin-panel-specs" aria-labelledby="admin-tab-specs" data-admin-panel="specs" hidden>
+      <div class="admin-tabs__grid" data-attr-list>
+        <div class="admin-pair-list" data-attr-rows>
+          {% for attr in item.attributes %}
+            <div class="admin-pair-row">
+              <input name="attr_name" value="{{ attr.name }}" placeholder="Название">
+              <input name="attr_value" value="{{ attr.value }}" placeholder="Значение">
+              <button class="admin-btn admin-btn--ghost admin-btn--icon" type="button" data-remove-row aria-label="Удалить характеристику">×</button>
+            </div>
+          {% endfor %}
+          <div class="admin-pair-row">
+            <input name="attr_name" value="" placeholder="Название">
+            <input name="attr_value" value="" placeholder="Значение">
+            <button class="admin-btn admin-btn--ghost admin-btn--icon" type="button" data-remove-row aria-label="Удалить характеристику">×</button>
+          </div>
+        </div>
+        <button class="admin-btn admin-btn--ghost" type="button" data-add-attr>Добавить характеристику</button>
+      </div>
+    </div>
+
+    <div class="admin-tabs__panel" role="tabpanel" id="admin-panel-description" aria-labelledby="admin-tab-description" data-admin-panel="description" hidden>
+      <div class="admin-tabs__grid">
+        <label>Полное описание товара
+          <textarea id="description-md" name="description_md">{{ item.description_md or '' }}</textarea>
+        </label>
+      </div>
+    </div>
+
+    <div class="admin-tabs__panel" role="tabpanel" id="admin-panel-faq" aria-labelledby="admin-tab-faq" data-admin-panel="faq" hidden>
+      <div class="admin-tabs__grid" data-faq-list>
+        <div class="admin-faq-list" data-faq-rows>
+          {% for faq in item.faqs %}
+            <div class="admin-faq-row">
+              <label>Вопрос <input name="faq_question" value="{{ faq.question }}" maxlength="500"></label>
+              <label>Ответ <textarea name="faq_answer" rows="3">{{ faq.answer }}</textarea></label>
+              <button class="admin-btn admin-btn--ghost" type="button" data-remove-row>Удалить</button>
+            </div>
+          {% endfor %}
+          {% if (item.faqs|length) < 10 %}
+            <div class="admin-faq-row">
+              <label>Вопрос <input name="faq_question" value="" maxlength="500"></label>
+              <label>Ответ <textarea name="faq_answer" rows="3"></textarea></label>
+              <button class="admin-btn admin-btn--ghost" type="button" data-remove-row>Удалить</button>
+            </div>
+          {% endif %}
+        </div>
+        <button class="admin-btn admin-btn--ghost" type="button" data-add-faq {% if (item.faqs|length) >= 10 %}hidden{% endif %}>Добавить вопрос</button>
+      </div>
+    </div>
+
+    <div class="admin-tabs__panel" role="tabpanel" id="admin-panel-json" aria-labelledby="admin-tab-json" data-admin-panel="json" hidden>
+      <div class="admin-tabs__grid">
+        <label>Вставь JSON из промпта
+          <textarea id="product-json-import" rows="16" spellcheck="false" placeholder='{"short_description":"...","description_md":"...","attributes":[],"faqs":[]}'></textarea>
+        </label>
+        <p class="admin-json-status" data-json-status hidden></p>
+        <div class="admin-actions">
+          <button class="admin-btn" type="button" data-json-apply>Заполнить карточку</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-actions">
+    <button class="admin-btn" type="submit">Сохранить</button>
+    {% if item.category_id %}
+      <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.products_list', category=item.category_id) }}">К товарам</a>
+    {% else %}
+      <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.categories_list') }}">К каталогу</a>
+    {% endif %}
+    {% if item.id %}
+      <button class="admin-btn admin-btn--danger" form="delete-form" type="submit" onclick="return confirm('Убрать с сайта?')">Удалить</button>
+    {% endif %}
+  </div>
 </form>
+{% if item.id %}
+  <form id="delete-form" method="post" action="{{ url_for('admin.products_delete', item_id=item.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  </form>
+{% endif %}
+{% endblock %}
+{% block extra_js %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easymde/easymde.min.css') }}">
+<script src="{{ url_for('static', filename='vendor/easymde/easymde.min.js') }}"></script>
+<script>
+  (function () {
+    const form = document.querySelector("[data-product-form]");
+    if (!form) return;
+
+    const tabsRoot = form.querySelector("[data-admin-tabs]");
+    const tabs = Array.from(form.querySelectorAll("[data-admin-tab]"));
+    const panels = Array.from(form.querySelectorAll("[data-admin-panel]"));
+    let editor = null;
+
+    function ensureEditor() {
+      const field = document.getElementById("description-md");
+      if (!field || editor) return editor;
+      editor = new EasyMDE({
+        element: field,
+        spellChecker: false,
+        status: false,
+        toolbar: [
+          "bold", "italic", "heading", "|",
+          "quote", "unordered-list", "ordered-list", "|",
+          "link", "image", "table", "|",
+          "preview", "side-by-side", "fullscreen", "|",
+          "guide"
+        ]
+      });
+      return editor;
+    }
+
+    function setDescription(value) {
+      const field = document.getElementById("description-md");
+      if (!field) return;
+      const instance = ensureEditor();
+      if (instance) {
+        instance.value(value || "");
+        if (instance.codemirror) {
+          requestAnimationFrame(() => instance.codemirror.refresh());
+        }
+        return;
+      }
+      field.value = value || "";
+    }
+
+    function activate(key) {
+      tabs.forEach((tab) => {
+        const isActive = tab.getAttribute("data-admin-tab") === key;
+        tab.setAttribute("aria-selected", String(isActive));
+        tab.tabIndex = isActive ? 0 : -1;
+        tab.classList.toggle("admin-tabs__tab--active", isActive);
+      });
+
+      panels.forEach((panel) => {
+        const isActive = panel.getAttribute("data-admin-panel") === key;
+        panel.hidden = !isActive;
+      });
+
+      if (key === "description") {
+        const instance = ensureEditor();
+        if (instance && instance.codemirror) {
+          requestAnimationFrame(() => instance.codemirror.refresh());
+        }
+      }
+    }
+
+    if (tabsRoot) {
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => activate(tab.getAttribute("data-admin-tab")));
+        tab.addEventListener("keydown", (event) => {
+          if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+          event.preventDefault();
+          let nextIndex = index;
+          if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+          if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+          if (event.key === "Home") nextIndex = 0;
+          if (event.key === "End") nextIndex = tabs.length - 1;
+          const next = tabs[nextIndex];
+          next.focus();
+          activate(next.getAttribute("data-admin-tab"));
+        });
+      });
+      activate("main");
+    }
+
+    const attrRows = form.querySelector("[data-attr-rows]");
+    const faqRows = form.querySelector("[data-faq-rows]");
+    const addAttr = form.querySelector("[data-add-attr]");
+    const addFaq = form.querySelector("[data-add-faq]");
+    const maxFaq = 10;
+
+    function bindRemove(root) {
+      root.querySelectorAll("[data-remove-row]").forEach((button) => {
+        button.onclick = () => {
+          const row = button.closest(".admin-pair-row, .admin-faq-row");
+          if (!row || !row.parentElement) return;
+          if (row.parentElement.children.length <= 1) {
+            row.querySelectorAll("input, textarea").forEach((field) => { field.value = ""; });
+            return;
+          }
+          row.remove();
+          syncFaqButton();
+        };
+      });
+    }
+
+    function syncFaqButton() {
+      if (!addFaq || !faqRows) return;
+      addFaq.hidden = faqRows.querySelectorAll(".admin-faq-row").length >= maxFaq;
+    }
+
+    function createAttrRow(name, value) {
+      const row = document.createElement("div");
+      row.className = "admin-pair-row";
+      row.innerHTML = '<input name="attr_name" value="" placeholder="Название"><input name="attr_value" value="" placeholder="Значение"><button class="admin-btn admin-btn--ghost admin-btn--icon" type="button" data-remove-row aria-label="Удалить характеристику">×</button>';
+      row.querySelector('[name="attr_name"]').value = name || "";
+      row.querySelector('[name="attr_value"]').value = value || "";
+      bindRemove(row);
+      return row;
+    }
+
+    function createFaqRow(question, answer) {
+      const row = document.createElement("div");
+      row.className = "admin-faq-row";
+      row.innerHTML = '<label>Вопрос <input name="faq_question" value="" maxlength="500"></label><label>Ответ <textarea name="faq_answer" rows="3"></textarea></label><button class="admin-btn admin-btn--ghost" type="button" data-remove-row>Удалить</button>';
+      row.querySelector('[name="faq_question"]').value = question || "";
+      row.querySelector('[name="faq_answer"]').value = answer || "";
+      bindRemove(row);
+      return row;
+    }
+
+    function replaceAttrRows(items) {
+      if (!attrRows) return;
+      attrRows.innerHTML = "";
+      const list = Array.isArray(items) && items.length ? items : [{ name: "", value: "" }];
+      list.forEach((item) => {
+        attrRows.appendChild(createAttrRow(item.name || item.key || "", item.value || ""));
+      });
+    }
+
+    function replaceFaqRows(items) {
+      if (!faqRows) return;
+      faqRows.innerHTML = "";
+      const list = Array.isArray(items) && items.length ? items.slice(0, maxFaq) : [{ question: "", answer: "" }];
+      list.forEach((item) => {
+        faqRows.appendChild(createFaqRow(item.question || "", item.answer || ""));
+      });
+      syncFaqButton();
+    }
+
+    if (addAttr && attrRows) {
+      addAttr.addEventListener("click", () => {
+        attrRows.appendChild(createAttrRow("", ""));
+      });
+    }
+
+    if (addFaq && faqRows) {
+      addFaq.addEventListener("click", () => {
+        if (faqRows.querySelectorAll(".admin-faq-row").length >= maxFaq) return;
+        faqRows.appendChild(createFaqRow("", ""));
+        syncFaqButton();
+      });
+    }
+
+    function parseImportJson(raw) {
+      let text = String(raw || "").trim();
+      if (!text) {
+        throw new Error("Вставь JSON");
+      }
+      if (text.startsWith("```")) {
+        text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+      }
+      const data = JSON.parse(text);
+      if (!data || typeof data !== "object" || Array.isArray(data)) {
+        throw new Error("Ожидается JSON-объект");
+      }
+      return data;
+    }
+
+    function setJsonStatus(message, isError) {
+      const status = form.querySelector("[data-json-status]");
+      if (!status) return;
+      status.hidden = !message;
+      status.textContent = message || "";
+      status.classList.toggle("admin-json-status--error", Boolean(isError));
+      status.classList.toggle("admin-json-status--ok", Boolean(message) && !isError);
+    }
+
+    const applyJson = form.querySelector("[data-json-apply]");
+    const jsonField = form.querySelector("#product-json-import");
+    if (applyJson && jsonField) {
+      applyJson.addEventListener("click", () => {
+        try {
+          const data = parseImportJson(jsonField.value);
+          const shortField = form.querySelector('[name="short_description"]');
+          if (shortField && data.short_description != null) {
+            shortField.value = String(data.short_description);
+          }
+          if (data.description_md != null) {
+            setDescription(String(data.description_md));
+          }
+          if (data.attributes != null) {
+            replaceAttrRows(data.attributes);
+          }
+          if (data.faqs != null) {
+            replaceFaqRows(data.faqs);
+          }
+          setJsonStatus("Карточка заполнена. Проверь вкладки и сохрани.", false);
+        } catch (error) {
+          setJsonStatus(error.message || "Не удалось разобрать JSON", true);
+        }
+      });
+    }
+
+    bindRemove(form);
+    syncFaqButton();
+  })();
+</script>
 {% endblock %}

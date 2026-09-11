@@ -5,6 +5,7 @@ from app.models.catalog import (
     Product,
     ProductAttribute,
     ProductCategory,
+    ProductFaq,
     ProductImage,
     ProductRedirect,
 )
@@ -43,6 +44,7 @@ __all__ = [
     "Product",
     "ProductAttribute",
     "ProductCategory",
+    "ProductFaq",
     "ProductImage",
     "ProductRedirect",
     "Review",

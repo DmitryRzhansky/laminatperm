@@ -1,11 +1,15 @@
 {% extends "admin/layout.html" %}
-{% block heading %}Категория{% endblock %}
+{% block title %}Категория{% endblock %}
+{% block heading %}Изменить категорию{% endblock %}
 {% block content %}
-<form class="admin-form" method="post" enctype="multipart/form-data">
+<form class="admin-form admin-form--wide" method="post" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <label>Название <input name="name" required value="{{ item.name }}"></label>
   <label>Короткий текст <textarea name="intro">{{ item.intro }}</textarea></label>
-  <label>Обложка <input type="file" name="cover" accept="image/*"></label>
-  <button class="admin-btn" type="submit">Сохранить</button>
+  <label>Обложка <input type="file" name="cover" accept="image/*">{% if item.cover %}<span class="admin-hint">сейчас: {{ item.cover }}</span>{% endif %}</label>
+  <div class="admin-actions">
+    <button class="admin-btn" type="submit">Сохранить</button>
+    <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.categories_list') }}">К каталогу</a>
+  </div>
 </form>
 {% endblock %}

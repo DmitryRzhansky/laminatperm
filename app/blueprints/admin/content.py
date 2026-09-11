@@ -15,6 +15,7 @@ from app.models import (
     Product,
     ProductAttribute,
     ProductCategory,
+    ProductFaq,
     ProductImage,
     Review,
     Service,
@@ -22,6 +23,7 @@ from app.models import (
     TeamMember,
 )
 from app.utils.files import ALLOWED_DOCUMENT_EXTENSIONS, ALLOWED_IMAGE_EXTENSIONS, save_upload
+from app.utils.markdown import render_markdown
 from app.utils.seo import apply_seo
 from app.utils.settings import get_setting, set_setting
 from app.utils.slugs import unique_slug
@@ -432,54 +434,123 @@ def section_edit(name):
 @login_required
 def products_list():
     category_id = request.args.get("category", type=int)
-    query = Product.query
-    if category_id:
-        query = query.filter_by(category_id=category_id)
-    items = query.order_by(Product.sort_order, Product.id).all()
-    categories = ProductCategory.query.order_by(ProductCategory.sort_order).all()
-    return render_template("admin/products.html", items=items, categories=categories, category_id=category_id)
+    if not category_id:
+        return redirect(url_for("admin.categories_list"))
+    category = ProductCategory.query.get_or_404(category_id)
+    items = (
+        Product.query.filter_by(category_id=category.id)
+        .order_by(Product.sort_order, Product.id)
+        .all()
+    )
+    return render_template("admin/products.html", items=items, category=category)
 
 
 @admin_bp.route("/products/new/", methods=["GET", "POST"])
 @admin_bp.route("/products/<int:item_id>/", methods=["GET", "POST"])
 @login_required
 def products_edit(item_id=None):
-    item = Product.query.get(item_id) if item_id else Product(is_published=True, unit="m2")
+    item = Product.query.get(item_id) if item_id else None
     categories = ProductCategory.query.order_by(ProductCategory.sort_order).all()
+    default_category_id = request.args.get("category", type=int)
+    if item is None:
+        item = Product(is_published=True, unit="m2", category_id=default_category_id)
+
     if request.method == "POST":
+        had_md = bool((item.description_md or "").strip())
         item.name = request.form.get("name", "").strip()
-        item.category_id = request.form.get("category_id", type=int)
+        item.category_id = request.form.get("category_id", type=int) or item.category_id
         item.brand = request.form.get("brand", "").strip()
         item.price = request.form.get("price") or 0
         item.unit = request.form.get("unit") or "m2"
-        item.description_html = request.form.get("description_html", "")
+        item.short_description = request.form.get("short_description", "").strip()
+        item.seo_title = request.form.get("seo_title", "").strip()
+        item.seo_description = request.form.get("seo_description", "").strip()
         item.is_published = bool(request.form.get("is_published"))
-        if not item.slug:
+
+        slug = request.form.get("slug", "").strip()
+        if slug:
+            item.slug = unique_slug(Product, slug, item.id)
+        elif not item.slug:
             item.slug = unique_slug(Product, item.name, item.id)
-        apply_seo(item, item.name, item.brand)
+
+        if not item.seo_title:
+            item.seo_title = item.name
+        if not item.seo_description:
+            item.seo_description = item.short_description or item.brand or item.name
+
+        description_md = request.form.get("description_md", "")
+        item.description_md = description_md
+        if description_md.strip() or had_md or not (item.description_html or "").strip():
+            item.description_html = render_markdown(description_md)
+
         if item.id is None:
             db.session.add(item)
             db.session.flush()
+
+        delete_ids = {int(value) for value in request.form.getlist("delete_image") if value.isdigit()}
+        for image in list(item.images):
+            if image.id in delete_ids:
+                db.session.delete(image)
+                continue
+            image.alt = request.form.get(f"image_alt_{image.id}", "").strip()
+
         names = request.form.getlist("attr_name")
         values = request.form.getlist("attr_value")
         ProductAttribute.query.filter_by(product_id=item.id).delete()
         for index, (name, value) in enumerate(zip(names, values)):
             if name.strip():
-                db.session.add(ProductAttribute(product_id=item.id, name=name.strip(), value=value.strip(), sort_order=index))
+                db.session.add(
+                    ProductAttribute(
+                        product_id=item.id,
+                        name=name.strip(),
+                        value=value.strip(),
+                        sort_order=index,
+                    )
+                )
+
+        questions = request.form.getlist("faq_question")
+        answers = request.form.getlist("faq_answer")
+        ProductFaq.query.filter_by(product_id=item.id).delete()
+        faq_index = 0
+        for question, answer in zip(questions, answers):
+            if faq_index >= 10:
+                break
+            if not question.strip():
+                continue
+            db.session.add(
+                ProductFaq(
+                    product_id=item.id,
+                    question=question.strip(),
+                    answer=answer.strip(),
+                    sort_order=faq_index,
+                )
+            )
+            faq_index += 1
+
+        remaining_images = [image for image in item.images if image.id not in delete_ids]
+        next_sort = len(remaining_images)
         files = request.files.getlist("images")
         for file in files:
             filename = save_upload(file, current_app.config["UPLOAD_FOLDER"] / "catalog", ALLOWED_IMAGE_EXTENSIONS)
             if filename:
-                db.session.add(ProductImage(product_id=item.id, filename=filename, sort_order=len(item.images)))
+                db.session.add(ProductImage(product_id=item.id, filename=filename, alt="", sort_order=next_sort))
+                next_sort += 1
+
         _commit("Товар сохранён")
-        return redirect(url_for("admin.products_list"))
+        return redirect(url_for("admin.products_list", category=item.category_id))
+
     return render_template("admin/product_form.html", item=item, categories=categories)
 
 
 @admin_bp.route("/products/<int:item_id>/delete/", methods=["POST"])
 @login_required
 def products_delete(item_id):
-    return _delete(Product.query.get_or_404(item_id), "admin.products_list")
+    item = Product.query.get_or_404(item_id)
+    category_id = item.category_id
+    db.session.delete(item)
+    db.session.commit()
+    flash("Убрано с сайта", "success")
+    return redirect(url_for("admin.products_list", category=category_id))
 
 
 @admin_bp.route("/categories/")

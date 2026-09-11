@@ -1,14 +1,33 @@
 {% extends "admin/layout.html" %}
-{% block heading %}Категории{% endblock %}
+{% block title %}Каталог{% endblock %}
+{% block heading %}Каталог{% endblock %}
 {% block content %}
+<p class="admin-lead">Выберите категорию, чтобы изменить её или открыть товары.</p>
 <div class="admin-table-wrap">
   <table class="admin-table">
-    {% for item in items %}
+    <thead>
       <tr>
-        <td>{{ item.name }}</td>
-        <td><a class="admin-btn" href="{{ url_for('admin.categories_edit', item_id=item.id) }}">Изменить</a></td>
+        <th>Категория</th>
+        <th>Товаров</th>
+        <th></th>
       </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.products.count() }}</td>
+          <td>
+            <div class="admin-row-actions">
+              <a class="admin-btn" href="{{ url_for('admin.categories_edit', item_id=item.id) }}">Изменить</a>
+              <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.products_list', category=item.id) }}">Товары</a>
+            </div>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="3">Категорий пока нет.</td></tr>
+      {% endfor %}
+    </tbody>
   </table>
 </div>
 {% endblock %}

@@ -6,15 +6,20 @@ import mistune
 ALLOWED_TAGS = [
     "p", "br", "strong", "em", "b", "i", "u", "a", "ul", "ol", "li",
     "h2", "h3", "h4", "blockquote", "code", "pre", "hr", "img",
+    "table", "thead", "tbody", "tr", "th", "td",
 ]
 ALLOWED_ATTRIBUTES = {
     "a": ["href", "title", "rel", "target"],
     "img": ["src", "alt", "width", "height"],
+    "th": ["align"],
+    "td": ["align"],
 }
+
+_markdown = mistune.create_markdown(plugins=["table", "strikethrough", "url"])
 
 
 def render_markdown(source: str) -> str:
-    html = mistune.html(source or "")
+    html = _markdown(source or "")
     return bleach.clean(
         html,
         tags=ALLOWED_TAGS,

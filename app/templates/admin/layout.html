@@ -23,8 +23,7 @@
         </div>
         <div class="admin-sidebar__group">
           <span class="admin-sidebar__label">Каталог</span>
-          <a class="{{ 'is-active' if 'products' in (request.endpoint or '') }}" href="{{ url_for('admin.products_list') }}">Товары</a>
-          <a class="{{ 'is-active' if 'categories' in (request.endpoint or '') }}" href="{{ url_for('admin.categories_list') }}">Категории</a>
+          <a class="{{ 'is-active' if 'products' in (request.endpoint or '') or 'categories' in (request.endpoint or '') }}" href="{{ url_for('admin.categories_list') }}">Каталог</a>
         </div>
         <div class="admin-sidebar__group">
           <span class="admin-sidebar__label">Страницы</span>

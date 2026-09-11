@@ -4831,6 +4831,15 @@ a.mobile-menu__services-link:hover {
     transition: none;
   }
 }
+.faq--product {
+  padding-block: 0;
+  background: none;
+}
+
+.faq--product .faq__columns {
+  gap: 0.65rem;
+}
+
 .contact-section {
   padding-block: 2.5rem 3rem;
   color: var(--color-text-dark);
@@ -6807,16 +6816,37 @@ ul.product__benefits {
 }
 
 .product__text p,
-.product__text ul {
+.product__text ul,
+.product__text ol {
   margin: 0;
 }
 
-.product__text ul {
+.product__text ul,
+.product__text ol {
   padding-left: 1.15rem;
 }
 
 .product__text a {
   color: var(--color-accent);
+}
+
+.product__text table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+.product__text th,
+.product__text td {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgba(25, 25, 25, 0.12);
+  text-align: left;
+  vertical-align: top;
+}
+
+.product__text th {
+  background: rgba(25, 25, 25, 0.04);
+  font-weight: 500;
 }
 
 .product-tabs {

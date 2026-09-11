@@ -1,7 +1,5 @@
 (function initFaqAccordion() {
-  function init() {
-    const root = document.querySelector("[data-faq]");
-
+  function initRoot(root) {
     if (!root || root.dataset.faqReady === "true") {
       return;
     }
@@ -38,6 +36,10 @@
         });
       });
     });
+  }
+
+  function init() {
+    document.querySelectorAll("[data-faq]").forEach(initRoot);
   }
 
   if (document.readyState === "loading") {
