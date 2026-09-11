@@ -2,7 +2,7 @@
 {% block title %}{{ title }} — Ламинейшен{% endblock %}
 {% block description %}{{ description }}{% endblock %}
 {% block content %}
-<section class="hero hero--service" aria-label="{{ service.title }}">
+<section class="hero hero--service" aria-label="{{ service.heading }}">
   <div class="hero__media">
     <img
       class="hero__image"
@@ -15,14 +15,20 @@
     >
   </div>
 
-  <div class="hero__content">
+  <div class="hero__content hero__content--service{% if service.body %} hero__content--cols-{{ service.body|length }}{% endif %}">
     {% if breadcrumbs %}
       <div class="hero__breadcrumbs">
         {% include "components/breadcrumbs.html" %}
       </div>
     {% endif %}
-    <h1 class="hero__title">{{ service.title }}</h1>
-    <p class="hero__description">{{ service.intro }}</p>
+    <h1 class="hero__title">{{ service.heading }}</h1>
+    {% if service.body %}
+      {% for paragraph in service.body %}
+        <p class="hero__body-text hero__body-text--{{ loop.index }}">{{ paragraph }}</p>
+      {% endfor %}
+    {% else %}
+      <p class="hero__description">{{ service.intro }}</p>
+    {% endif %}
     <div class="hero__actions">
       <a class="button button--primary" href="#consultation">
         <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
@@ -30,7 +36,10 @@
         </svg>
         {{ service.hero_cta_primary }}
       </a>
-      <a class="button button--outline" href="{{ url_for('services.index') }}">
+      <a class="button button--outline" href="{{ url_for('catalog.index') }}">
+        <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
+          <path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/>
+        </svg>
         {{ service.hero_cta_secondary }}
       </a>
     </div>
@@ -42,7 +51,15 @@
 {% include "components/reviews_section.html" %}
 {% include "components/cases_section.html" %}
 {% include "components/video_process.html" %}
-{% include "components/faq_section.html" %}
+
+{% if service.faqs %}
+  {% set faq_items = service.faqs %}
+  {% set faq_id_prefix = "service-faq" %}
+  {% include "components/faq_dynamic.html" %}
+{% else %}
+  {% include "components/faq_section.html" %}
+{% endif %}
+
 {% include "components/contact_section.html" %}
 
 <section class="service-related" aria-labelledby="service-related-title">

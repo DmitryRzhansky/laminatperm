@@ -1,0 +1,42 @@
+<section class="faq" id="faq" aria-labelledby="faq-title" data-faq>
+  <div class="faq__inner">
+    <h2 class="faq__title" id="faq-title">{{ faq_title|default("Часто задаваемые вопросы") }}</h2>
+
+    <div class="faq__columns">
+      {% for item in faq_items %}
+        {% set panel_id = (faq_id_prefix|default("faq")) ~ "-panel-" ~ loop.index %}
+        {% set trigger_id = (faq_id_prefix|default("faq")) ~ "-trigger-" ~ loop.index %}
+        <div class="faq__item" data-faq-item>
+          <span class="faq__heading">
+            <button
+              class="faq__trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="{{ panel_id }}"
+              id="{{ trigger_id }}"
+              data-faq-trigger
+            >
+              <span class="faq__question">{{ item.question }}</span>
+              <span class="faq__icon" aria-hidden="true">
+                <img class="faq__icon-glyph faq__icon-glyph--plus" src="{{ url_for('static', filename='icons/faq/plus.svg') }}" alt="" width="16" height="16" decoding="async">
+                <img class="faq__icon-glyph faq__icon-glyph--minus" src="{{ url_for('static', filename='icons/faq/minus.svg') }}" alt="" width="16" height="16" decoding="async">
+              </span>
+            </button>
+          </span>
+          <div
+            class="faq__panel"
+            id="{{ panel_id }}"
+            role="region"
+            aria-labelledby="{{ trigger_id }}"
+            aria-hidden="true"
+            data-faq-panel
+          >
+            <div class="faq__panel-inner">
+              <p class="faq__answer">{{ item.answer }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
