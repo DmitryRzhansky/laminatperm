@@ -1,4 +1,5 @@
 {% set product_url = url_for('catalog.product', category_slug=item.category.slug, product_slug=item.slug) %}
+{% set card_heading = heading_tag|default('h2') %}
 <article class="product-card">
   <a class="product-card__media" href="{{ product_url }}">
     {% if item.cover %}
@@ -14,9 +15,9 @@
     {% endif %}
   </a>
   <div class="product-card__body">
-    <h2 class="product-card__title">
+    <{{ card_heading }} class="product-card__title">
       <a href="{{ product_url }}">{{ item.name }}</a>
-    </h2>
+    </{{ card_heading }}>
     <p class="product-card__price">{{ item.price|rub }} {{ item.unit_label }}</p>
     <form
       class="product-card__cart"

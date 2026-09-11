@@ -13,6 +13,7 @@ from app.services.catalog_filters import (
     sort_products,
 )
 from app.services.product_descriptions import display_name, product_buybox_teaser
+from app.services.related_products import products_same_brand
 from app.utils.settings import get_setting
 
 
@@ -82,11 +83,13 @@ def product(category_slug, product_slug):
             "На работы по укладке даём отдельную гарантию — условия уточняйте у менеджера."
         )
     title = display_name(item)
+    related_products = products_same_brand(item)
     return render_template(
         "public/pages/product.html",
         item=item,
         product_title=title,
         product_teaser=product_buybox_teaser(item),
+        related_products=related_products,
         delivery_text=get_setting(
             "checkout.delivery",
             "Самовывоз из шоурума на Агатовой, 28. Доставка по Перми — согласуем при звонке.",

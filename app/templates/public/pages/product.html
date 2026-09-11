@@ -355,4 +355,66 @@
     </div>
   </div>
 </article>
+
+{% if related_products %}
+  <section
+    class="related-products"
+    data-related-products
+    aria-labelledby="related-products-title"
+  >
+    <div class="container related-products__inner">
+      <header class="related-products__header">
+        <h2 class="related-products__title" id="related-products-title">Вас также может заинтересовать</h2>
+      </header>
+
+      <div class="related-products__slider">
+        <button
+          class="related-products__nav related-products__nav--prev"
+          type="button"
+          data-related-prev
+          aria-label="Предыдущие товары"
+          hidden
+        >
+          <img
+            class="related-products__nav-icon"
+            src="{{ url_for('static', filename='icons/arrow-right.svg') }}"
+            alt=""
+            width="16"
+            height="16"
+            decoding="async"
+          >
+        </button>
+
+        <div class="related-products__viewport" data-related-viewport>
+          <ul class="related-products__track" role="list" data-related-track>
+            {% for related in related_products %}
+              <li class="related-products__slide">
+                {% with item=related, heading_tag='h3' %}
+                  {% include "components/product-card.html" %}
+                {% endwith %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <button
+          class="related-products__nav related-products__nav--next"
+          type="button"
+          data-related-next
+          aria-label="Следующие товары"
+          hidden
+        >
+          <img
+            class="related-products__nav-icon"
+            src="{{ url_for('static', filename='icons/arrow-right.svg') }}"
+            alt=""
+            width="16"
+            height="16"
+            decoding="async"
+          >
+        </button>
+      </div>
+    </div>
+  </section>
+{% endif %}
 {% endblock %}

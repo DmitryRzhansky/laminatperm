@@ -3,6 +3,7 @@ import { initCart } from "./modules/cart.js";
 import { initFadeMotion } from "./modules/motion.js";
 import { initPartners } from "./modules/partners.js";
 import { initProductPage } from "./modules/product.js";
+import { initRelatedProducts } from "./modules/related-products.js";
 import { initScroll } from "./modules/scroll.js";
 import { initShopFilters } from "./modules/shop-filters.js";
 
@@ -73,6 +74,7 @@ safeInit("scroll", initScroll);
 safeInit("partners", initPartners);
 safeInit("shop-filters", initShopFilters);
 safeInit("product-page", initProductPage);
+safeInit("related-products", initRelatedProducts);
 safeInit("add-to-cart", initAddToCart);
 safeInit("cart", initCart);
 safeInit("hero-video", initHeroVideo);
