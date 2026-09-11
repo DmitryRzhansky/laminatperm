@@ -61,7 +61,7 @@
       <p class="product__price">{{ item.price|rub }} <span class="product__unit">{{ item.unit_label }}</span></p>
 
       {% if product_teaser %}
-        <p class="product__teaser">{{ product_teaser }}</p>
+        <div class="product__teaser">{{ render_markdown(product_teaser)|safe }}</div>
       {% endif %}
 
       <form class="product__cart" method="post" action="{{ url_for('catalog.cart_add') }}" data-product-cart>

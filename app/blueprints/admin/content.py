@@ -23,7 +23,7 @@ from app.models import (
     TeamMember,
 )
 from app.utils.files import ALLOWED_DOCUMENT_EXTENSIONS, ALLOWED_IMAGE_EXTENSIONS, save_upload
-from app.utils.markdown import render_markdown
+from app.utils.markdown import excerpt, render_markdown
 from app.utils.seo import apply_seo
 from app.utils.settings import get_setting, set_setting
 from app.utils.slugs import unique_slug
@@ -476,7 +476,8 @@ def products_edit(item_id=None):
         if not item.seo_title:
             item.seo_title = item.name
         if not item.seo_description:
-            item.seo_description = item.short_description or item.brand or item.name
+            fallback = item.short_description or item.brand or item.name
+            item.seo_description = excerpt(render_markdown(fallback), 160)
 
         description_md = request.form.get("description_md", "")
         item.description_md = description_md

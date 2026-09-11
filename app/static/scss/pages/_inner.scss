@@ -799,6 +799,19 @@
   line-height: 1.5;
 }
 
+.product__teaser p {
+  margin: 0;
+}
+
+.product__teaser p + p {
+  margin-top: 0.55rem;
+}
+
+.product__teaser strong {
+  color: var(--color-text-dark);
+  font-weight: 500;
+}
+
 .product__cart {
   display: flex;
   flex-wrap: wrap;
