@@ -1,0 +1,65 @@
+{% extends "public/pages/inner_base.html" %}
+{% set page_hero_compact = true %}
+{% set lead_source = "services" %}
+{% set contact_section_class = "contact-section--page" %}
+{% set hide_contact_info_title = true %}
+{% block page_body %}
+<section class="services-page" aria-label="Список услуг">
+  <div class="container">
+    <ul class="services-page__grid" role="list">
+      {% for item in services %}
+        <li>
+          <article class="services-page__card">
+            <a class="services-page__media" href="{{ url_for('services.detail', slug=item.slug) }}">
+              <img
+                class="services-page__image"
+                src="{{ url_for('static', filename=item.image) }}"
+                alt=""
+                width="640"
+                height="480"
+                loading="{{ 'eager' if loop.index <= 2 else 'lazy' }}"
+                decoding="async"
+              >
+            </a>
+            <div class="services-page__body">
+              <div class="services-page__top">
+                <img
+                  class="services-page__icon"
+                  src="{{ url_for('static', filename=item.icon) }}"
+                  alt=""
+                  width="40"
+                  height="40"
+                  decoding="async"
+                >
+                <h2 class="services-page__card-title">
+                  <a href="{{ url_for('services.detail', slug=item.slug) }}">{{ item.title }}</a>
+                </h2>
+              </div>
+              <p class="services-page__price">{{ item.price }}</p>
+              <p class="services-page__text">{{ item.intro }}</p>
+              <div class="services-page__actions">
+                <a
+                  class="services__card-link services__card-link--outline"
+                  href="{{ url_for('services.detail', slug=item.slug) }}"
+                >
+                  Подробнее
+                  <img class="services__card-link-icon" src="/static/icons/arrow-right.svg" alt="" width="16" height="16" decoding="async">
+                </a>
+                <a
+                  class="services__card-link services__card-link--solid"
+                  href="#consultation"
+                >
+                  Рассчитать стоимость
+                  <img class="services__card-link-icon" src="/static/icons/arrow-right.svg" alt="" width="16" height="16" decoding="async">
+                </a>
+              </div>
+            </div>
+          </article>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% include "components/contact_section.html" %}
+{% endblock %}

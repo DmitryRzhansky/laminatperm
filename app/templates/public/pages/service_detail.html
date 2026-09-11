@@ -1,0 +1,92 @@
+{% extends "public/base.html" %}
+{% block title %}{{ title }} — Ламинейшен{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block content %}
+<section class="hero hero--service" aria-label="{{ service.title }}">
+  <div class="hero__media">
+    <img
+      class="hero__image"
+      src="{{ url_for('static', filename=service.hero_image) }}"
+      alt=""
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+      decoding="async"
+    >
+  </div>
+
+  <div class="hero__content">
+    {% if breadcrumbs %}
+      <div class="hero__breadcrumbs">
+        {% include "components/breadcrumbs.html" %}
+      </div>
+    {% endif %}
+    <h1 class="hero__title">{{ service.title }}</h1>
+    <p class="hero__description">{{ service.intro }}</p>
+    {% if service.points %}
+      <ul class="hero__points" role="list">
+        {% for point in service.points %}
+          <li>{{ point }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <div class="hero__actions">
+      <a class="button button--primary" href="#consultation">
+        <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
+          <path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/>
+        </svg>
+        {{ service.hero_cta_primary }}
+      </a>
+      <a class="button button--outline" href="{{ url_for('services.index') }}">
+        {{ service.hero_cta_secondary }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% include "components/advantages.html" %}
+{% include "components/partners.html" %}
+{% include "components/reviews_section.html" %}
+{% include "components/cases_section.html" %}
+{% include "components/video_process.html" %}
+{% include "components/faq_section.html" %}
+{% include "components/contact_section.html" %}
+
+<section class="service-related" aria-labelledby="service-related-title">
+  <div class="container">
+    <header class="service-related__header">
+      <h2 class="service-related__title" id="service-related-title">Другие услуги</h2>
+      <p class="service-related__intro">
+        Смотрите смежные работы — часто удобнее закрыть пол комплексом, а не отдельными подрядчиками.
+      </p>
+    </header>
+    <ul class="service-related__grid" role="list">
+      {% for item in related %}
+        <li>
+          <a class="service-related__card" href="{{ url_for('services.detail', slug=item.slug) }}">
+            <img
+              class="service-related__image"
+              src="{{ url_for('static', filename=item.image) }}"
+              alt=""
+              width="480"
+              height="360"
+              loading="lazy"
+              decoding="async"
+            >
+            <span class="service-related__body">
+              <span class="service-related__name">{{ item.title }}</span>
+              <span class="service-related__price">{{ item.price }}</span>
+            </span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+    <p class="service-related__more">
+      <a class="service-related__all" href="{{ url_for('services.index') }}">
+        Все услуги
+        <span aria-hidden="true">→</span>
+      </a>
+    </p>
+  </div>
+</section>
+{% endblock %}

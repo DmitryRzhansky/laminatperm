@@ -5,18 +5,21 @@
     {
       name: "services", label: "Услуги", desktopRoot: "[data-services-menu]", desktopTrigger: "[data-services-menu-trigger]", desktopPanel: "[data-services-menu-panel]", mobileRoot: "[data-services-menu-mobile]", panelId: "services-mega-menu", mobilePanelId: "mobile-services-panel",
       items: [
-        { title: "Укладка покрытий", image: "/static/images/menu/services/installation.webp", links: [
-          { title: "Укладка ламината" }, { title: "Укладка SPC" }, { title: "Укладка кварцвинила и LVT" }, { title: "Укладка линолеума" }, { title: "Укладка ковролина" }
+        { title: "Укладка покрытий", url: "/uslugi/", image: "/static/images/menu/services/installation.webp", links: [
+          { title: "Укладка ламината", url: "/uslugi/ukladka-laminata/" },
+          { title: "Укладка SPC", url: "/uslugi/ukladka-spc/" },
+          { title: "Укладка кварцвинила и LVT", url: "/uslugi/ukladka-kvartsvinila-i-lvt/" },
+          { title: "Укладка линолеума", url: "/uslugi/ukladka-linoleuma/" },
+          { title: "Укладка ковролина", url: "/uslugi/ukladka-kovrolina/" }
         ] },
-        { title: "Подготовка основания", image: "/static/images/menu/services/subfloor.webp", links: [
-          { title: "Проверка перепадов" }, { title: "Выравнивание пола" }, { title: "Полусухая стяжка" }, { title: "Подготовка под тёплый пол" }
+        { title: "Подготовка и демонтаж", url: "/uslugi/podgotovka-osnovaniya/", image: "/static/images/menu/services/subfloor.webp", links: [
+          { title: "Подготовка основания", url: "/uslugi/podgotovka-osnovaniya/" },
+          { title: "Демонтаж старого покрытия", url: "/uslugi/demontazh-starogo-pokrytiya/" }
         ] },
-        { title: "Демонтаж и подготовка", image: "/static/images/menu/services/demolition.webp", links: [
-          { title: "Демонтаж старого покрытия" }, { title: "Очистка основания" }, { title: "Вынос и утилизация" }, { title: "Замер и расчёт материалов" }
+        { title: "Завершение отделки", url: "/uslugi/montazh-plintusa/", image: "/static/images/menu/services/finishing.webp", links: [
+          { title: "Монтаж плинтуса", url: "/uslugi/montazh-plintusa/" }
         ] },
-        { title: "Завершение отделки", image: "/static/images/menu/services/finishing.webp", links: [
-          { title: "Монтаж плинтуса" }, { title: "Установка порогов" }, { title: "Оформление примыканий" }, { title: "Подрезка дверных коробок" }
-        ] }
+        { title: "Все услуги", url: "/uslugi/", image: "/static/images/menu/services/demolition.webp", links: [] }
       ]
     },
     {
