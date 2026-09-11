@@ -8,31 +8,31 @@
   <div class="admin-tabs" data-admin-tabs>
     <div class="admin-tabs__list" role="tablist" aria-label="Разделы товара">
       <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-main" aria-controls="admin-panel-main" aria-selected="true" data-admin-tab="main">
-        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/blog/squares-four.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span class="admin-tabs__icon" style="--admin-tab-icon: url('{{ url_for('static', filename='icons/blog/squares-four.svg') }}')" aria-hidden="true"></span>
         <span>Основное</span>
       </button>
       <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-seo" aria-controls="admin-panel-seo" aria-selected="false" tabindex="-1" data-admin-tab="seo">
-        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/blog/magnifying-glass.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span class="admin-tabs__icon" style="--admin-tab-icon: url('{{ url_for('static', filename='icons/blog/magnifying-glass.svg') }}')" aria-hidden="true"></span>
         <span>SEO</span>
       </button>
       <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-photos" aria-controls="admin-panel-photos" aria-selected="false" tabindex="-1" data-admin-tab="photos">
-        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/blog/paint-brush.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span class="admin-tabs__icon" style="--admin-tab-icon: url('{{ url_for('static', filename='icons/blog/paint-brush.svg') }}')" aria-hidden="true"></span>
         <span>Фото</span>
       </button>
       <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-specs" aria-controls="admin-panel-specs" aria-selected="false" tabindex="-1" data-admin-tab="specs">
-        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/cases/clipboard-text.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span class="admin-tabs__icon" style="--admin-tab-icon: url('{{ url_for('static', filename='icons/cases/clipboard-text.svg') }}')" aria-hidden="true"></span>
         <span>Характеристики</span>
       </button>
       <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-description" aria-controls="admin-panel-description" aria-selected="false" tabindex="-1" data-admin-tab="description">
-        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/cases/file-text.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span class="admin-tabs__icon" style="--admin-tab-icon: url('{{ url_for('static', filename='icons/cases/file-text.svg') }}')" aria-hidden="true"></span>
         <span>Описание</span>
       </button>
       <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-faq" aria-controls="admin-panel-faq" aria-selected="false" tabindex="-1" data-admin-tab="faq">
-        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/nav/chat-circle.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span class="admin-tabs__icon" style="--admin-tab-icon: url('{{ url_for('static', filename='icons/nav/chat-circle.svg') }}')" aria-hidden="true"></span>
         <span>FAQ</span>
       </button>
       <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-json" aria-controls="admin-panel-json" aria-selected="false" tabindex="-1" data-admin-tab="json">
-        <img class="admin-tabs__icon" src="{{ url_for('static', filename='icons/cases/file-text.svg') }}" alt="" width="18" height="18" decoding="async">
+        <span class="admin-tabs__icon" style="--admin-tab-icon: url('{{ url_for('static', filename='icons/cases/file-text.svg') }}')" aria-hidden="true"></span>
         <span>JSON</span>
       </button>
     </div>

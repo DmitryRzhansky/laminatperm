@@ -280,21 +280,17 @@
 
 .admin-tabs__icon {
   flex-shrink: 0;
+  display: block;
   width: 1.125rem;
   height: 1.125rem;
-  object-fit: contain;
-  opacity: 0.72;
+  background-color: currentColor;
+  mask: var(--admin-tab-icon) center / contain no-repeat;
+  -webkit-mask: var(--admin-tab-icon) center / contain no-repeat;
 }
 
 .admin-tabs__tab:hover {
   background: rgba(37, 99, 235, 0.08);
   color: #1d4ed8;
-}
-
-.admin-tabs__tab:hover .admin-tabs__icon,
-.admin-tabs__tab--active .admin-tabs__icon,
-.admin-tabs__tab[aria-selected="true"] .admin-tabs__icon {
-  opacity: 1;
 }
 
 .admin-tabs__tab--active,
