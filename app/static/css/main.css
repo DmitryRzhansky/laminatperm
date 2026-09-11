@@ -1140,12 +1140,14 @@ button.hero-header__nav-link--menu {
   list-style: none;
 }
 
-.services-menu__grid--services {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
+.services-menu__panel--services,
 .services-menu__panel--catalog {
   padding: 0.75rem 0.875rem;
+}
+
+.services-menu__grid--services {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
 }
 
 .services-menu__grid--catalog {
@@ -1153,18 +1155,21 @@ button.hero-header__nav-link--menu {
   gap: 0.75rem 1rem;
 }
 
+.services-menu__grid--services .services-menu__category,
 .services-menu__grid--catalog .services-menu__category {
   grid-template-columns: 3.25rem minmax(0, 1fr);
   gap: 0.55rem;
   align-items: center;
 }
 
+.services-menu__grid--services .services-menu__image,
 .services-menu__grid--catalog .services-menu__image {
   width: 3.25rem;
   height: 3.25rem;
   border-radius: var(--radius-sm);
 }
 
+.services-menu__grid--services .services-menu__category-link,
 .services-menu__grid--catalog .services-menu__category-link {
   margin: 0;
   font-size: 0.875rem;
@@ -1259,12 +1264,14 @@ a.services-menu__link:hover {
   .services-menu__panel {
     padding: 1.5rem 1.25rem 1.75rem;
   }
+  .services-menu__panel--services,
   .services-menu__panel--catalog {
     padding: 0.875rem 1rem;
   }
   .services-menu__category-link {
     font-size: 1.0625rem;
   }
+  .services-menu__grid--services .services-menu__category-link,
   .services-menu__grid--catalog .services-menu__category-link {
     font-size: 0.9375rem;
   }

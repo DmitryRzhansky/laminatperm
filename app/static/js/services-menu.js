@@ -5,21 +5,14 @@
     {
       name: "services", label: "Услуги", desktopRoot: "[data-services-menu]", desktopTrigger: "[data-services-menu-trigger]", desktopPanel: "[data-services-menu-panel]", mobileRoot: "[data-services-menu-mobile]", panelId: "services-mega-menu", mobilePanelId: "mobile-services-panel",
       items: [
-        { title: "Укладка покрытий", url: "/uslugi/", image: "/static/images/menu/services/installation.webp", links: [
-          { title: "Укладка ламината", url: "/uslugi/ukladka-laminata/" },
-          { title: "Укладка SPC", url: "/uslugi/ukladka-spc/" },
-          { title: "Укладка кварцвинила и LVT", url: "/uslugi/ukladka-kvartsvinila-i-lvt/" },
-          { title: "Укладка линолеума", url: "/uslugi/ukladka-linoleuma/" },
-          { title: "Укладка ковролина", url: "/uslugi/ukladka-kovrolina/" }
-        ] },
-        { title: "Подготовка и демонтаж", url: "/uslugi/podgotovka-osnovaniya/", image: "/static/images/menu/services/subfloor.webp", links: [
-          { title: "Подготовка основания", url: "/uslugi/podgotovka-osnovaniya/" },
-          { title: "Демонтаж старого покрытия", url: "/uslugi/demontazh-starogo-pokrytiya/" }
-        ] },
-        { title: "Завершение отделки", url: "/uslugi/montazh-plintusa/", image: "/static/images/menu/services/finishing.webp", links: [
-          { title: "Монтаж плинтуса", url: "/uslugi/montazh-plintusa/" }
-        ] },
-        { title: "Все услуги", url: "/uslugi/", image: "/static/images/menu/services/demolition.webp", links: [] }
+        { title: "Укладка ламината", url: "/uslugi/ukladka-laminata/", image: "/static/images/menu/services/ukladka-laminata.webp", links: [] },
+        { title: "Укладка SPC", url: "/uslugi/ukladka-spc/", image: "/static/images/menu/services/ukladka-spc.webp", links: [] },
+        { title: "Укладка кварцвинила и LVT", url: "/uslugi/ukladka-kvartsvinila-i-lvt/", image: "/static/images/menu/services/ukladka-kvartsvinila-i-lvt.webp", links: [] },
+        { title: "Укладка линолеума", url: "/uslugi/ukladka-linoleuma/", image: "/static/images/menu/services/ukladka-linoleuma.webp", links: [] },
+        { title: "Укладка ковролина", url: "/uslugi/ukladka-kovrolina/", image: "/static/images/menu/services/ukladka-kovrolina.webp", links: [] },
+        { title: "Демонтаж старого покрытия", url: "/uslugi/demontazh-starogo-pokrytiya/", image: "/static/images/menu/services/demontazh-starogo-pokrytiya.webp", links: [] },
+        { title: "Подготовка основания", url: "/uslugi/podgotovka-osnovaniya/", image: "/static/images/menu/services/podgotovka-osnovaniya.webp", links: [] },
+        { title: "Монтаж плинтуса", url: "/uslugi/montazh-plintusa/", image: "/static/images/menu/services/montazh-plintusa.webp", links: [] }
       ]
     },
     {
