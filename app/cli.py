@@ -24,7 +24,6 @@ from app.models import (
     Service,
     SitePage,
     SiteSetting,
-    TeamMember,
 )
 from app.services.product_descriptions import build_product_description_html, looks_like_spec_dump
 from app.utils.files import save_upload
@@ -61,7 +60,6 @@ def register_cli(app):
     def seed():
         _seed_settings()
         _seed_pages()
-        _seed_team()
         _seed_services()
         _seed_partners()
         _seed_faq()
@@ -117,7 +115,6 @@ def _seed_settings():
         "footer.ogrn": "ОГРН 1255900000000",
         "checkout.delivery": "Самовывоз из шоурума на Агатовой, 28. Доставка по Перми — согласуем при звонке.",
         "checkout.payment": "Наличные, карта при получении или перевод. Онлайн-оплату подключим при необходимости.",
-        "documents.intro": "Сертификаты, гарантийные документы и материалы брендов. Добавляйте файлы в админке.",
     }
     for key, value in defaults.items():
         if SiteSetting.query.filter_by(key=key).first() is None:
@@ -136,20 +133,6 @@ def _seed_pages():
             continue
         page = SitePage(slug=slug, title=title, summary=body, body_md=body, seo_title=title, seo_description=body)
         db.session.add(page)
-
-
-def _seed_team():
-    if TeamMember.query.first():
-        return
-    db.session.add(
-        TeamMember(
-            name="Сергей Аверьянов",
-            role="Основатель и эксперт по напольным покрытиям",
-            text="Подбирает покрытие под помещение, считает материал и контролирует укладку.",
-            photo="images/advantages/averyanov.webp",
-            sort_order=1,
-        )
-    )
 
 
 def _seed_services():

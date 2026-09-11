@@ -7,7 +7,6 @@ from app.models import (
     Advantage,
     Case,
     CaseImage,
-    Document,
     FaqItem,
     News,
     Partner,
@@ -20,9 +19,8 @@ from app.models import (
     Review,
     Service,
     SitePage,
-    TeamMember,
 )
-from app.utils.files import ALLOWED_DOCUMENT_EXTENSIONS, ALLOWED_IMAGE_EXTENSIONS, save_upload
+from app.utils.files import ALLOWED_IMAGE_EXTENSIONS, save_upload
 from app.utils.markdown import excerpt, render_markdown
 from app.utils.seo import apply_seo
 from app.utils.settings import get_setting, set_setting
@@ -258,78 +256,6 @@ def partners_edit(item_id=None):
 @login_required
 def partners_delete(item_id):
     return _delete(Partner.query.get_or_404(item_id), "admin.partners_list")
-
-
-@admin_bp.route("/team/")
-@login_required
-def team_list():
-    return render_template("admin/simple_list.html", title="Команда", create_url=url_for("admin.team_edit"), rows=[
-        {"title": item.name, "edit": url_for("admin.team_edit", item_id=item.id), "delete": url_for("admin.team_delete", item_id=item.id)}
-        for item in TeamMember.query.order_by(TeamMember.sort_order, TeamMember.id).all()
-    ])
-
-
-@admin_bp.route("/team/new/", methods=["GET", "POST"])
-@admin_bp.route("/team/<int:item_id>/", methods=["GET", "POST"])
-@login_required
-def team_edit(item_id=None):
-    item = TeamMember.query.get(item_id) if item_id else TeamMember(is_published=True)
-    if request.method == "POST":
-        item.name = request.form.get("name", "").strip()
-        item.role = request.form.get("role", "").strip()
-        item.text = request.form.get("text", "").strip()
-        item.is_published = bool(request.form.get("is_published"))
-        photo = _save_image("photo", "team")
-        if photo:
-            item.photo = photo
-        if item.id is None:
-            db.session.add(item)
-        _commit("Сотрудник сохранён")
-        return redirect(url_for("admin.team_list"))
-    return render_template("admin/team_form.html", item=item)
-
-
-@admin_bp.route("/team/<int:item_id>/delete/", methods=["POST"])
-@login_required
-def team_delete(item_id):
-    return _delete(TeamMember.query.get_or_404(item_id), "admin.team_list")
-
-
-@admin_bp.route("/documents/")
-@login_required
-def documents_list():
-    return render_template("admin/simple_list.html", title="Лицензии и документы", create_url=url_for("admin.documents_edit"), rows=[
-        {"title": item.title, "edit": url_for("admin.documents_edit", item_id=item.id), "delete": url_for("admin.documents_delete", item_id=item.id)}
-        for item in Document.query.order_by(Document.sort_order, Document.id).all()
-    ])
-
-
-@admin_bp.route("/documents/new/", methods=["GET", "POST"])
-@admin_bp.route("/documents/<int:item_id>/", methods=["GET", "POST"])
-@login_required
-def documents_edit(item_id=None):
-    item = Document.query.get(item_id) if item_id else Document()
-    if request.method == "POST":
-        item.title = request.form.get("title", "").strip()
-        file = request.files.get("file")
-        if file and file.filename:
-            filename = save_upload(file, current_app.config["UPLOAD_FOLDER"] / "documents", ALLOWED_DOCUMENT_EXTENSIONS | ALLOWED_IMAGE_EXTENSIONS)
-            if filename:
-                item.filename = filename
-        if not item.filename:
-            flash("Добавьте файл документа", "error")
-            return render_template("admin/document_form.html", item=item)
-        if item.id is None:
-            db.session.add(item)
-        _commit("Документ сохранён")
-        return redirect(url_for("admin.documents_list"))
-    return render_template("admin/document_form.html", item=item)
-
-
-@admin_bp.route("/documents/<int:item_id>/delete/", methods=["POST"])
-@login_required
-def documents_delete(item_id):
-    return _delete(Document.query.get_or_404(item_id), "admin.documents_list")
 
 
 @admin_bp.route("/faq/")

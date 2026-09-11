@@ -1,16 +1,13 @@
 from flask import Blueprint, render_template, url_for
 
 from app.models import (
-    Document,
     FaqItem,
     Partner,
     Review,
     Service,
     SitePage,
-    TeamMember,
 )
 from app.utils.markdown import render_markdown
-from app.utils.settings import get_setting
 from app.services.service_media import resolve_service_image
 
 pages_bp = Blueprint("pages", __name__)
@@ -66,19 +63,6 @@ def prices():
         for item in items
     ]
     return render_template("public/pages/prices.html", items=rows)
-
-
-@pages_bp.route("/komanda/")
-def team():
-    items = TeamMember.query.filter_by(is_published=True).order_by(TeamMember.sort_order, TeamMember.id).all()
-    return render_template("public/pages/team.html", items=items)
-
-
-@pages_bp.route("/dokumenty/")
-def documents():
-    items = Document.query.order_by(Document.sort_order, Document.id).all()
-    intro = get_setting("documents.intro", "Сертификаты, гарантийные документы и материалы брендов.")
-    return render_template("public/pages/documents.html", items=items, intro=intro)
 
 
 @pages_bp.route("/partnery/")

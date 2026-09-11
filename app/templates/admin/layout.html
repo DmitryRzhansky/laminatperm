@@ -28,8 +28,6 @@
         <div class="admin-sidebar__group">
           <span class="admin-sidebar__label">Страницы</span>
           <a class="{{ 'is-active' if 'services' in (request.endpoint or '') }}" href="{{ url_for('admin.services_list') }}">Цены</a>
-          <a class="{{ 'is-active' if 'team' in (request.endpoint or '') }}" href="{{ url_for('admin.team_list') }}">Команда</a>
-          <a class="{{ 'is-active' if 'documents' in (request.endpoint or '') }}" href="{{ url_for('admin.documents_list') }}">Документы</a>
           <a class="{{ 'is-active' if 'partners' in (request.endpoint or '') }}" href="{{ url_for('admin.partners_list') }}">Партнёры</a>
           <a class="{{ 'is-active' if request.args.get('slug') == 'akciya' or (request.view_args or {}).get('slug') == 'akciya' }}" href="{{ url_for('admin.page_edit', slug='akciya') }}">Акция</a>
           <a class="{{ 'is-active' if (request.view_args or {}).get('slug') == 'garantiya' }}" href="{{ url_for('admin.page_edit', slug='garantiya') }}">Гарантия</a>
