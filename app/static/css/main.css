@@ -6484,6 +6484,7 @@ a.mobile-menu__services-link:hover {
 }
 
 .product-card__title {
+  display: block;
   margin: 0;
   font-family: var(--font-headline);
   font-size: 1rem;

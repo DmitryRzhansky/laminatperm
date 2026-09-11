@@ -102,9 +102,9 @@
               {% endif %}
             </a>
             <div class="product-card__body">
-              <h2 class="product-card__title">
+              <span class="product-card__title">
                 <a href="{{ url_for('catalog.product', category_slug=item.category.slug, product_slug=item.slug) }}">{{ item.name }}</a>
-              </h2>
+              </span>
               <p class="product-card__price">{{ item.price|rub }} {{ item.unit_label }}</p>
             </div>
           </article>
