@@ -3,7 +3,7 @@ from decimal import Decimal
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from app.extensions import db
-from app.models import Order, OrderItem, Product, ProductCategory
+from app.models import Order, OrderItem, Product, ProductCategory, SitePage
 from app.services.cart import CartService
 from app.services.catalog_filters import (
     SORT_OPTIONS,
@@ -12,6 +12,7 @@ from app.services.catalog_filters import (
     collect_filter_options,
     sort_products,
 )
+from app.services.product_descriptions import display_name, product_buybox_teaser
 from app.utils.settings import get_setting
 
 catalog_bp = Blueprint("catalog", __name__, url_prefix="/catalog")
@@ -63,16 +64,35 @@ def category(category_slug):
 def product(category_slug, product_slug):
     current = ProductCategory.query.filter_by(slug=category_slug).first_or_404()
     item = Product.query.filter_by(slug=product_slug, category_id=current.id, is_published=True).first_or_404()
+    warranty_page = SitePage.query.filter_by(slug="garantiya").first()
+    warranty_text = ""
+    if warranty_page:
+        warranty_text = (warranty_page.body_md or warranty_page.summary or "").strip()
+    if not warranty_text:
+        warranty_text = (
+            "Гарантия производителя действует согласно паспорту покрытия. "
+            "На работы по укладке даём отдельную гарантию — условия уточняйте у менеджера."
+        )
+    title = display_name(item)
     return render_template(
         "public/pages/product.html",
         item=item,
-        delivery_text=get_setting("checkout.delivery", ""),
-        payment_text=get_setting("checkout.payment", ""),
+        product_title=title,
+        product_teaser=product_buybox_teaser(item),
+        delivery_text=get_setting(
+            "checkout.delivery",
+            "Самовывоз из шоурума на Агатовой, 28. Доставка по Перми — согласуем при звонке.",
+        ),
+        payment_text=get_setting(
+            "checkout.payment",
+            "Наличные, карта при получении или перевод.",
+        ),
+        warranty_text=warranty_text,
         breadcrumbs=[
             {"label": "Главная", "url": url_for("main.home")},
             {"label": "Каталог", "url": url_for("catalog.index")},
             {"label": current.name, "url": url_for("catalog.category", category_slug=current.slug)},
-            {"label": item.name},
+            {"label": title},
         ],
     )
 
@@ -85,7 +105,12 @@ def cart_view():
 @catalog_bp.route("/cart/add/", methods=["POST"])
 def cart_add():
     product_id = request.form.get("product_id", type=int)
-    quantity = Decimal(request.form.get("quantity") or "1")
+    raw_qty = request.form.get("quantity") or "1"
+    try:
+        quantity = Decimal(raw_qty)
+    except Exception:
+        quantity = Decimal("1")
+    quantity = Decimal(max(1, int(quantity)))
     product = Product.query.get_or_404(product_id)
     cart.add(product, quantity)
     flash("Товар добавлен в корзину", "success")

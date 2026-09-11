@@ -26,6 +26,7 @@ from app.models import (
     SiteSetting,
     TeamMember,
 )
+from app.services.product_descriptions import build_product_description_html, looks_like_spec_dump
 from app.utils.files import save_upload
 from app.utils.seo import apply_seo
 from app.utils.settings import set_setting
@@ -75,8 +76,32 @@ def register_cli(app):
     def import_catalog():
         _seed_categories()
         _import_tilda_products()
+        for product in Product.query.order_by(Product.id).all():
+            if not looks_like_spec_dump(product.description_html):
+                continue
+            html = build_product_description_html(product)
+            product.description_html = html
+            plain = re.sub(r"<[^>]+>", " ", html)
+            plain = re.sub(r"\s+", " ", plain).strip()
+            apply_seo(product, product.name, plain)
         db.session.commit()
         print("Catalog imported")
+
+    @app.cli.command("fill-product-descriptions")
+    def fill_product_descriptions():
+        """Write marketing descriptions over Tilda spec dumps."""
+        updated = 0
+        for product in Product.query.order_by(Product.id).all():
+            if not looks_like_spec_dump(product.description_html):
+                continue
+            html = build_product_description_html(product)
+            product.description_html = html
+            plain = re.sub(r"<[^>]+>", " ", html)
+            plain = re.sub(r"\s+", " ", plain).strip()
+            apply_seo(product, product.name, plain)
+            updated += 1
+        db.session.commit()
+        print(f"Updated descriptions: {updated}")
 
 
 def _seed_settings():

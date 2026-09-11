@@ -9,70 +9,280 @@
     {% endif %}
   </div>
 </section>
-<div class="container product">
-  <div class="product__gallery">
-    {% if item.images %}
-      <img class="product__image" src="{{ item.images[0].filename|media }}" alt="{{ item.name }}" width="800" height="800">
-      {% if item.images|length > 1 %}
-        <ul class="product__thumbs" role="list">
-          {% for image in item.images %}
-            <li>
-              <img src="{{ image.filename|media }}" alt="{{ item.name }}" width="160" height="160" loading="lazy">
-            </li>
-          {% endfor %}
-        </ul>
+
+<article class="container product" data-product>
+  <div class="product__layout">
+    <div class="product__gallery" data-product-gallery>
+      {% if item.images %}
+        <div class="product__stage">
+          <img
+            class="product__image"
+            src="{{ item.images[0].filename|media }}"
+            alt="{{ item.name }}"
+            width="800"
+            height="800"
+            data-product-main
+            decoding="async"
+          >
+        </div>
+        {% if item.images|length > 1 %}
+          <ul class="product__thumbs" role="list">
+            {% for image in item.images %}
+              <li>
+                <button
+                  class="product__thumb{% if loop.first %} product__thumb--active{% endif %}"
+                  type="button"
+                  data-product-thumb
+                  data-src="{{ image.filename|media }}"
+                  aria-label="Показать фото {{ loop.index }}"
+                  aria-pressed="{{ 'true' if loop.first else 'false' }}"
+                >
+                  <img
+                    src="{{ image.filename|media }}"
+                    alt=""
+                    width="160"
+                    height="160"
+                    loading="lazy"
+                    decoding="async"
+                  >
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% else %}
+        <div class="product__stage product__stage--empty" aria-hidden="true"></div>
       {% endif %}
-    {% endif %}
+    </div>
+
+    <div class="product__info">
+      <h1 class="product__title">{{ product_title }}</h1>
+      <p class="product__price">{{ item.price|rub }} <span class="product__unit">{{ item.unit_label }}</span></p>
+
+      {% if product_teaser %}
+        <p class="product__teaser">{{ product_teaser }}</p>
+      {% endif %}
+
+      <form class="product__cart" method="post" action="{{ url_for('catalog.cart_add') }}" data-product-cart>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="product_id" value="{{ item.id }}">
+        <div class="product__qty">
+          <span class="product__qty-label" id="product-qty-label">Количество</span>
+          <div class="product__qty-control" role="group" aria-labelledby="product-qty-label">
+            <button
+              class="product__qty-btn"
+              type="button"
+              data-product-qty="-1"
+              aria-label="Уменьшить количество"
+            >
+              <img src="{{ url_for('static', filename='icons/qty-minus.svg') }}" alt="" width="16" height="16" decoding="async">
+            </button>
+            <input
+              class="product__qty-input"
+              type="number"
+              name="quantity"
+              min="1"
+              step="1"
+              value="1"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              data-product-qty-input
+              aria-labelledby="product-qty-label"
+            >
+            <button
+              class="product__qty-btn"
+              type="button"
+              data-product-qty="1"
+              aria-label="Увеличить количество"
+            >
+              <img src="{{ url_for('static', filename='icons/qty-plus.svg') }}" alt="" width="16" height="16" decoding="async">
+            </button>
+          </div>
+        </div>
+        <button class="button button--accent product__cart-submit" type="submit">
+          <img class="product__cart-icon" src="{{ url_for('static', filename='icons/shopping-bag.svg') }}" alt="" width="18" height="18" decoding="async">
+          <span>В корзину</span>
+        </button>
+      </form>
+
+      <ul class="product__benefits" role="list">
+        <li class="product__benefit">
+          <img class="product__benefit-icon" src="{{ url_for('static', filename='icons/nav/truck.svg') }}" alt="" width="20" height="20" decoding="async">
+          <span>Доставка по Перми</span>
+        </li>
+        <li class="product__benefit">
+          <img class="product__benefit-icon" src="{{ url_for('static', filename='icons/nav/tag.svg') }}" alt="" width="20" height="20" decoding="async">
+          <span>Самовывоз с Агатовой, 28</span>
+        </li>
+        <li class="product__benefit">
+          <img class="product__benefit-icon" src="{{ url_for('static', filename='icons/nav/credit-card.svg') }}" alt="" width="20" height="20" decoding="async">
+          <span>Удобная оплата</span>
+        </li>
+        <li class="product__benefit">
+          <img class="product__benefit-icon" src="{{ url_for('static', filename='icons/nav/shield-check.svg') }}" alt="" width="20" height="20" decoding="async">
+          <span>Гарантия на покрытие</span>
+        </li>
+        <li class="product__benefit">
+          <img class="product__benefit-icon" src="{{ url_for('static', filename='icons/cases/clipboard-text.svg') }}" alt="" width="20" height="20" decoding="async">
+          <span>Расчёт метража</span>
+        </li>
+        <li class="product__benefit">
+          <img class="product__benefit-icon" src="{{ url_for('static', filename='icons/blog/hammer.svg') }}" alt="" width="20" height="20" decoding="async">
+          <span>Укладка под ключ</span>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="product__info">
-    <h1 class="product__title">{{ item.name }}</h1>
-    <p class="product__price">{{ item.price|rub }} {{ item.unit_label }}</p>
-    <form class="product__cart" method="post" action="{{ url_for('catalog.cart_add') }}">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-      <input type="hidden" name="product_id" value="{{ item.id }}">
-      <label class="shop-filters__field">
-        <span class="shop-filters__label">Количество</span>
-        <input class="shop-filters__control" type="number" name="quantity" min="1" step="0.1" value="1">
-      </label>
-      <button class="button button--accent" type="submit">В корзину</button>
-    </form>
-    <form class="product__lead" method="post" action="{{ url_for('main.submit_lead') }}">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-      <input type="hidden" name="product_id" value="{{ item.id }}">
-      <input type="hidden" name="product" value="{{ item.name }}">
-      <input type="hidden" name="source" value="product">
-      <p class="product__lead-title">Заказать в 1 клик</p>
-      <label class="shop-filters__field">
-        <span class="shop-filters__label">Имя</span>
-        <input class="shop-filters__control" name="name" required autocomplete="name">
-      </label>
-      <label class="shop-filters__field">
-        <span class="shop-filters__label">Телефон</span>
-        <input class="shop-filters__control" name="phone" type="tel" required autocomplete="tel">
-      </label>
-      <label class="product__consent">
-        <input type="checkbox" name="consent" required>
-        <span>Согласен на обработку данных</span>
-      </label>
-      <button class="button button--ghost" type="submit">Перезвоните мне</button>
-    </form>
-    {% if item.attributes %}
-      <table class="specs">
-        <caption class="visually-hidden">Характеристики {{ item.name }}</caption>
-        {% for attr in item.attributes %}
-          <tr><th>{{ attr.name }}</th><td>{{ attr.value }}</td></tr>
-        {% endfor %}
-      </table>
-    {% endif %}
-    {% if item.description_html %}
-      <div class="product__text">{{ item.description_html|safe }}</div>
-    {% endif %}
-    <section class="product__notes">
-      <h2>Доставка</h2>
-      <p>{{ delivery_text }}</p>
-      <h2>Оплата</h2>
-      <p>{{ payment_text }}</p>
-    </section>
+
+  <div class="product-tabs" data-product-tabs>
+    <div class="product-tabs__list" role="tablist" aria-label="Информация о товаре">
+      <button
+        class="product-tabs__tab"
+        type="button"
+        role="tab"
+        id="product-tab-specs"
+        aria-controls="product-panel-specs"
+        aria-selected="true"
+        data-product-tab="specs"
+      >
+        <img class="product-tabs__icon" src="{{ url_for('static', filename='icons/cases/clipboard-text.svg') }}" alt="" width="20" height="20" decoding="async">
+        <span>Характеристики</span>
+      </button>
+      <button
+        class="product-tabs__tab"
+        type="button"
+        role="tab"
+        id="product-tab-description"
+        aria-controls="product-panel-description"
+        aria-selected="false"
+        tabindex="-1"
+        data-product-tab="description"
+      >
+        <img class="product-tabs__icon" src="{{ url_for('static', filename='icons/cases/file-text.svg') }}" alt="" width="20" height="20" decoding="async">
+        <span>Описание товара</span>
+      </button>
+      <button
+        class="product-tabs__tab"
+        type="button"
+        role="tab"
+        id="product-tab-delivery"
+        aria-controls="product-panel-delivery"
+        aria-selected="false"
+        tabindex="-1"
+        data-product-tab="delivery"
+      >
+        <img class="product-tabs__icon" src="{{ url_for('static', filename='icons/nav/truck.svg') }}" alt="" width="20" height="20" decoding="async">
+        <span>Доставка</span>
+      </button>
+      <button
+        class="product-tabs__tab"
+        type="button"
+        role="tab"
+        id="product-tab-payment"
+        aria-controls="product-panel-payment"
+        aria-selected="false"
+        tabindex="-1"
+        data-product-tab="payment"
+      >
+        <img class="product-tabs__icon" src="{{ url_for('static', filename='icons/nav/credit-card.svg') }}" alt="" width="20" height="20" decoding="async">
+        <span>Оплата</span>
+      </button>
+      <button
+        class="product-tabs__tab"
+        type="button"
+        role="tab"
+        id="product-tab-warranty"
+        aria-controls="product-panel-warranty"
+        aria-selected="false"
+        tabindex="-1"
+        data-product-tab="warranty"
+      >
+        <img class="product-tabs__icon" src="{{ url_for('static', filename='icons/nav/shield-check.svg') }}" alt="" width="20" height="20" decoding="async">
+        <span>Гарантия</span>
+      </button>
+    </div>
+
+    <div
+      class="product-tabs__panel"
+      role="tabpanel"
+      id="product-panel-specs"
+      aria-labelledby="product-tab-specs"
+      data-product-panel="specs"
+    >
+      {% if item.attributes %}
+        <table class="specs">
+          <caption class="visually-hidden">Характеристики {{ item.name }}</caption>
+          <tbody>
+            {% if item.brand %}
+              <tr><th scope="row">Бренд</th><td>{{ item.brand }}</td></tr>
+            {% endif %}
+            {% for attr in item.attributes %}
+              <tr><th scope="row">{{ attr.name }}</th><td>{{ attr.value }}</td></tr>
+            {% endfor %}
+            <tr><th scope="row">Единица продажи</th><td>{{ 'м²' if item.unit == 'm2' else 'шт' }}</td></tr>
+          </tbody>
+        </table>
+      {% else %}
+        <p class="product-tabs__empty">Характеристики уточняйте у менеджера — пришлём паспорт коллекции.</p>
+      {% endif %}
+    </div>
+
+    <div
+      class="product-tabs__panel"
+      role="tabpanel"
+      id="product-panel-description"
+      aria-labelledby="product-tab-description"
+      data-product-panel="description"
+      hidden
+    >
+      {% if item.description_html %}
+        <div class="product__text">{{ item.description_html|safe }}</div>
+      {% else %}
+        <p class="product-tabs__empty">Описание появится позже. Позвоните — расскажем о коллекции и покажем образцы.</p>
+      {% endif %}
+    </div>
+
+    <div
+      class="product-tabs__panel"
+      role="tabpanel"
+      id="product-panel-delivery"
+      aria-labelledby="product-tab-delivery"
+      data-product-panel="delivery"
+      hidden
+    >
+      <div class="product__text">
+        <p>{{ delivery_text }}</p>
+        <p><a href="{{ url_for('pages.delivery') }}">Подробнее о доставке</a></p>
+      </div>
+    </div>
+
+    <div
+      class="product-tabs__panel"
+      role="tabpanel"
+      id="product-panel-payment"
+      aria-labelledby="product-tab-payment"
+      data-product-panel="payment"
+      hidden
+    >
+      <div class="product__text">
+        <p>{{ payment_text }}</p>
+        <p><a href="{{ url_for('pages.payment') }}">Подробнее об оплате</a></p>
+      </div>
+    </div>
+
+    <div
+      class="product-tabs__panel"
+      role="tabpanel"
+      id="product-panel-warranty"
+      aria-labelledby="product-tab-warranty"
+      data-product-panel="warranty"
+      hidden
+    >
+      <div class="product__text">
+        <p>{{ warranty_text }}</p>
+        <p><a href="{{ url_for('pages.warranty') }}">Подробнее о гарантии</a></p>
+      </div>
+    </div>
   </div>
-</div>
+</article>
 {% endblock %}
