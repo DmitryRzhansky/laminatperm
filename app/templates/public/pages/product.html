@@ -25,9 +25,6 @@
     {% endif %}
   </div>
   <div class="product__info">
-    {% if item.brand %}
-      <p class="product__brand">{{ item.brand }}</p>
-    {% endif %}
     <h1 class="product__title">{{ item.name }}</h1>
     <p class="product__price">{{ item.price|rub }} {{ item.unit_label }}</p>
     <form class="product__cart" method="post" action="{{ url_for('catalog.cart_add') }}">

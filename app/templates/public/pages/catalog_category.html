@@ -102,9 +102,6 @@
               {% endif %}
             </a>
             <div class="product-card__body">
-              {% if item.brand %}
-                <p class="product-card__brand">{{ item.brand }}</p>
-              {% endif %}
               <h2 class="product-card__title">
                 <a href="{{ url_for('catalog.product', category_slug=item.category.slug, product_slug=item.slug) }}">{{ item.name }}</a>
               </h2>
