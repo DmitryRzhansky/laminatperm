@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
@@ -18,7 +18,6 @@ class ServicePage:
     hero_image: str
     hero_cta_primary: str = "Рассчитать стоимость"
     hero_cta_secondary: str = "Другие услуги"
-    points: tuple[str, ...] = field(default_factory=tuple)
 
 
 SERVICE_PAGES: tuple[ServicePage, ...] = (
@@ -39,11 +38,6 @@ SERVICE_PAGES: tuple[ServicePage, ...] = (
         icon="icons/services/replan.svg",
         image="images/services/laminate.webp",
         hero_image="images/services/hero/ukladka-laminata.webp",
-        points=(
-            "Подбор ламината под помещение и бюджет",
-            "Расчёт метража, подложки и комплектующих",
-            "Укладка с контролем стыков и зазоров",
-        ),
     ),
     ServicePage(
         slug="ukladka-spc",
@@ -62,11 +56,6 @@ SERVICE_PAGES: tuple[ServicePage, ...] = (
         icon="icons/services/szz.svg",
         image="images/services/spc.webp",
         hero_image="images/services/hero/ukladka-spc.webp",
-        points=(
-            "Подбор SPC под нагрузку и влажность",
-            "Проверка основания перед монтажом",
-            "Замковая укладка без лишних порогов",
-        ),
     ),
     ServicePage(
         slug="ukladka-kvartsvinila-i-lvt",
@@ -85,11 +74,6 @@ SERVICE_PAGES: tuple[ServicePage, ...] = (
         icon="icons/services/ndv.svg",
         image="images/services/lvt.webp",
         hero_image="images/services/hero/ukladka-kvartsvinila-i-lvt.webp",
-        points=(
-            "Замковый и клеевой монтаж LVT",
-            "Подбор коллекции и формата плитки",
-            "Аккуратная подрезка и примыкания",
-        ),
     ),
     ServicePage(
         slug="ukladka-linoleuma",
@@ -108,11 +92,6 @@ SERVICE_PAGES: tuple[ServicePage, ...] = (
         icon="icons/services/pdv.svg",
         image="images/services/linoleum.webp",
         hero_image="images/services/hero/ukladka-linoleuma.webp",
-        points=(
-            "Раскрой под комнату и сложные узлы",
-            "Стыковка и холодная сварка при необходимости",
-            "Монтаж на подготовленное основание",
-        ),
     ),
     ServicePage(
         slug="ukladka-kovrolina",
@@ -131,11 +110,6 @@ SERVICE_PAGES: tuple[ServicePage, ...] = (
         icon="icons/services/zso.svg",
         image="images/services/carpet.webp",
         hero_image="images/services/hero/ukladka-kovrolina.webp",
-        points=(
-            "Подбор ковролина под нагрузку",
-            "Раскрой и стыковка без заметных швов",
-            "Фиксация и оформление краёв",
-        ),
     ),
     ServicePage(
         slug="demontazh-starogo-pokrytiya",
@@ -154,11 +128,6 @@ SERVICE_PAGES: tuple[ServicePage, ...] = (
         icon="icons/services/nds.svg",
         image="images/services/demolition.webp",
         hero_image="images/services/hero/demontazh-starogo-pokrytiya.webp",
-        points=(
-            "Демонтаж ламината, линолеума и других покрытий",
-            "Очистка основания после снятия",
-            "Вынос и утилизация мусора",
-        ),
     ),
     ServicePage(
         slug="podgotovka-osnovaniya",
@@ -177,11 +146,6 @@ SERVICE_PAGES: tuple[ServicePage, ...] = (
         icon="icons/services/waste.svg",
         image="images/services/subfloor.webp",
         hero_image="images/services/hero/podgotovka-osnovaniya.webp",
-        points=(
-            "Замер перепадов и оценка основания",
-            "Выравнивание и полусухая стяжка",
-            "Подготовка под тёплый пол при необходимости",
-        ),
     ),
     ServicePage(
         slug="montazh-plintusa",
@@ -200,11 +164,6 @@ SERVICE_PAGES: tuple[ServicePage, ...] = (
         icon="icons/services/res.svg",
         image="images/services/skirting.webp",
         hero_image="images/services/hero/montazh-plintusa.webp",
-        points=(
-            "Подбор плинтуса под покрытие и стены",
-            "Монтаж с оформлением углов",
-            "Пороги и примыкания при необходимости",
-        ),
     ),
 )
 

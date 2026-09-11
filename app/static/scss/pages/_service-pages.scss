@@ -48,35 +48,6 @@
   color: var(--color-white);
 }
 
-.hero__points {
-  display: grid;
-  gap: 0.45rem;
-  margin: 0 0 clamp(1.25rem, 2.5vh, 2rem);
-  padding: 0;
-  list-style: none;
-  max-width: 38rem;
-}
-
-.hero__points li {
-  position: relative;
-  padding-left: 1.15rem;
-  font-family: var(--font-text);
-  font-size: clamp(0.875rem, 0.8rem + 0.25vw, 1rem);
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.hero__points li::before {
-  content: "";
-  position: absolute;
-  top: 0.55em;
-  left: 0;
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background-color: var(--color-accent);
-}
-
 .services-page {
   padding: 0.5rem 0 3rem;
 }

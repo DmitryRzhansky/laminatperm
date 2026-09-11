@@ -23,13 +23,6 @@
     {% endif %}
     <h1 class="hero__title">{{ service.title }}</h1>
     <p class="hero__description">{{ service.intro }}</p>
-    {% if service.points %}
-      <ul class="hero__points" role="list">
-        {% for point in service.points %}
-          <li>{{ point }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
     <div class="hero__actions">
       <a class="button button--primary" href="#consultation">
         <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
