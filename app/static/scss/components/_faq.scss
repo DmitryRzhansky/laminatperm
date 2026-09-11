@@ -228,3 +228,32 @@
 .faq--product .faq__columns {
   gap: 0.65rem;
 }
+
+.faq--page {
+  padding-block: 0 3rem;
+  background: none;
+}
+
+.faq--page .faq__inner {
+  width: min(100% - 1.875rem, var(--container-width));
+  margin-inline: auto;
+  padding-inline: 0;
+  gap: 0;
+}
+
+.faq--page .faq__columns {
+  grid-auto-flow: row;
+  grid-template-rows: none;
+}
+
+.faq__empty {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 75rem) {
+  .faq--page .faq__inner {
+    width: min(100%, var(--container-width));
+    padding-inline: 2.5rem;
+  }
+}

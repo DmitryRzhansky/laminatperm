@@ -3,12 +3,58 @@
 {% set intro = "Коротко про замер, укладку, сроки и стоимость." %}
 {% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Вопросы"}] %}
 {% block page_body %}
-<div class="container page-prose">
-  {% for item in items %}
-    <section class="page-faq">
-      <h2 class="page-faq__question">{{ item.question }}</h2>
-      <p>{{ item.answer }}</p>
-    </section>
-  {% endfor %}
-</div>
+<section class="faq faq--page" aria-label="Ответы на вопросы" data-faq>
+  <div class="faq__inner">
+    <div class="faq__columns">
+      {% for item in items %}
+        <div class="faq__item" data-faq-item>
+          <span class="faq__heading">
+            <button
+              class="faq__trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="faq-page-panel-{{ loop.index }}"
+              id="faq-page-trigger-{{ loop.index }}"
+              data-faq-trigger
+            >
+              <span class="faq__question">{{ item.question }}</span>
+              <span class="faq__icon" aria-hidden="true">
+                <img
+                  class="faq__icon-glyph faq__icon-glyph--plus"
+                  src="{{ url_for('static', filename='icons/faq/plus.svg') }}"
+                  alt=""
+                  width="16"
+                  height="16"
+                  decoding="async"
+                >
+                <img
+                  class="faq__icon-glyph faq__icon-glyph--minus"
+                  src="{{ url_for('static', filename='icons/faq/minus.svg') }}"
+                  alt=""
+                  width="16"
+                  height="16"
+                  decoding="async"
+                >
+              </span>
+            </button>
+          </span>
+          <div
+            class="faq__panel"
+            id="faq-page-panel-{{ loop.index }}"
+            role="region"
+            aria-labelledby="faq-page-trigger-{{ loop.index }}"
+            aria-hidden="true"
+            data-faq-panel
+          >
+            <div class="faq__panel-inner">
+              <p class="faq__answer">{{ item.answer }}</p>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <p class="faq__empty">Пока нет опубликованных вопросов.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 {% endblock %}
