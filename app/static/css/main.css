@@ -6138,7 +6138,8 @@ a.mobile-menu__services-link:hover {
   border-bottom: 1px solid rgba(25, 25, 25, 0.08);
 }
 
-.shop-filters__dropdown:last-of-type {
+.shop-filters__dropdown:last-of-type,
+.shop-filters__dropdown:has(+ .shop-filters__price) {
   border-bottom: 0;
 }
 
@@ -6257,7 +6258,6 @@ a.mobile-menu__services-link:hover {
 
 .shop-filters__price {
   padding-top: 0.25rem;
-  border-top: 1px solid rgba(25, 25, 25, 0.08);
 }
 
 .shop-filters__price-title {
