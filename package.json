@@ -1,8 +1,13 @@
 {
-  "name": "sanexpert",
+  "name": "laminatperm",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "python3 -m http.server 3000"
+    "build:css": "sass app/static/scss/main.scss:app/static/css/main.css app/static/scss/admin.scss:app/static/css/admin.css --no-source-map",
+    "watch:css": "sass --watch app/static/scss/main.scss:app/static/css/main.css app/static/scss/admin.scss:app/static/css/admin.css --no-source-map",
+    "start": "flask --app wsgi:app run --debug --port 5000"
+  },
+  "devDependencies": {
+    "sass": "^1.104.0"
   }
 }
