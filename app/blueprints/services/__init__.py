@@ -39,8 +39,6 @@ def detail(slug):
         title=service.seo_title,
         description=service.seo_description,
         lead_source=f"service:{service.slug}",
-        contact_section_class="contact-section--page",
-        hide_contact_info_title=True,
         breadcrumbs=[
             {"label": "Главная", "url": url_for("main.home")},
             {"label": "Услуги", "url": url_for("services.index")},
