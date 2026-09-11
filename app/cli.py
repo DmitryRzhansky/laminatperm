@@ -21,11 +21,13 @@ from app.models import (
     ProductImage,
     ProductRedirect,
     Review,
+    ReviewPhoto,
     Service,
     SitePage,
     SiteSetting,
 )
 from app.services.product_descriptions import build_product_description_html, looks_like_spec_dump
+from app.services.reviews_import import load_reviews_source, parse_reviews_html, replace_reviews_from_html
 from app.utils.files import save_upload
 from app.utils.seo import apply_seo
 from app.utils.settings import set_setting
@@ -84,6 +86,16 @@ def register_cli(app):
             apply_seo(product, product.name, plain)
         db.session.commit()
         print("Catalog imported")
+
+    @app.cli.command("reimport-reviews")
+    def reimport_reviews():
+        """Replace DB reviews with cards from the homepage reviews section."""
+        counts = replace_reviews_from_html()
+        print(
+            "Reviews reimported: "
+            f"total={counts['total']} avito={counts['avito']} "
+            f"yandex={counts['yandex']} vk={counts['vk']}"
+        )
 
     @app.cli.command("fill-product-descriptions")
     def fill_product_descriptions():
@@ -303,37 +315,18 @@ def _seed_cases():
 def _seed_reviews():
     if Review.query.first():
         return
-    html_path = BASE_DIR / "index.html"
-    if not html_path.exists():
+    source = load_reviews_source()
+    if not source:
         return
-    html = html_path.read_text(encoding="utf-8")
-    cards = re.findall(
-        r'<article class="reviews__card"(.*?)</article>',
-        html,
-        flags=re.DOTALL,
-    )
-    for index, card in enumerate(cards, start=1):
-        match_platform = re.search(r'data-reviews-slide="(\w+)"', card)
-        platform = match_platform.group(1) if match_platform else "avito"
-        avatar_match = re.search(r'src="([^"]+)"', card)
-        author_match = re.search(r'reviews__name">([^<]+)', card)
-        role_match = re.search(r'reviews__meta">([^<]+)', card)
-        date_match = re.search(r'reviews__date">([^<]+)', card)
-        item_match = re.search(r'reviews__item">([^<]+)', card)
-        text_match = re.search(r'reviews__text">\s*(.*?)\s*</p>', card, flags=re.DOTALL)
-        avatar = (avatar_match.group(1) if avatar_match else "").replace("assets/", "")
-        db.session.add(
-            Review(
-                platform=platform,
-                author=(author_match.group(1).strip() if author_match else "Клиент"),
-                role=(role_match.group(1).strip() if role_match else ""),
-                date_text=(date_match.group(1).strip() if date_match else ""),
-                item=(item_match.group(1).strip() if item_match else ""),
-                text=re.sub(r"\s+", " ", text_match.group(1)).strip() if text_match else "",
-                avatar=avatar,
-                sort_order=index,
-            )
-        )
+    for data in parse_reviews_html(source):
+        photos = data.pop("photos")
+        review = Review(**data)
+        db.session.add(review)
+        db.session.flush()
+        for order, filename in enumerate(photos):
+            if not filename:
+                continue
+            db.session.add(ReviewPhoto(review_id=review.id, filename=filename, sort_order=order))
 
 
 def _seed_categories():

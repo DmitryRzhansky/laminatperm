@@ -8026,9 +8026,19 @@ ul.product__benefits {
 }
 
 .reviews--page .reviews__inner {
+  display: grid;
+  gap: 1.25rem;
   padding-inline: 0;
   width: min(100% - 1.875rem, var(--container-width));
   margin-inline: auto;
+}
+
+.reviews--page .reviews__filters {
+  margin: 0;
+}
+
+.reviews--page .reviews__panel {
+  margin-top: 0.25rem;
 }
 
 .reviews--page .reviews__viewport {
@@ -8039,6 +8049,7 @@ ul.product__benefits {
 .reviews--page .reviews__track {
   display: grid;
   grid-template-columns: 1fr;
+  gap: 1rem;
   transform: none !important;
   will-change: auto;
 }
@@ -8047,6 +8058,10 @@ ul.product__benefits {
   flex: none;
   width: auto;
   max-width: none;
+}
+
+.reviews--page .reviews__lightbox {
+  position: fixed;
 }
 
 @media (min-width: 48rem) {

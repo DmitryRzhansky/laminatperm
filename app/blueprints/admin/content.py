@@ -17,6 +17,7 @@ from app.models import (
     ProductFaq,
     ProductImage,
     Review,
+    ReviewPhoto,
     Service,
     SitePage,
 )
@@ -25,6 +26,7 @@ from app.utils.markdown import excerpt, render_markdown
 from app.utils.seo import apply_seo
 from app.utils.settings import get_setting, set_setting
 from app.utils.slugs import unique_slug
+from app.services.reviews_import import clean_review_text
 
 
 def _commit(message="Сохранено"):
@@ -132,22 +134,46 @@ def cases_delete(item_id):
 @admin_bp.route("/reviews/")
 @login_required
 def reviews_list():
-    return render_template("admin/simple_list.html", title="Отзывы", create_url=url_for("admin.reviews_edit"), rows=[
-        {"title": f"{item.author} · {item.platform}", "edit": url_for("admin.reviews_edit", item_id=item.id), "delete": url_for("admin.reviews_delete", item_id=item.id)}
-        for item in Review.query.order_by(Review.sort_order, Review.id).all()
-    ])
+    platform = request.args.get("platform") or "avito"
+    if platform not in {"avito", "yandex", "vk"}:
+        platform = "avito"
+
+    items = (
+        Review.query.filter_by(platform=platform)
+        .order_by(Review.sort_order, Review.id)
+        .all()
+    )
+    counts = {
+        "avito": Review.query.filter_by(platform="avito").count(),
+        "yandex": Review.query.filter_by(platform="yandex").count(),
+        "vk": Review.query.filter_by(platform="vk").count(),
+    }
+    return render_template(
+        "admin/reviews_list.html",
+        items=items,
+        counts=counts,
+        current_platform=platform,
+    )
 
 
 @admin_bp.route("/reviews/new/", methods=["GET", "POST"])
 @admin_bp.route("/reviews/<int:item_id>/", methods=["GET", "POST"])
 @login_required
 def reviews_edit(item_id=None):
-    item = Review.query.get(item_id) if item_id else Review(is_published=True)
+    if item_id:
+        item = Review.query.get_or_404(item_id)
+    else:
+        platform = request.args.get("platform") or "avito"
+        if platform not in {"avito", "yandex", "vk"}:
+            platform = "avito"
+        item = Review(is_published=True, rating=5, platform=platform)
     if request.method == "POST":
         item.platform = request.form.get("platform") or "avito"
+        if item.platform not in {"avito", "yandex", "vk"}:
+            item.platform = "avito"
         item.author = request.form.get("author", "").strip()
         item.role = request.form.get("role", "").strip()
-        item.text = request.form.get("text", "").strip()
+        item.text = clean_review_text(request.form.get("text", ""))
         item.item = request.form.get("item", "").strip()
         item.date_text = request.form.get("date_text", "").strip()
         item.rating = request.form.get("rating", type=int) or 5
@@ -157,15 +183,41 @@ def reviews_edit(item_id=None):
             item.avatar = avatar
         if item.id is None:
             db.session.add(item)
+            db.session.flush()
+
+        delete_ids = {int(value) for value in request.form.getlist("delete_photo") if value.isdigit()}
+        if delete_ids:
+            for photo in list(item.photos):
+                if photo.id in delete_ids:
+                    db.session.delete(photo)
+
+        files = request.files.getlist("photos")
+        next_order = len(item.photos)
+        for file in files:
+            filename = save_upload(
+                file,
+                current_app.config["UPLOAD_FOLDER"] / "reviews",
+                ALLOWED_IMAGE_EXTENSIONS,
+            )
+            if filename:
+                db.session.add(
+                    ReviewPhoto(review_id=item.id, filename=filename, sort_order=next_order)
+                )
+                next_order += 1
+
         _commit("Отзыв сохранён")
-        return redirect(url_for("admin.reviews_list"))
+        return redirect(url_for("admin.reviews_list", platform=item.platform))
     return render_template("admin/review_form.html", item=item)
 
 
 @admin_bp.route("/reviews/<int:item_id>/delete/", methods=["POST"])
 @login_required
 def reviews_delete(item_id):
-    return _delete(Review.query.get_or_404(item_id), "admin.reviews_list")
+    item = Review.query.get_or_404(item_id)
+    platform = item.platform or "avito"
+    db.session.delete(item)
+    _commit("Отзыв удалён")
+    return redirect(url_for("admin.reviews_list", platform=platform))
 
 
 def _collection_edit(model, form_template, list_endpoint, fields, image_field=None, folder="landing"):

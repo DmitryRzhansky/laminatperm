@@ -1,4 +1,51 @@
 (function initReviewsBlock() {
+  function initLightbox(root) {
+    const lightbox = root.querySelector("[data-reviews-lightbox]");
+    const lightboxImage = root.querySelector("[data-reviews-lightbox-image]");
+    const lightboxClose = root.querySelector("[data-reviews-lightbox-close]");
+
+    if (!lightbox || !lightboxImage) {
+      return;
+    }
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      lightboxImage.removeAttribute("src");
+      document.body.style.overflow = "";
+    }
+
+    root.addEventListener("click", function (event) {
+      const mediaButton = event.target.closest("[data-reviews-letter]");
+
+      if (!mediaButton || !root.contains(mediaButton)) {
+        return;
+      }
+
+      event.preventDefault();
+      lightboxImage.src = mediaButton.getAttribute("data-reviews-letter") || "";
+      lightboxImage.alt =
+        mediaButton.getAttribute("data-reviews-letter-alt") || "Фото из отзыва";
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+    });
+
+    if (lightboxClose) {
+      lightboxClose.addEventListener("click", closeLightbox);
+    }
+
+    lightbox.addEventListener("click", function (event) {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !lightbox.hidden) {
+        closeLightbox();
+      }
+    });
+  }
+
   function init() {
     const root = document.querySelector("[data-reviews]");
 
@@ -6,11 +53,12 @@
       return;
     }
 
+    root.dataset.reviewsReady = "true";
+
     if (root.classList.contains("reviews--page")) {
+      initLightbox(root);
       return;
     }
-
-    root.dataset.reviewsReady = "true";
 
     const tabs = Array.from(root.querySelectorAll(".reviews__tab-input"));
     const panels = Array.from(root.querySelectorAll("[data-reviews-panel]"));

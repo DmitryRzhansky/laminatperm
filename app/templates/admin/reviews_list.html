@@ -1,0 +1,85 @@
+{% extends "admin/layout.html" %}
+{% block title %}Отзывы{% endblock %}
+{% block heading %}Отзывы{% endblock %}
+{% block content %}
+{% set platforms = [
+  {"key": "avito", "label": "Авито", "icon": "icons/reviews/avito.webp"},
+  {"key": "yandex", "label": "Яндекс Карты", "icon": "icons/reviews/yandex.webp"},
+  {"key": "vk", "label": "ВКонтакте", "icon": "icons/reviews/vk.png"}
+] %}
+
+<section class="admin-reviews">
+  <div class="admin-reviews__toolbar">
+    <nav class="admin-reviews__tabs" aria-label="Площадки отзывов">
+      {% for platform in platforms %}
+        <a
+          class="admin-reviews__tab{% if current_platform == platform.key %} is-active{% endif %}"
+          href="{{ url_for('admin.reviews_list', platform=platform.key) }}"
+        >
+          <img
+            class="admin-reviews__tab-icon"
+            src="{{ url_for('static', filename=platform.icon) }}"
+            alt=""
+            width="18"
+            height="18"
+            decoding="async"
+          >
+          <span>{{ platform.label }}</span>
+          <span class="admin-reviews__count">{{ counts.get(platform.key, 0) }}</span>
+        </a>
+      {% endfor %}
+    </nav>
+    <a class="admin-btn" href="{{ url_for('admin.reviews_edit', platform=current_platform) }}">Добавить</a>
+  </div>
+
+  {% if items %}
+    <ul class="admin-reviews__list" role="list">
+      {% for item in items %}
+        <li class="admin-reviews__item">
+          <div class="admin-reviews__main">
+            {% if item.avatar %}
+              <img
+                class="admin-reviews__avatar"
+                src="{{ item.avatar|media }}"
+                alt=""
+                width="44"
+                height="44"
+                loading="lazy"
+                decoding="async"
+              >
+            {% else %}
+              <span class="admin-reviews__avatar admin-reviews__avatar--fallback" aria-hidden="true">
+                {{ (item.author or '?')[:1]|upper }}
+              </span>
+            {% endif %}
+            <div class="admin-reviews__meta">
+              <p class="admin-reviews__author">{{ item.author or 'Без имени' }}</p>
+              <p class="admin-reviews__sub">
+                {% if item.date_text %}{{ item.date_text }}{% endif %}
+                {% if item.date_text and item.item %} · {% endif %}
+                {% if item.item %}{{ item.item }}{% endif %}
+                {% if item.photos %} · {{ item.photos|length }} фото{% endif %}
+              </p>
+              {% if item.text %}
+                <p class="admin-reviews__preview">{{ item.text[:160] }}{% if item.text|length > 160 %}…{% endif %}</p>
+              {% endif %}
+            </div>
+          </div>
+          <div class="admin-reviews__actions">
+            {% if not item.is_published %}
+              <span class="admin-reviews__badge">Скрыт</span>
+            {% endif %}
+            <a class="admin-btn" href="{{ url_for('admin.reviews_edit', item_id=item.id) }}">Изменить</a>
+            <form method="post" action="{{ url_for('admin.reviews_delete', item_id=item.id) }}" onsubmit="return confirm('Убрать отзыв с сайта?')">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="admin-btn admin-btn--danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="admin-lead">Пока нет отзывов на этой площадке.</p>
+  {% endif %}
+</section>
+{% endblock %}

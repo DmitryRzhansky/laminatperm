@@ -1,22 +1,96 @@
 {% extends "admin/layout.html" %}
-{% block heading %}Отзыв{% endblock %}
+{% block title %}{{ 'Изменить отзыв' if item.id else 'Добавить отзыв' }}{% endblock %}
+{% block heading %}{{ 'Изменить отзыв' if item.id else 'Добавить отзыв' }}{% endblock %}
 {% block content %}
-<form class="admin-form" method="post" enctype="multipart/form-data">
+{% set platforms = [
+  {"key": "avito", "label": "Авито", "icon": "icons/reviews/avito.webp"},
+  {"key": "yandex", "label": "Яндекс Карты", "icon": "icons/reviews/yandex.webp"},
+  {"key": "vk", "label": "ВКонтакте", "icon": "icons/reviews/vk.png"}
+] %}
+{% set selected_platform = item.platform or request.args.get('platform') or 'avito' %}
+
+<form class="admin-form admin-form--wide" method="post" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-  <label>Площадка
-    <select name="platform">
-      <option value="avito" {% if item.platform == 'avito' %}selected{% endif %}>Авито</option>
-      <option value="yandex" {% if item.platform == 'yandex' %}selected{% endif %}>Яндекс</option>
-      <option value="vk" {% if item.platform == 'vk' %}selected{% endif %}>ВК</option>
-    </select>
-  </label>
-  <label>Имя <input name="author" value="{{ item.author or '' }}"></label>
-  <label>Кто это <input name="role" value="{{ item.role or '' }}"></label>
-  <label>Дата текстом <input name="date_text" value="{{ item.date_text or '' }}"></label>
+
+  <fieldset class="admin-reviews-form__platforms">
+    <legend>Площадка</legend>
+    <div class="admin-reviews-form__platform-list">
+      {% for platform in platforms %}
+        <label class="admin-reviews-form__platform">
+          <input
+            type="radio"
+            name="platform"
+            value="{{ platform.key }}"
+            {% if selected_platform == platform.key %}checked{% endif %}
+          >
+          <span class="admin-reviews-form__platform-card">
+            <img
+              src="{{ url_for('static', filename=platform.icon) }}"
+              alt=""
+              width="18"
+              height="18"
+              decoding="async"
+            >
+            {{ platform.label }}
+          </span>
+        </label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <div class="admin-reviews-form__grid">
+    <label>Имя <input name="author" value="{{ item.author or '' }}" required></label>
+    <label>Кто это <input name="role" value="{{ item.role or '' }}" placeholder="Клиент, Покупатель"></label>
+    <label>Дата текстом <input name="date_text" value="{{ item.date_text or '' }}" placeholder="24 августа"></label>
+    <label>Оценка
+      <select name="rating">
+        {% for value in range(5, 0, -1) %}
+          <option value="{{ value }}" {% if (item.rating or 5) == value %}selected{% endif %}>{{ value }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </div>
+
   <label>Что заказывали <input name="item" value="{{ item.item or '' }}"></label>
-  <label>Текст отзыва <textarea name="text">{{ item.text or '' }}</textarea></label>
-  <label>Фото профиля <input type="file" name="avatar" accept="image/*"></label>
-  <label><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Показать на сайте</label>
-  <button class="admin-btn" type="submit">Сохранить</button>
+  <label>Текст отзыва <textarea name="text" rows="8">{{ item.text or '' }}</textarea></label>
+
+  <div class="admin-reviews-form__media">
+    <label>Аватар <input type="file" name="avatar" accept="image/*"></label>
+    {% if item.avatar %}
+      <p class="admin-reviews-form__hint">
+        Сейчас:
+        <img class="admin-reviews-form__thumb" src="{{ item.avatar|media }}" alt="" width="40" height="40">
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="admin-reviews-form__media">
+    <label>Фото к отзыву <input type="file" name="photos" accept="image/*" multiple></label>
+    {% if item.photos %}
+      <ul class="admin-reviews-form__photos" role="list">
+        {% for photo in item.photos %}
+          <li>
+            <label class="admin-reviews-form__photo">
+              <img src="{{ photo.filename|media }}" alt="" width="72" height="72" loading="lazy" decoding="async">
+              <span>
+                <input type="checkbox" name="delete_photo" value="{{ photo.id }}">
+                Удалить
+              </span>
+            </label>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+
+  <label class="admin-reviews-form__check">
+    <input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}>
+    Показать на сайте
+  </label>
+
+  <div class="admin-reviews-form__actions">
+    <button class="admin-btn" type="submit">Сохранить</button>
+    <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.reviews_list', platform=selected_platform) }}">К списку</a>
+  </div>
 </form>
 {% endblock %}

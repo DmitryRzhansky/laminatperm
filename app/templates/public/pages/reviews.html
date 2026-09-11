@@ -1,6 +1,5 @@
 {% extends "public/pages/inner_base.html" %}
 {% set title = "Отзывы" %}
-{% set intro = "Что говорят клиенты после подбора и укладки." %}
 {% block page_body %}
 <section class="reviews reviews--page" data-reviews aria-label="Отзывы по площадкам">
   <input class="reviews__tab-input" type="radio" name="reviews-tab" id="reviews-tab-avito" data-reviews-tab="avito" checked>
@@ -9,15 +8,15 @@
   <div class="reviews__inner">
     <div class="reviews__filters" role="tablist" aria-label="Источники отзывов">
       <label class="reviews__filter" for="reviews-tab-avito" data-reviews-filter="avito">
-        <img class="reviews__filter-icon" src="/static/icons/reviews/avito.webp" alt="" width="16" height="16" decoding="async">
+        <img class="reviews__filter-icon" src="{{ url_for('static', filename='icons/reviews/avito.webp') }}" alt="" width="16" height="16" decoding="async">
         Авито
       </label>
       <label class="reviews__filter" for="reviews-tab-yandex" data-reviews-filter="yandex">
-        <img class="reviews__filter-icon" src="/static/icons/reviews/yandex.webp" alt="" width="16" height="16" decoding="async">
+        <img class="reviews__filter-icon" src="{{ url_for('static', filename='icons/reviews/yandex.webp') }}" alt="" width="16" height="16" decoding="async">
         Яндекс
       </label>
       <label class="reviews__filter" for="reviews-tab-vk" data-reviews-filter="vk">
-        <img class="reviews__filter-icon" src="/static/icons/reviews/vk.png" alt="" width="16" height="16" decoding="async">
+        <img class="reviews__filter-icon" src="{{ url_for('static', filename='icons/reviews/vk.png') }}" alt="" width="16" height="16" decoding="async">
         ВКонтакте
       </label>
     </div>
@@ -32,6 +31,8 @@
                   <div class="reviews__card-top">
                     {% if item.avatar %}
                       <img class="reviews__avatar reviews__avatar--image" src="{{ item.avatar|media }}" alt="" width="40" height="40" loading="lazy" decoding="async">
+                    {% else %}
+                      <span class="reviews__avatar" aria-hidden="true">{{ (item.author or '?')[:1]|upper }}</span>
                     {% endif %}
                     <div class="reviews__person">
                       <p class="reviews__name">{{ item.author }}</p>
@@ -45,7 +46,37 @@
                   {% if item.item %}
                     <p class="reviews__item">{{ item.item }}</p>
                   {% endif %}
-                  <p class="reviews__text">{{ item.text }}</p>
+                  <p class="reviews__text">
+                    {%- for line in item.text.splitlines() -%}
+                      {{- line -}}
+                      {%- if not loop.last %}<br>{% endif -%}
+                    {%- endfor -%}
+                  </p>
+                  {% if item.photos %}
+                    <div class="reviews__photos" role="list">
+                      {% for photo in item.photos %}
+                        <div class="reviews__photos-item" role="listitem">
+                          <button
+                            class="reviews__photo"
+                            type="button"
+                            data-reviews-letter="{{ photo.filename|media }}"
+                            data-reviews-letter-alt="Фото к отзыву {{ item.author }}"
+                            aria-label="Открыть фото {{ loop.index }} к отзыву"
+                          >
+                            <img
+                              class="reviews__photo-image"
+                              src="{{ photo.filename|media }}"
+                              alt=""
+                              width="72"
+                              height="72"
+                              loading="lazy"
+                              decoding="async"
+                            >
+                          </button>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
                 </article>
               </li>
             {% else %}
@@ -57,6 +88,18 @@
         </div>
       </div>
     {% endfor %}
+  </div>
+
+  <div class="reviews__lightbox" data-reviews-lightbox hidden>
+    <button
+      class="reviews__lightbox-close"
+      type="button"
+      data-reviews-lightbox-close
+      aria-label="Закрыть"
+    >
+      ×
+    </button>
+    <img class="reviews__lightbox-image" data-reviews-lightbox-image alt="">
   </div>
 </section>
 {% endblock %}

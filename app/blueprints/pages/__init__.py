@@ -35,10 +35,18 @@ def _page(slug, template="public/pages/text.html"):
 
 @pages_bp.route("/otzyvy/")
 def reviews():
-    items = Review.query.filter_by(is_published=True).order_by(Review.sort_order, Review.id).all()
+    from sqlalchemy.orm import joinedload
+
+    items = (
+        Review.query.options(joinedload(Review.photos))
+        .filter_by(is_published=True)
+        .order_by(Review.sort_order, Review.id)
+        .all()
+    )
     groups = {"avito": [], "yandex": [], "vk": []}
     for item in items:
-        groups.setdefault(item.platform or "avito", []).append(item)
+        key = item.platform if item.platform in groups else "avito"
+        groups[key].append(item)
     return render_template(
         "public/pages/reviews.html",
         items=items,
