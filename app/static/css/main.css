@@ -5295,13 +5295,13 @@ a.mobile-menu__services-link:hover {
   font-weight: 600;
   line-height: 1;
   cursor: pointer;
-  transition: background-color var(--transition-base), transform var(--transition-base);
+  transition: background-color var(--transition-base), color var(--transition-base), transform var(--transition-base);
 }
 
 .request-form__button:hover,
 .request-form__button:focus-visible {
-  background-color: var(--color-accent);
-  color: var(--color-white);
+  background-color: var(--color-white);
+  color: var(--color-text-dark);
   transform: translateY(-1px);
 }
 
