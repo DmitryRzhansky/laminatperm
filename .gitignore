@@ -9,3 +9,6 @@ assets/video/source-*
 assets/video/_candidates/
 assets/video/_frames/
 .pytest_cache/
+scripts/convert_templates.py
+scripts/fix_js_paths.py
+scripts/replace_home_catalog.py

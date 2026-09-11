@@ -1,6 +1,6 @@
-<ul class="catalog__grid catalog__grid--five" role="list">
+<ul class="catalog__grid catalog__grid--bento" role="list">
   {% for category in categories %}
-    <li>
+    <li class="catalog__item">
       <a class="catalog__card" href="{{ url_for('catalog.category', category_slug=category.slug) }}">
         <span class="catalog__media">
           <img
