@@ -2,14 +2,16 @@
 {% block title %}{{ title }} — Ламинейшен{% endblock %}
 {% block description %}{{ description or intro or title }}{% endblock %}
 {% block content %}
-<section class="page-hero{% if page_hero_compact %} page-hero--compact{% endif %}">
+<section class="page-hero{% if page_hero_compact %} page-hero--compact{% endif %}{% if hide_page_hero_title %} page-hero--breadcrumbs{% endif %}">
   <div class="container">
     {% if breadcrumbs %}
       {% include "components/breadcrumbs.html" %}
     {% endif %}
-    <h1 class="page-hero__title">{{ title }}</h1>
-    {% if intro %}
-      <p class="page-hero__text">{{ intro }}</p>
+    {% if not hide_page_hero_title %}
+      <h1 class="page-hero__title">{{ title }}</h1>
+      {% if intro %}
+        <p class="page-hero__text">{{ intro }}</p>
+      {% endif %}
     {% endif %}
   </div>
 </section>

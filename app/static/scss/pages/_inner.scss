@@ -8,7 +8,15 @@
   padding-bottom: 0.5rem;
 }
 
+.page-hero--breadcrumbs {
+  padding-bottom: 1rem;
+}
+
 .page-hero--compact .page-hero__title {
+  margin-bottom: 0;
+}
+
+.page-hero--breadcrumbs .breadcrumbs {
   margin-bottom: 0;
 }
 

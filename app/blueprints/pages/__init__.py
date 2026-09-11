@@ -99,12 +99,12 @@ def warranty():
 
 @pages_bp.route("/oplata/")
 def payment():
-    return _page("oplata")
+    return _page("oplata", template="public/pages/payment.html")
 
 
 @pages_bp.route("/dostavka/")
 def delivery():
-    return _page("dostavka")
+    return _page("dostavka", template="public/pages/delivery.html")
 
 
 @pages_bp.route("/voprosy/")

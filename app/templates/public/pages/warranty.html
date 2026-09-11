@@ -2,6 +2,7 @@
 {% set title = page.title %}
 {% set description = page.seo_description or page.summary %}
 {% set page_hero_compact = true %}
+{% set hide_page_hero_title = true %}
 {% set lead_source = "warranty" %}
 {% set contact_section_class = "contact-section--page" %}
 {% set hide_contact_info_title = true %}
@@ -21,9 +22,9 @@
       </div>
 
       <div class="promo-offer__content">
-        <h2 class="promo-offer__title" id="warranty-offer-title">
+        <h1 class="promo-offer__title" id="warranty-offer-title">
           Гарантия на работы и покрытие
-        </h2>
+        </h1>
         <p class="promo-offer__lead">
           {{ page.summary or "Даём гарантию на укладку и помогаем с гарантийными обязательствами производителя покрытия." }}
         </p>

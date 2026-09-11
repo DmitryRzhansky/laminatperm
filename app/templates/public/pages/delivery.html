@@ -3,37 +3,36 @@
 {% set description = page.seo_description or page.summary %}
 {% set page_hero_compact = true %}
 {% set hide_page_hero_title = true %}
-{% set lead_source = "promo" %}
+{% set lead_source = "delivery" %}
 {% set contact_section_class = "contact-section--page" %}
 {% set hide_contact_info_title = true %}
 {% block page_body %}
-<section class="promo-offer" aria-labelledby="promo-offer-title">
+<section class="promo-offer" aria-labelledby="delivery-offer-title">
   <div class="container">
     <article class="promo-offer__card">
       <div class="promo-offer__visual">
         <img
           class="promo-offer__icon"
-          src="{{ url_for('static', filename='images/promo/tag-3d.webp') }}"
+          src="{{ url_for('static', filename='images/delivery/box-3d.webp') }}"
           alt=""
           width="420"
           height="420"
           decoding="async"
         >
-        <p class="promo-offer__discount" aria-hidden="true">−10%</p>
       </div>
 
       <div class="promo-offer__content">
-        <h1 class="promo-offer__title" id="promo-offer-title">
-          Скидка 10% на материал
+        <h1 class="promo-offer__title" id="delivery-offer-title">
+          Доставка
         </h1>
         <p class="promo-offer__lead">
-          {{ page.summary or "При заказе укладки под ключ — скидка на покрытие. Подробности по телефону или в шоуруме." }}
+          {{ page.summary or "Самовывоз с Агатовой, 28. Доставка по Перми и краю — рассчитаем при оформлении." }}
         </p>
 
         <ul class="promo-offer__points" role="list">
-          <li>Скидка действует при заказе укладки под ключ</li>
-          <li>Материал подбираем под помещение и бюджет</li>
-          <li>Точные условия уточним на замере или в шоуруме</li>
+          <li>Самовывоз со склада / шоурума на Агатовой, 28</li>
+          <li>Доставка по Перми и Пермскому краю</li>
+          <li>Стоимость и сроки согласуем при оформлении заказа</li>
         </ul>
       </div>
     </article>
