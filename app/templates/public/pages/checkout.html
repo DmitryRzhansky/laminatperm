@@ -3,45 +3,123 @@
 {% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Корзина", "url": url_for("catalog.cart_view")}, {"label": "Оформление"}] %}
 {% block page_body %}
 <div class="container shop-checkout">
-  <p class="shop-checkout__total">Итого: <strong>{{ total|rub }} ₽</strong></p>
-  <form class="shop-checkout__form" method="post">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <label class="shop-filters__field">
-      <span class="shop-filters__label">Имя</span>
-      <input class="shop-filters__control" name="name" required autocomplete="name">
-    </label>
-    <label class="shop-filters__field">
-      <span class="shop-filters__label">Телефон</span>
-      <input class="shop-filters__control" name="phone" type="tel" required autocomplete="tel">
-    </label>
-    <label class="shop-filters__field">
-      <span class="shop-filters__label">Email</span>
-      <input class="shop-filters__control" name="email" type="email" autocomplete="email">
-    </label>
-    <label class="shop-filters__field">
-      <span class="shop-filters__label">Доставка</span>
-      <select class="shop-filters__control" name="delivery_method">
-        <option value="pickup">Самовывоз, Агатовая 28</option>
-        <option value="delivery">Доставка по Перми</option>
-      </select>
-    </label>
-    <label class="shop-filters__field">
-      <span class="shop-filters__label">Адрес, если нужна доставка</span>
-      <input class="shop-filters__control" name="address" autocomplete="street-address">
-    </label>
-    <label class="shop-filters__field">
-      <span class="shop-filters__label">Оплата</span>
-      <select class="shop-filters__control" name="payment_method">
-        <option value="cash">Наличные</option>
-        <option value="card">Карта при получении</option>
-        <option value="transfer">Перевод</option>
-      </select>
-    </label>
-    <label class="shop-filters__field">
-      <span class="shop-filters__label">Комментарий</span>
-      <textarea class="shop-filters__control shop-filters__control--area" name="comment"></textarea>
-    </label>
-    <button class="button button--accent" type="submit">Отправить заказ</button>
-  </form>
+  <div class="shop-checkout__panel">
+    <div class="shop-checkout__summary">
+      <p class="shop-checkout__total-label">Сумма заказа</p>
+      <p class="shop-checkout__total">{{ total|rub }} ₽</p>
+    </div>
+
+    <form class="shop-checkout__form" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="shop-checkout__section">
+        <h2 class="shop-checkout__section-title">Контакты</h2>
+
+        <label class="shop-checkout__field" for="checkout-name">
+          <span class="shop-checkout__label">Имя <span class="shop-checkout__required">*</span></span>
+          <span class="shop-checkout__control-wrap">
+            <span class="shop-checkout__icon" aria-hidden="true">
+              <img src="{{ url_for('static', filename='icons/user.svg') }}" alt="" width="16" height="16" decoding="async">
+            </span>
+            <input
+              class="shop-checkout__control"
+              id="checkout-name"
+              name="name"
+              type="text"
+              required
+              autocomplete="name"
+              placeholder="Как к вам обращаться"
+            >
+          </span>
+        </label>
+
+        <label class="shop-checkout__field" for="checkout-phone">
+          <span class="shop-checkout__label">Телефон <span class="shop-checkout__required">*</span></span>
+          <span class="shop-checkout__control-wrap">
+            <span class="shop-checkout__icon" aria-hidden="true">
+              <img src="{{ url_for('static', filename='icons/contact/phone.svg') }}" alt="" width="16" height="16" decoding="async">
+            </span>
+            <input
+              class="shop-checkout__control"
+              id="checkout-phone"
+              name="phone"
+              type="tel"
+              required
+              autocomplete="tel"
+              inputmode="tel"
+              placeholder="+7 (___) ___-__-__"
+            >
+          </span>
+        </label>
+
+        <label class="shop-checkout__field" for="checkout-email">
+          <span class="shop-checkout__label">Email</span>
+          <span class="shop-checkout__control-wrap">
+            <span class="shop-checkout__icon" aria-hidden="true">
+              <img src="{{ url_for('static', filename='icons/contact/envelope.svg') }}" alt="" width="16" height="16" decoding="async">
+            </span>
+            <input
+              class="shop-checkout__control"
+              id="checkout-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="Для подтверждения заказа"
+            >
+          </span>
+        </label>
+      </div>
+
+      <div class="shop-checkout__section">
+        <h2 class="shop-checkout__section-title">Доставка и оплата</h2>
+
+        <label class="shop-checkout__field" for="checkout-delivery">
+          <span class="shop-checkout__label">Способ получения</span>
+          <select class="shop-checkout__control shop-checkout__control--select" id="checkout-delivery" name="delivery_method">
+            <option value="pickup">Самовывоз — Агатовая, 28</option>
+            <option value="delivery">Доставка по Перми</option>
+          </select>
+        </label>
+
+        <label class="shop-checkout__field" for="checkout-address">
+          <span class="shop-checkout__label">Адрес доставки</span>
+          <input
+            class="shop-checkout__control"
+            id="checkout-address"
+            name="address"
+            type="text"
+            autocomplete="street-address"
+            placeholder="Улица, дом, квартира — если нужна доставка"
+          >
+        </label>
+
+        <label class="shop-checkout__field" for="checkout-payment">
+          <span class="shop-checkout__label">Способ оплаты</span>
+          <select class="shop-checkout__control shop-checkout__control--select" id="checkout-payment" name="payment_method">
+            <option value="cash">Наличные при получении</option>
+            <option value="card">Карта при получении</option>
+            <option value="transfer">Перевод</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="shop-checkout__section">
+        <h2 class="shop-checkout__section-title">Комментарий</h2>
+
+        <label class="shop-checkout__field" for="checkout-comment">
+          <span class="visually-hidden">Комментарий к заказу</span>
+          <textarea
+            class="shop-checkout__control shop-checkout__control--area"
+            id="checkout-comment"
+            name="comment"
+            rows="4"
+            placeholder="Удобное время звонка, этаж, домофон — всё, что важно для заказа"
+          ></textarea>
+        </label>
+      </div>
+
+      <button class="button button--accent shop-checkout__submit" type="submit">Отправить заказ</button>
+    </form>
+  </div>
 </div>
 {% endblock %}

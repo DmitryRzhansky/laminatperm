@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 
 from app.extensions import db
 from app.models import Order, OrderItem, Product, ProductCategory, SitePage
@@ -14,6 +14,14 @@ from app.services.catalog_filters import (
 )
 from app.services.product_descriptions import display_name, product_buybox_teaser
 from app.utils.settings import get_setting
+
+
+def _format_rub(value) -> str:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+    return f"{number:,.0f}".replace(",", " ") + " ₽"
 
 catalog_bp = Blueprint("catalog", __name__, url_prefix="/catalog")
 cart = CartService()
@@ -107,10 +115,10 @@ def cart_add():
     product_id = request.form.get("product_id", type=int)
     raw_qty = request.form.get("quantity") or "1"
     try:
-        quantity = Decimal(raw_qty)
+        quantity = Decimal(str(raw_qty).replace(",", "."))
     except Exception:
         quantity = Decimal("1")
-    quantity = Decimal(max(1, int(quantity)))
+    quantity = Decimal(max(1, int(CartService._as_int_qty(quantity))))
     product = Product.query.get_or_404(product_id)
     cart.add(product, quantity)
     flash("Товар добавлен в корзину", "success")
@@ -120,8 +128,32 @@ def cart_add():
 @catalog_bp.route("/cart/update/", methods=["POST"])
 def cart_update():
     product_id = request.form.get("product_id", type=int)
-    quantity = Decimal(request.form.get("quantity") or "0")
+    quantity = CartService._as_int_qty(request.form.get("quantity") or "0")
+    if quantity < 0:
+        quantity = Decimal("0")
     cart.update(product_id, quantity)
+
+    wants_json = "application/json" in (request.headers.get("Accept") or "")
+    if wants_json:
+        line_sum = Decimal("0")
+        for item in cart.detailed():
+            if item["product"].id == product_id:
+                line_sum = item["sum"]
+                break
+        return jsonify(
+            {
+                "ok": True,
+                "product_id": product_id,
+                "quantity": int(quantity),
+                "removed": quantity <= 0,
+                "line_sum": float(line_sum),
+                "line_sum_formatted": _format_rub(line_sum),
+                "total": float(cart.total()),
+                "total_formatted": _format_rub(cart.total()),
+                "cart_count": cart.count(),
+            }
+        )
+
     return redirect(url_for("catalog.cart_view"))
 
 

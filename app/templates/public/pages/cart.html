@@ -2,29 +2,106 @@
 {% set title = "Корзина" %}
 {% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Каталог", "url": url_for("catalog.index")}, {"label": "Корзина"}] %}
 {% block page_body %}
-<div class="container shop-cart">
+<div class="container shop-cart" data-cart>
   {% if items %}
-    <ul class="shop-cart__list" role="list">
+    <ul class="shop-cart__list" role="list" data-cart-list>
       {% for item in items %}
-        <li class="shop-cart__item">
-          <div>
-            <p class="shop-cart__name">{{ item.product.name }}</p>
-            <p class="shop-cart__meta">{{ item.product.price|rub }} {{ item.product.unit_label }}</p>
+        {% set product = item.product %}
+        {% set product_url = url_for('catalog.product', category_slug=product.category.slug, product_slug=product.slug) %}
+        {% set qty = item.quantity|int %}
+        <li
+          class="shop-cart__item"
+          data-cart-item
+          data-product-id="{{ product.id }}"
+          data-unit-price="{{ product.price or 0 }}"
+        >
+          <a class="shop-cart__thumb" href="{{ product_url }}">
+            {% if product.cover %}
+              <img
+                class="shop-cart__image"
+                src="{{ product.cover|media }}"
+                alt="{{ product.name }}"
+                width="96"
+                height="96"
+                loading="lazy"
+                decoding="async"
+              >
+            {% else %}
+              <span class="shop-cart__image shop-cart__image--empty" aria-hidden="true"></span>
+            {% endif %}
+          </a>
+
+          <div class="shop-cart__info">
+            <a class="shop-cart__name" href="{{ product_url }}">{{ product.name }}</a>
+            <p class="shop-cart__meta">{{ product.price|rub }} {{ product.unit_label }}</p>
           </div>
-          <form class="shop-cart__qty" method="post" action="{{ url_for('catalog.cart_update') }}">
+
+          <form
+            class="shop-cart__qty"
+            method="post"
+            action="{{ url_for('catalog.cart_update') }}"
+            data-cart-form
+          >
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="product_id" value="{{ item.product.id }}">
-            <label class="visually-hidden" for="qty-{{ item.product.id }}">Количество</label>
-            <input class="shop-filters__control" id="qty-{{ item.product.id }}" type="number" name="quantity" min="0" step="0.1" value="{{ item.quantity }}">
-            <button class="button button--ghost" type="submit">Обновить</button>
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <label class="visually-hidden" for="qty-{{ product.id }}">Количество</label>
+            <div class="shop-cart__qty-control" role="group" aria-label="Количество">
+              <button
+                class="shop-cart__qty-btn"
+                type="button"
+                data-cart-qty="-1"
+                aria-label="Уменьшить количество"
+              >
+                <img src="{{ url_for('static', filename='icons/qty-minus.svg') }}" alt="" width="16" height="16" decoding="async">
+              </button>
+              <input
+                class="shop-cart__qty-input"
+                id="qty-{{ product.id }}"
+                type="number"
+                name="quantity"
+                min="0"
+                step="1"
+                value="{{ qty }}"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                data-cart-qty-input
+              >
+              <button
+                class="shop-cart__qty-btn"
+                type="button"
+                data-cart-qty="1"
+                aria-label="Увеличить количество"
+              >
+                <img src="{{ url_for('static', filename='icons/qty-plus.svg') }}" alt="" width="16" height="16" decoding="async">
+              </button>
+            </div>
           </form>
-          <p class="product-card__price">{{ item.sum|rub }} ₽</p>
+
+          <div class="shop-cart__aside">
+            <p class="shop-cart__sum" data-cart-line-sum>{{ item.sum|rub }} ₽</p>
+            <button
+              class="shop-cart__remove"
+              type="button"
+              data-cart-remove
+              aria-label="Удалить {{ product.name }} из корзины"
+            >
+              <svg class="shop-cart__remove-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/>
+              </svg>
+              <span>Удалить</span>
+            </button>
+          </div>
         </li>
       {% endfor %}
     </ul>
-    <div class="shop-cart__total">
-      <p>Итого: <strong>{{ total|rub }} ₽</strong></p>
-      <a class="button button--accent" href="{{ url_for('catalog.checkout') }}">Оформить заказ</a>
+
+    <div class="shop-cart__footer">
+      <p class="shop-cart__total">
+        Итого: <strong data-cart-total>{{ total|rub }} ₽</strong>
+      </p>
+      <a class="button button--accent shop-cart__checkout" href="{{ url_for('catalog.checkout') }}">
+        Оформить заказ
+      </a>
     </div>
   {% else %}
     <p class="shop__empty">Корзина пуста. <a href="{{ url_for('catalog.index') }}">Перейти в каталог</a></p>
