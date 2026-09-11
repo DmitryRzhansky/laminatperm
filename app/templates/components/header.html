@@ -159,7 +159,22 @@
             </svg>
             <span class="hero-header__phone-text">+7 (909) 112-52-05</span>
           </a>
-          <a class="hero-header__nav-link" href="{{ url_for('catalog.cart_view') }}">Корзина{% if cart_count %} ({{ cart_count }}){% endif %}</a>
+          <a
+            class="hero-header__cart"
+            href="{{ url_for('catalog.cart_view') }}"
+            data-cart-link
+            aria-label="Корзина{% if cart_count %}: {{ cart_count }}{% endif %}"
+          >
+            <svg class="hero-header__cart-icon" aria-hidden="true" width="16" height="16" viewBox="0 0 256 256" fill="currentColor">
+              <path d="M216,64H176a48,48,0,0,0-96,0H40A16,16,0,0,0,24,80V208a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V80A16,16,0,0,0,216,64ZM128,32a32,32,0,0,1,32,32H96A32,32,0,0,1,128,32Zm88,176H40V80H80V96a8,8,0,0,0,16,0V80h64V96a8,8,0,0,0,16,0V80h40Z"/>
+            </svg>
+            <span class="hero-header__cart-text">Корзина</span>
+            <span
+              class="hero-header__cart-count{% if not cart_count %} is-empty{% endif %}"
+              data-cart-count
+              {% if not cart_count %}hidden{% endif %}
+            >({{ cart_count }})</span>
+          </a>
 
           <div class="hero-header__socials">
             <a

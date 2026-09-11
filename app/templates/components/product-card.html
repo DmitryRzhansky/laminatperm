@@ -1,0 +1,56 @@
+{% set product_url = url_for('catalog.product', category_slug=item.category.slug, product_slug=item.slug) %}
+<article class="product-card">
+  <a class="product-card__media" href="{{ product_url }}">
+    {% if item.cover %}
+      <img
+        class="product-card__image"
+        src="{{ item.cover|media }}"
+        alt="{{ item.name }}"
+        width="600"
+        height="600"
+        loading="lazy"
+        decoding="async"
+      >
+    {% endif %}
+  </a>
+  <div class="product-card__body">
+    <h2 class="product-card__title">
+      <a href="{{ product_url }}">{{ item.name }}</a>
+    </h2>
+    <p class="product-card__price">{{ item.price|rub }} {{ item.unit_label }}</p>
+    <form
+      class="product-card__cart"
+      method="post"
+      action="{{ url_for('catalog.cart_add') }}"
+      data-add-to-cart
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="product_id" value="{{ item.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button class="button button--accent product-card__cart-btn" type="submit" data-add-to-cart-btn>
+        <span class="product-card__cart-state" data-add-to-cart-default>
+          <img
+            class="product-card__cart-icon"
+            src="{{ url_for('static', filename='icons/shopping-bag.svg') }}"
+            alt=""
+            width="18"
+            height="18"
+            decoding="async"
+          >
+          <span>В корзину</span>
+        </span>
+        <span class="product-card__cart-state" data-add-to-cart-success hidden>
+          <img
+            class="product-card__cart-icon"
+            src="{{ url_for('static', filename='icons/check-circle.svg') }}"
+            alt=""
+            width="18"
+            height="18"
+            decoding="async"
+          >
+          <span>Добавлено</span>
+        </span>
+      </button>
+    </form>
+  </div>
+</article>

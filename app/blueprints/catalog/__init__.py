@@ -121,6 +121,20 @@ def cart_add():
     quantity = Decimal(max(1, int(CartService._as_int_qty(quantity))))
     product = Product.query.get_or_404(product_id)
     cart.add(product, quantity)
+
+    wants_json = "application/json" in (request.headers.get("Accept") or "")
+    if wants_json:
+        return jsonify(
+            {
+                "ok": True,
+                "message": "Товар добавлен в корзину",
+                "product_id": product.id,
+                "cart_count": cart.count(),
+                "total": float(cart.total()),
+                "total_formatted": _format_rub(cart.total()),
+            }
+        )
+
     flash("Товар добавлен в корзину", "success")
     return redirect(request.referrer or url_for("catalog.cart_view"))
 

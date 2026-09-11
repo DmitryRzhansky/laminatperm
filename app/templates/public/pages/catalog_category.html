@@ -95,19 +95,7 @@
     {% if products %}
       <div class="shop-grid">
         {% for item in products %}
-          <article class="product-card">
-            <a class="product-card__media" href="{{ url_for('catalog.product', category_slug=item.category.slug, product_slug=item.slug) }}">
-              {% if item.cover %}
-                <img class="product-card__image" src="{{ item.cover|media }}" alt="{{ item.name }}" width="600" height="600" loading="lazy" decoding="async">
-              {% endif %}
-            </a>
-            <div class="product-card__body">
-              <span class="product-card__title">
-                <a href="{{ url_for('catalog.product', category_slug=item.category.slug, product_slug=item.slug) }}">{{ item.name }}</a>
-              </span>
-              <p class="product-card__price">{{ item.price|rub }} {{ item.unit_label }}</p>
-            </div>
-          </article>
+          {% include "components/product-card.html" %}
         {% endfor %}
       </div>
     {% else %}

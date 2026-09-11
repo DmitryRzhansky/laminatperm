@@ -1,3 +1,4 @@
+import { initAddToCart } from "./modules/add-to-cart.js";
 import { initCart } from "./modules/cart.js";
 import { initFadeMotion } from "./modules/motion.js";
 import { initPartners } from "./modules/partners.js";
@@ -72,6 +73,7 @@ safeInit("scroll", initScroll);
 safeInit("partners", initPartners);
 safeInit("shop-filters", initShopFilters);
 safeInit("product-page", initProductPage);
+safeInit("add-to-cart", initAddToCart);
 safeInit("cart", initCart);
 safeInit("hero-video", initHeroVideo);
 safeInit("fade-motion", initFadeMotion);

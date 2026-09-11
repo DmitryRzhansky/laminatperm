@@ -1,3 +1,5 @@
+import { updateCartCount } from "./add-to-cart.js";
+
 function formatRub(value) {
   const amount = Math.max(0, Math.round(Number(value) || 0));
   return `${amount.toLocaleString("ru-RU")} ₽`;
@@ -78,6 +80,10 @@ export function initCart() {
 
       if (data.removed) {
         item.remove();
+      }
+
+      if (typeof data.cart_count === "number") {
+        updateCartCount(data.cart_count);
       }
 
       if (totalNode && typeof data.total_formatted === "string") {
