@@ -6432,7 +6432,7 @@ a.mobile-menu__services-link:hover {
 }
 
 .breadcrumbs__current {
-  color: var(--color-text-dark);
+  color: var(--color-accent);
 }
 
 .page-grid {
