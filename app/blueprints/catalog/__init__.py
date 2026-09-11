@@ -5,49 +5,17 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from app.extensions import db
 from app.models import Order, OrderItem, Product, ProductCategory
 from app.services.cart import CartService
+from app.services.catalog_filters import (
+    SORT_OPTIONS,
+    apply_product_filters,
+    catalog_query,
+    collect_filter_options,
+    sort_products,
+)
 from app.utils.settings import get_setting
 
 catalog_bp = Blueprint("catalog", __name__, url_prefix="/catalog")
 cart = CartService()
-
-
-def _filter_products(query):
-    brand = request.args.get("brand", "").strip()
-    thickness = request.args.get("thickness", "").strip()
-    wear = request.args.get("wear", "").strip()
-    price_min = request.args.get("price_min", type=float)
-    price_max = request.args.get("price_max", type=float)
-    sort = request.args.get("sort", "default")
-
-    if brand:
-        query = query.filter(Product.brand == brand)
-    if price_min is not None:
-        query = query.filter(Product.price >= price_min)
-    if price_max is not None:
-        query = query.filter(Product.price <= price_max)
-
-    products = query.all()
-    if thickness:
-        products = [item for item in products if thickness in item.attr("Толщина")]
-    if wear:
-        products = [item for item in products if wear in item.attr("Класс износостойкости")]
-
-    if sort == "price_asc":
-        products.sort(key=lambda item: item.price or 0)
-    elif sort == "price_desc":
-        products.sort(key=lambda item: item.price or 0, reverse=True)
-    elif sort == "name":
-        products.sort(key=lambda item: item.name.lower())
-    else:
-        products.sort(key=lambda item: (item.sort_order, item.id))
-    return products
-
-
-def _filter_options(products):
-    brands = sorted({item.brand for item in products if item.brand})
-    thicknesses = sorted({item.attr("Толщина") for item in products if item.attr("Толщина")})
-    wears = sorted({item.attr("Класс износостойкости") for item in products if item.attr("Класс износостойкости")})
-    return brands, thicknesses, wears
 
 
 @catalog_bp.route("/")
@@ -67,17 +35,22 @@ def index():
 @catalog_bp.route("/<category_slug>/")
 def category(category_slug):
     current = ProductCategory.query.filter_by(slug=category_slug).first_or_404()
-    base_query = Product.query.filter_by(is_published=True, category_id=current.id)
-    products = _filter_products(base_query)
-    all_in_cat = Product.query.filter_by(is_published=True, category_id=current.id).all()
-    brands, thicknesses, wears = _filter_options(all_in_cat)
+    all_in_cat = (
+        Product.query.filter_by(is_published=True, category_id=current.id)
+        .order_by(Product.sort_order, Product.id)
+        .all()
+    )
+    filter_groups = collect_filter_options(all_in_cat)
+    products = sort_products(apply_product_filters(all_in_cat))
+    current_sort = request.args.get("sort", "default")
     return render_template(
         "public/pages/catalog_category.html",
         products=products,
         current_category=current,
-        brands=brands,
-        thicknesses=thicknesses,
-        wears=wears,
+        filter_groups=filter_groups,
+        sort_options=SORT_OPTIONS,
+        current_sort=current_sort,
+        catalog_query=catalog_query,
         breadcrumbs=[
             {"label": "Главная", "url": url_for("main.home")},
             {"label": "Каталог", "url": url_for("catalog.index")},

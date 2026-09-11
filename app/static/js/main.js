@@ -1,6 +1,7 @@
 import { initFadeMotion } from "./modules/motion.js";
 import { initPartners } from "./modules/partners.js";
 import { initScroll } from "./modules/scroll.js";
+import { initShopFilters } from "./modules/shop-filters.js";
 
 function initHeroVideo() {
   const video = document.querySelector("[data-hero-video]");
@@ -67,5 +68,6 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 
 safeInit("scroll", initScroll);
 safeInit("partners", initPartners);
+safeInit("shop-filters", initShopFilters);
 safeInit("hero-video", initHeroVideo);
 safeInit("fade-motion", initFadeMotion);

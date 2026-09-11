@@ -1,66 +1,98 @@
 {% extends "public/pages/inner_base.html" %}
 {% set title = current_category.name %}
-{% set intro = current_category.intro %}
 {% block page_body %}
 <div class="container shop">
-  <form class="shop-filters" method="get">
-    <p class="shop-filters__title">Фильтры</p>
-    <label class="shop-filters__field">
-      <span class="shop-filters__label">Бренд</span>
-      <select class="shop-filters__control" name="brand">
-        <option value="">Все</option>
-        {% for brand in brands %}
-          <option value="{{ brand }}" {% if request.args.get('brand') == brand %}selected{% endif %}>{{ brand }}</option>
-        {% endfor %}
-      </select>
-    </label>
-    <div class="shop-filters__row">
-      <label class="shop-filters__field">
-        <span class="shop-filters__label">Цена от</span>
-        <input class="shop-filters__control" type="number" name="price_min" min="0" inputmode="numeric" value="{{ request.args.get('price_min', '') }}" placeholder="0">
-      </label>
-      <label class="shop-filters__field">
-        <span class="shop-filters__label">Цена до</span>
-        <input class="shop-filters__control" type="number" name="price_max" min="0" inputmode="numeric" value="{{ request.args.get('price_max', '') }}" placeholder="∞">
-      </label>
+  <form class="shop-filters" method="get" id="shop-filters" data-shop-filters>
+    <div class="shop-filters__head">
+      <p class="shop-filters__title">Фильтры</p>
+      {% if request.args %}
+        <a class="shop-filters__reset" href="{{ url_for('catalog.category', category_slug=current_category.slug) }}">Сбросить</a>
+      {% endif %}
     </div>
-    {% if thicknesses %}
-      <label class="shop-filters__field">
-        <span class="shop-filters__label">Толщина</span>
-        <select class="shop-filters__control" name="thickness">
-          <option value="">Любая</option>
-          {% for item in thicknesses %}
-            <option value="{{ item }}" {% if request.args.get('thickness') == item %}selected{% endif %}>{{ item }}</option>
-          {% endfor %}
-        </select>
-      </label>
+
+    {% for group in filter_groups %}
+      <div class="shop-filters__dropdown{% if group.selected %} is-open{% endif %}" data-shop-filter-dropdown>
+        <button
+          class="shop-filters__summary"
+          type="button"
+          data-shop-filter-toggle
+          aria-expanded="{{ 'true' if group.selected else 'false' }}"
+          aria-controls="shop-filter-{{ group.key }}"
+        >
+          <span class="shop-filters__topic-icon shop-filters__topic-icon--{{ group.key }}" aria-hidden="true"></span>
+          <span class="shop-filters__summary-label">{{ group.label }}</span>
+          {% if group.selected %}
+            <span class="shop-filters__summary-count">{{ group.selected|length }}</span>
+          {% endif %}
+          <svg class="shop-filters__summary-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 256 256" fill="currentColor">
+            <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
+          </svg>
+        </button>
+        <div class="shop-filters__panel" id="shop-filter-{{ group.key }}" data-shop-filter-panel{% if not group.selected %} hidden{% endif %}>
+          <ul class="shop-filters__checks" role="list">
+            {% for option in group.options %}
+              <li>
+                <label class="shop-filters__check">
+                  <input
+                    class="shop-filters__checkbox"
+                    type="checkbox"
+                    name="{{ group.key }}"
+                    value="{{ option.value }}"
+                    data-shop-filter-auto
+                    {% if option.value in group.selected %}checked{% endif %}
+                  >
+                  <span class="shop-filters__check-text">{{ option.value }}</span>
+                  <span class="shop-filters__check-count">{{ option.count }}</span>
+                </label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="shop-filters__price">
+      <p class="shop-filters__price-title">
+        <span class="shop-filters__topic-icon shop-filters__topic-icon--price" aria-hidden="true"></span>
+        <span>Цена, ₽</span>
+      </p>
+      <div class="shop-filters__row" role="group" aria-label="Диапазон цены">
+        <label class="shop-filters__field">
+          <span class="shop-filters__label">от</span>
+          <input class="shop-filters__control" type="number" name="price_min" min="0" inputmode="numeric" value="{{ request.args.get('price_min', '') }}" placeholder="0">
+        </label>
+        <label class="shop-filters__field">
+          <span class="shop-filters__label">до</span>
+          <input class="shop-filters__control" type="number" name="price_max" min="0" inputmode="numeric" value="{{ request.args.get('price_max', '') }}" placeholder="∞">
+        </label>
+      </div>
+    </div>
+
+    {% if request.args.get('sort') and request.args.get('sort') != 'default' %}
+      <input type="hidden" name="sort" value="{{ request.args.get('sort') }}">
     {% endif %}
-    {% if wears %}
-      <label class="shop-filters__field">
-        <span class="shop-filters__label">Класс нагрузки</span>
-        <select class="shop-filters__control" name="wear">
-          <option value="">Любой</option>
-          {% for item in wears %}
-            <option value="{{ item }}" {% if request.args.get('wear') == item %}selected{% endif %}>{{ item }}</option>
-          {% endfor %}
-        </select>
-      </label>
-    {% endif %}
-    <label class="shop-filters__field">
-      <span class="shop-filters__label">Сортировка</span>
-      <select class="shop-filters__control" name="sort">
-        <option value="default">По умолчанию</option>
-        <option value="price_asc" {% if request.args.get('sort') == 'price_asc' %}selected{% endif %}>Сначала дешевле</option>
-        <option value="price_desc" {% if request.args.get('sort') == 'price_desc' %}selected{% endif %}>Сначала дороже</option>
-        <option value="name" {% if request.args.get('sort') == 'name' %}selected{% endif %}>По названию</option>
-      </select>
-    </label>
+
     <button class="button button--accent shop-filters__submit" type="submit">Показать</button>
   </form>
 
   <div class="shop__results">
+    <div class="shop__toolbar">
+      <div class="shop-sort">
+        <ul class="shop-sort__list" role="list" aria-label="Сортировка">
+          {% for value, label in sort_options %}
+            <li>
+              {% set query = catalog_query(sort=value if value != 'default' else '') %}
+              <a
+                class="shop-sort__link{% if current_sort == value or (value == 'default' and current_sort not in ['price_asc', 'price_desc', 'name']) %} is-active{% endif %}"
+                href="{{ url_for('catalog.category', category_slug=current_category.slug) }}{% if query %}?{{ query }}{% endif %}"
+              >{{ label }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
     {% if products %}
-      <p class="shop__count">{{ products|length }} товаров</p>
       <div class="shop-grid">
         {% for item in products %}
           <article class="product-card">
