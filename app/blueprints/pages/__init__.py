@@ -11,6 +11,7 @@ from app.models import (
 )
 from app.utils.markdown import render_markdown
 from app.utils.settings import get_setting
+from app.services.service_media import resolve_service_image
 
 pages_bp = Blueprint("pages", __name__)
 
@@ -55,7 +56,16 @@ def reviews():
 @pages_bp.route("/ceny/")
 def prices():
     items = Service.query.filter_by(is_published=True).order_by(Service.sort_order, Service.id).all()
-    return render_template("public/pages/prices.html", items=items)
+    rows = [
+        {
+            "title": item.title,
+            "text": item.text,
+            "price": item.price,
+            "image": resolve_service_image(item),
+        }
+        for item in items
+    ]
+    return render_template("public/pages/prices.html", items=rows)
 
 
 @pages_bp.route("/komanda/")

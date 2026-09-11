@@ -153,20 +153,77 @@ def _seed_team():
 
 
 def _seed_services():
-    if Service.query.first():
-        return
     items = [
-        ("Укладка ламината", "400 ₽/м²", "Замковая укладка ламината с подрезкой и оформлением примыканий."),
-        ("Укладка SPC", "300 ₽/м²", "Жёсткий винил с замком для жилых и коммерческих помещений."),
-        ("Кварцвинил / LVT", "400 ₽/м²", "Замковые и клеевые покрытия."),
-        ("Линолеум", "300 ₽/м²", "Раскрой и укладка рулонных покрытий."),
-        ("Ковролин", "300 ₽/м²", "Укладка ковролина в квартирах и офисах."),
-        ("Демонтаж", "по расчёту", "Снятие старого покрытия и вывоз мусора."),
-        ("Подготовка основания", "по расчёту", "Стяжка, выравнивание, подготовка под тёплый пол."),
-        ("Плинтус", "по расчёту", "Монтаж плинтуса, порогов и примыканий."),
+        (
+            "Укладка ламината",
+            "400 ₽/м²",
+            "Замковая укладка ламината с подрезкой и оформлением примыканий.",
+            "images/services/laminate.webp",
+        ),
+        (
+            "Укладка SPC",
+            "300 ₽/м²",
+            "Жёсткий винил с замком для жилых и коммерческих помещений.",
+            "images/services/spc.webp",
+        ),
+        (
+            "Кварцвинил / LVT",
+            "400 ₽/м²",
+            "Замковые и клеевые покрытия.",
+            "images/services/lvt.webp",
+        ),
+        (
+            "Линолеум",
+            "300 ₽/м²",
+            "Раскрой и укладка рулонных покрытий.",
+            "images/services/linoleum.webp",
+        ),
+        (
+            "Ковролин",
+            "300 ₽/м²",
+            "Укладка ковролина в квартирах и офисах.",
+            "images/services/carpet.webp",
+        ),
+        (
+            "Демонтаж",
+            "по расчёту",
+            "Снятие старого покрытия и вывоз мусора.",
+            "images/services/demolition.webp",
+        ),
+        (
+            "Подготовка основания",
+            "по расчёту",
+            "Стяжка, выравнивание, подготовка под тёплый пол.",
+            "images/services/subfloor.webp",
+        ),
+        (
+            "Плинтус",
+            "по расчёту",
+            "Монтаж плинтуса, порогов и примыканий.",
+            "images/services/skirting.webp",
+        ),
     ]
-    for index, (title, price, text) in enumerate(items, start=1):
-        db.session.add(Service(title=title, price=price, text=text, sort_order=index))
+    if Service.query.first():
+        by_title = {item.title: item for item in Service.query.all()}
+        for index, (title, price, text, image) in enumerate(items, start=1):
+            service = by_title.get(title)
+            if service is None:
+                continue
+            if not service.image:
+                service.image = image
+            service.sort_order = service.sort_order or index
+        return
+
+    for index, (title, price, text, image) in enumerate(items, start=1):
+        db.session.add(
+            Service(
+                title=title,
+                price=price,
+                text=text,
+                image=image,
+                sort_order=index,
+            )
+        )
 
 
 def _seed_partners():

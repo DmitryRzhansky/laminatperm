@@ -3,15 +3,51 @@
 {% set intro = "Ориентиры по укладке. Точную смету считаем после замера." %}
 {% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Цены"}] %}
 {% block page_body %}
-<div class="container page-grid">
-  {% for item in items %}
-    <article class="page-card page-card--price">
-      <div class="page-card__body">
-        <h2 class="page-card__title">{{ item.title }}</h2>
-        <p class="page-card__price">{{ item.price }}</p>
-        <p class="page-card__text">{{ item.text }}</p>
-      </div>
-    </article>
-  {% endfor %}
+<div class="container">
+  <div class="price-table-wrap">
+    <table class="price-table">
+      <caption class="visually-hidden">Прайс на укладку и подготовку пола</caption>
+      <thead>
+        <tr>
+          <th class="price-table__th price-table__th--media" scope="col">
+            <span class="visually-hidden">Фото</span>
+          </th>
+          <th class="price-table__th price-table__th--service" scope="col">Услуга</th>
+          <th class="price-table__th price-table__th--desc" scope="col">Описание</th>
+          <th class="price-table__th price-table__th--price" scope="col">Цена</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr class="price-table__row">
+            <td class="price-table__cell price-table__cell--media" data-label="Фото">
+              {% if item.image %}
+                <span class="price-table__media">
+                  <img
+                    class="price-table__image"
+                    src="{{ item.image|media }}"
+                    alt=""
+                    width="160"
+                    height="160"
+                    loading="lazy"
+                    decoding="async"
+                  >
+                </span>
+              {% endif %}
+            </td>
+            <td class="price-table__cell price-table__cell--service" data-label="Услуга">
+              <h2 class="price-table__title">{{ item.title }}</h2>
+            </td>
+            <td class="price-table__cell price-table__cell--desc" data-label="Описание">
+              <p class="price-table__text">{{ item.text }}</p>
+            </td>
+            <td class="price-table__cell price-table__cell--price" data-label="Цена">
+              <p class="price-table__price">{{ item.price }}</p>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
