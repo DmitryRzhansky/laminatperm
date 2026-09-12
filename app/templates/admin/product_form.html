@@ -31,10 +31,6 @@
         <span class="admin-tabs__icon" style="--admin-tab-icon: url('{{ url_for('static', filename='icons/nav/chat-circle.svg') }}')" aria-hidden="true"></span>
         <span>FAQ</span>
       </button>
-      <button class="admin-tabs__tab" type="button" role="tab" id="admin-tab-json" aria-controls="admin-panel-json" aria-selected="false" tabindex="-1" data-admin-tab="json">
-        <span class="admin-tabs__icon" style="--admin-tab-icon: url('{{ url_for('static', filename='icons/cases/file-text.svg') }}')" aria-hidden="true"></span>
-        <span>JSON</span>
-      </button>
     </div>
 
     <div class="admin-tabs__panel" role="tabpanel" id="admin-panel-main" aria-labelledby="admin-tab-main" data-admin-panel="main">
@@ -139,18 +135,6 @@
         <button class="admin-btn admin-btn--ghost" type="button" data-add-faq {% if (item.faqs|length) >= 10 %}hidden{% endif %} data-icon="plus">Добавить вопрос</button>
       </div>
     </div>
-
-    <div class="admin-tabs__panel" role="tabpanel" id="admin-panel-json" aria-labelledby="admin-tab-json" data-admin-panel="json" hidden>
-      <div class="admin-tabs__grid">
-        <label>Вставь JSON из промпта
-          <textarea id="product-json-import" rows="16" spellcheck="false" placeholder='{"short_description":"...","description_md":"...","attributes":[],"faqs":[]}'></textarea>
-        </label>
-        <p class="admin-json-status" data-json-status hidden></p>
-        <div class="admin-actions">
-          <button class="admin-btn" type="button" data-json-apply data-icon="check">Заполнить карточку</button>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="admin-actions">
@@ -200,20 +184,6 @@
         ]
       });
       return editor;
-    }
-
-    function setDescription(value) {
-      const field = document.getElementById("description-md");
-      if (!field) return;
-      const instance = ensureEditor();
-      if (instance) {
-        instance.value(value || "");
-        if (instance.codemirror) {
-          requestAnimationFrame(() => instance.codemirror.refresh());
-        }
-        return;
-      }
-      field.value = value || "";
     }
 
     function activate(key) {
@@ -302,25 +272,6 @@
       return row;
     }
 
-    function replaceAttrRows(items) {
-      if (!attrRows) return;
-      attrRows.innerHTML = "";
-      const list = Array.isArray(items) && items.length ? items : [{ name: "", value: "" }];
-      list.forEach((item) => {
-        attrRows.appendChild(createAttrRow(item.name || item.key || "", item.value || ""));
-      });
-    }
-
-    function replaceFaqRows(items) {
-      if (!faqRows) return;
-      faqRows.innerHTML = "";
-      const list = Array.isArray(items) && items.length ? items.slice(0, maxFaq) : [{ question: "", answer: "" }];
-      list.forEach((item) => {
-        faqRows.appendChild(createFaqRow(item.question || "", item.answer || ""));
-      });
-      syncFaqButton();
-    }
-
     if (addAttr && attrRows) {
       addAttr.addEventListener("click", () => {
         attrRows.appendChild(createAttrRow("", ""));
@@ -332,56 +283,6 @@
         if (faqRows.querySelectorAll(".admin-faq-row").length >= maxFaq) return;
         faqRows.appendChild(createFaqRow("", ""));
         syncFaqButton();
-      });
-    }
-
-    function parseImportJson(raw) {
-      let text = String(raw || "").trim();
-      if (!text) {
-        throw new Error("Вставь JSON");
-      }
-      if (text.startsWith("```")) {
-        text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
-      }
-      const data = JSON.parse(text);
-      if (!data || typeof data !== "object" || Array.isArray(data)) {
-        throw new Error("Ожидается JSON-объект");
-      }
-      return data;
-    }
-
-    function setJsonStatus(message, isError) {
-      const status = form.querySelector("[data-json-status]");
-      if (!status) return;
-      status.hidden = !message;
-      status.textContent = message || "";
-      status.classList.toggle("admin-json-status--error", Boolean(isError));
-      status.classList.toggle("admin-json-status--ok", Boolean(message) && !isError);
-    }
-
-    const applyJson = form.querySelector("[data-json-apply]");
-    const jsonField = form.querySelector("#product-json-import");
-    if (applyJson && jsonField) {
-      applyJson.addEventListener("click", () => {
-        try {
-          const data = parseImportJson(jsonField.value);
-          const shortField = form.querySelector('[name="short_description"]');
-          if (shortField && data.short_description != null) {
-            shortField.value = String(data.short_description);
-          }
-          if (data.description_md != null) {
-            setDescription(String(data.description_md));
-          }
-          if (data.attributes != null) {
-            replaceAttrRows(data.attributes);
-          }
-          if (data.faqs != null) {
-            replaceFaqRows(data.faqs);
-          }
-          setJsonStatus("Карточка заполнена. Проверь вкладки и сохрани.", false);
-        } catch (error) {
-          setJsonStatus(error.message || "Не удалось разобрать JSON", true);
-        }
       });
     }
 
