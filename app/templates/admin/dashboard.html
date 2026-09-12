@@ -3,14 +3,9 @@
 {% block title %}Заявки{% endblock %}
 {% block heading %}Заявки{% endblock %}
 {% block content %}
-<div class="admin-toolbar admin-toolbar--split">
-  <p class="admin-lead admin-lead--inline">
-    Новых заявок: {{ new_leads }}. Новых заказов: {{ new_orders }}.
-  </p>
-  <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.trash') }}" data-icon="trash">
-    Корзина{% if trash_count %} ({{ trash_count }}){% endif %}
-  </a>
-</div>
+<p class="admin-lead">
+  Новых заявок: {{ new_leads }}. Новых заказов: {{ new_orders }}.
+</p>
 
 {% if not leads %}
 <div class="admin-empty">
@@ -26,15 +21,6 @@
         <p class="admin-lead-card__date">{{ lead.created_at.strftime('%d.%m.%Y %H:%M') if lead.created_at else '' }}</p>
       </div>
       <div class="admin-lead-card__controls">
-        <form method="post" action="{{ url_for('admin.lead_status', item_id=lead.id) }}">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <label class="visually-hidden" for="lead-status-{{ lead.id }}">Статус заявки</label>
-          <select class="admin-select" id="lead-status-{{ lead.id }}" name="status" onchange="this.form.submit()">
-            <option value="new" {% if lead.status == 'new' %}selected{% endif %}>Новая</option>
-            <option value="in_progress" {% if lead.status == 'in_progress' %}selected{% endif %}>В работе</option>
-            <option value="closed" {% if lead.status == 'closed' %}selected{% endif %}>Закрыта</option>
-          </select>
-        </form>
         <form method="post" action="{{ url_for('admin.lead_trash', item_id=lead.id) }}" onsubmit="return confirm('Переместить заявку в корзину?');">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button class="admin-btn admin-btn--danger" type="submit" data-icon="trash">В корзину</button>

@@ -62,6 +62,20 @@ def _redirect_back(default_endpoint: str, **values):
     return redirect(url_for(default_endpoint, **values))
 
 
+def _trash_count() -> int:
+    return (
+        Lead.query.filter(Lead.deleted_at.isnot(None)).count()
+        + Order.query.filter(Order.deleted_at.isnot(None)).count()
+    )
+
+
+@admin_bp.context_processor
+def inject_admin_globals():
+    if not current_user.is_authenticated:
+        return {"admin_trash_count": 0}
+    return {"admin_trash_count": _trash_count()}
+
+
 @admin_bp.before_request
 def require_login():
     if request.endpoint in {"auth.login", "static"}:
@@ -75,28 +89,13 @@ def require_login():
 def dashboard():
     page = _page_number()
     pagination = _leads_query().paginate(page=page, per_page=LEADS_PER_PAGE, error_out=False)
-    trash_count = (
-        Lead.query.filter(Lead.deleted_at.isnot(None)).count()
-        + Order.query.filter(Order.deleted_at.isnot(None)).count()
-    )
     return render_template(
         "admin/dashboard.html",
         leads=pagination.items,
         pagination=pagination,
         new_leads=Lead.query.filter(Lead.deleted_at.is_(None), Lead.status == "new").count(),
         new_orders=Order.query.filter(Order.deleted_at.is_(None), Order.status == "new").count(),
-        trash_count=trash_count,
     )
-
-
-@admin_bp.route("/leads/<int:item_id>/status/", methods=["POST"])
-@login_required
-def lead_status(item_id):
-    lead = Lead.query.filter_by(id=item_id, deleted_at=None).first_or_404()
-    lead.status = request.form.get("status") or lead.status
-    db.session.commit()
-    flash("Статус заявки обновлён", "success")
-    return _redirect_back("admin.dashboard")
 
 
 @admin_bp.route("/leads/<int:item_id>/trash/", methods=["POST"])
@@ -124,26 +123,11 @@ def lead_restore(item_id):
 def orders():
     page = _page_number()
     pagination = _orders_query().paginate(page=page, per_page=ORDERS_PER_PAGE, error_out=False)
-    trash_count = (
-        Lead.query.filter(Lead.deleted_at.isnot(None)).count()
-        + Order.query.filter(Order.deleted_at.isnot(None)).count()
-    )
     return render_template(
         "admin/orders.html",
         items=pagination.items,
         pagination=pagination,
-        trash_count=trash_count,
     )
-
-
-@admin_bp.route("/orders/<int:item_id>/status/", methods=["POST"])
-@login_required
-def order_status(item_id):
-    order = Order.query.filter_by(id=item_id, deleted_at=None).first_or_404()
-    order.status = request.form.get("status") or order.status
-    db.session.commit()
-    flash("Статус заказа обновлён", "success")
-    return _redirect_back("admin.orders")
 
 
 @admin_bp.route("/orders/<int:item_id>/trash/", methods=["POST"])

@@ -116,6 +116,8 @@
 }
 
 .admin-sidebar__group {
+  display: grid;
+  gap: 0.35rem;
   margin: 0;
 }
 
@@ -232,6 +234,14 @@
   font-weight: 300;
 }
 
+.admin-top__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+}
+
 .admin-lead {
   margin: 0 0 1rem;
   color: #595959;
@@ -303,13 +313,13 @@
   outline-offset: 0.125rem;
 }
 
-.admin-main a:not(.admin-btn):not(.admin-pagination__link):not(.admin-pagination__page):not(.admin-tabs__tab) {
+.admin-main a:not(.admin-btn):not(.admin-pagination__link):not(.admin-pagination__page):not(.admin-tabs__tab):not(.admin-reviews__tab):not(.admin-sidebar__link) {
   color: #111;
   text-decoration: none;
   border-bottom: 1px solid transparent;
 }
 
-.admin-main a:not(.admin-btn):not(.admin-pagination__link):not(.admin-pagination__page):not(.admin-tabs__tab):hover {
+.admin-main a:not(.admin-btn):not(.admin-pagination__link):not(.admin-pagination__page):not(.admin-tabs__tab):not(.admin-reviews__tab):not(.admin-sidebar__link):hover {
   border-bottom-color: currentColor;
 }
 
@@ -331,19 +341,35 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
+  align-items: center;
   margin-top: auto;
+}
+
+.admin-card .admin-actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.admin-card .admin-actions .admin-btn {
+  width: 100%;
+  min-width: 0;
 }
 
 .admin-btn {
   --admin-btn-icon: none;
+  appearance: none;
+  -webkit-appearance: none;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  width: auto;
   height: 2.75rem;
   min-height: 2.75rem;
+  max-height: 2.75rem;
   min-width: 9.5rem;
+  margin: 0;
   padding: 0 1rem;
   border: 1px solid #111;
   border-radius: 0.5rem;
@@ -355,8 +381,13 @@
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
+  vertical-align: middle;
   cursor: pointer;
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+a.admin-btn {
+  text-decoration: none;
 }
 
 .admin-btn::before {
@@ -634,11 +665,34 @@
   font-size: 0.8125rem;
 }
 
-.admin-check {
+.admin-check,
+.admin-form label:has(> input[type="checkbox"]),
+.admin-form label:has(> input[type="radio"]) {
   display: flex !important;
+  flex-direction: row;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: flex-start;
+  gap: 0.55rem;
+  width: fit-content;
+  max-width: 100%;
   grid-template-columns: none !important;
+  cursor: pointer;
+}
+
+.admin-check input,
+.admin-form label:has(> input[type="checkbox"]) > input[type="checkbox"],
+.admin-form label:has(> input[type="radio"]) > input[type="radio"],
+.admin-form input[type="checkbox"],
+.admin-form input[type="radio"] {
+  box-sizing: border-box;
+  width: 1.125rem;
+  height: 1.125rem;
+  min-width: 1.125rem;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  accent-color: #111;
+  cursor: pointer;
 }
 
 .admin-faq-block {
@@ -724,7 +778,7 @@
   font-size: 0.9rem;
 }
 
-.admin-form input,
+.admin-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
 .admin-form textarea,
 .admin-form select {
   width: 100%;
@@ -733,6 +787,16 @@
   border: 1px solid #111;
   border-radius: 0.5rem;
   background: #fff;
+  color: #111;
+}
+
+.admin-form input[type="file"] {
+  width: 100%;
+  font: inherit;
+  padding: 0.45rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: #111;
 }
 
@@ -780,8 +844,8 @@
 .admin-reviews__tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  padding: 0.4rem;
+  gap: 0.5rem;
+  padding: 0.45rem;
   border-radius: 0.85rem;
   background: #f2f3f5;
 }
@@ -789,22 +853,27 @@
 .admin-reviews__tab {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   min-height: 2.75rem;
-  padding: 0.45rem 0.9rem;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid transparent;
   border-radius: 0.55rem;
-  color: #374151;
+  background: transparent;
+  color: #111;
   text-decoration: none;
   font-size: 0.9375rem;
+  line-height: 1.2;
 }
 
 .admin-reviews__tab:hover {
-  background: #f3f3f3;
+  background: #fff;
+  border-color: #d9dce1;
   color: #111;
 }
 
 .admin-reviews__tab.is-active {
   background: #111;
+  border-color: #111;
   color: #fff;
   box-shadow: none;
 }
@@ -814,6 +883,7 @@
   width: 1.125rem;
   height: 1.125rem;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .admin-reviews__count {
@@ -831,8 +901,8 @@
 }
 
 .admin-reviews__tab.is-active .admin-reviews__count {
-  background: #dcfce7;
-  color: #166534;
+  background: #fff;
+  color: #111;
 }
 
 .admin-reviews__list {
@@ -1036,15 +1106,16 @@
 }
 
 .admin-reviews-form__check {
-  display: inline-flex;
+  display: flex;
   gap: 0.55rem;
   align-items: center;
+  width: fit-content;
 }
 
 .admin-reviews-form__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
+  gap: 0.65rem;
   align-items: center;
 }
 
@@ -1165,7 +1236,7 @@
 }
 
 .admin-order__items-title {
-  margin: 0 0 0.7rem;
+  margin: 0 0 0.75rem;
   font-size: 0.9375rem;
   font-weight: 600;
 }
@@ -1173,12 +1244,15 @@
 .admin-order__items-wrap {
   overflow: auto;
   margin-bottom: 0.9rem;
+  padding: 1rem 1.15rem 1.05rem;
   border: 1px solid #eef0f3;
   border-radius: 0.75rem;
+  background: #fafbfc;
 }
 
 .admin-order__items {
   margin: 0;
+  min-width: 28rem;
 }
 
 .admin-order__items th,

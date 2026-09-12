@@ -3,14 +3,9 @@
 {% block title %}Заказы{% endblock %}
 {% block heading %}Заказы{% endblock %}
 {% block content %}
-<div class="admin-toolbar admin-toolbar--split">
-  <p class="admin-lead admin-lead--inline">
-    {% if pagination %}Всего: {{ pagination.total }}{% else %}Всего: {{ items|length }}{% endif %}
-  </p>
-  <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.trash') }}" data-icon="trash">
-    Корзина{% if trash_count %} ({{ trash_count }}){% endif %}
-  </a>
-</div>
+<p class="admin-lead">
+  {% if pagination %}Всего: {{ pagination.total }}{% else %}Всего: {{ items|length }}{% endif %}
+</p>
 
 {% if not items %}
 <div class="admin-empty">
@@ -26,15 +21,6 @@
         <p class="admin-order__date">{{ order.created_at.strftime('%d.%m.%Y %H:%M') if order.created_at else '' }}</p>
       </div>
       <div class="admin-order__controls">
-        <form method="post" action="{{ url_for('admin.order_status', item_id=order.id) }}">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <label class="visually-hidden" for="order-status-{{ order.id }}">Статус заказа</label>
-          <select class="admin-select" id="order-status-{{ order.id }}" name="status" onchange="this.form.submit()">
-            <option value="new" {% if order.status == 'new' %}selected{% endif %}>Новый</option>
-            <option value="in_progress" {% if order.status == 'in_progress' %}selected{% endif %}>В работе</option>
-            <option value="closed" {% if order.status == 'closed' %}selected{% endif %}>Закрыт</option>
-          </select>
-        </form>
         <form method="post" action="{{ url_for('admin.order_trash', item_id=order.id) }}" onsubmit="return confirm('Переместить заказ в корзину?');">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button class="admin-btn admin-btn--danger" type="submit" data-icon="trash">В корзину</button>

@@ -144,6 +144,14 @@
   font-weight: 300;
 }
 
+.admin-top__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+}
+
 .admin-lead {
   margin: 0 0 1rem;
   color: #595959;
@@ -362,16 +370,34 @@
   font-size: 0.8125rem;
 }
 
-.admin-check {
+.admin-check,
+.admin-form label:has(> input[type="checkbox"]),
+.admin-form label:has(> input[type="radio"]) {
   display: flex !important;
+  flex-direction: row;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: flex-start;
+  gap: 0.55rem;
+  width: fit-content;
+  max-width: 100%;
   grid-template-columns: none !important;
+  cursor: pointer;
 }
 
-.admin-check input {
-  width: auto;
+.admin-check input,
+.admin-form label:has(> input[type="checkbox"]) > input[type="checkbox"],
+.admin-form label:has(> input[type="radio"]) > input[type="radio"],
+.admin-form input[type="checkbox"],
+.admin-form input[type="radio"] {
+  box-sizing: border-box;
+  width: 1.125rem;
+  height: 1.125rem;
+  min-width: 1.125rem;
   margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  accent-color: #111;
+  cursor: pointer;
 }
 
 .admin-thumb {
@@ -439,7 +465,7 @@
   font-size: 0.9rem;
 }
 
-.admin-form input,
+.admin-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
 .admin-form textarea,
 .admin-form select {
   font: inherit;
@@ -447,6 +473,14 @@
   border: 1px solid #d9dce1;
   border-radius: 0.5rem;
   background: #f7f8fa;
+}
+
+.admin-form input[type="file"] {
+  width: 100%;
+  font: inherit;
+  padding: 0.45rem 0;
+  border: 0;
+  background: transparent;
 }
 
 .admin-form textarea {
@@ -466,7 +500,18 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
+  align-items: center;
   margin-top: auto;
+}
+
+.admin-card .admin-actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.admin-card .admin-actions .admin-btn {
+  width: 100%;
+  min-width: 0;
 }
 
 .admin-btn {

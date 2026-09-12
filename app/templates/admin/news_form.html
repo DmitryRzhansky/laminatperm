@@ -8,7 +8,7 @@
   <label>Коротко в двух словах <textarea name="summary">{{ item.summary or '' }}</textarea></label>
   <label>Текст <textarea id="body-md" name="body_md" placeholder="Напишите текст новости">{{ item.body_md or '' }}</textarea></label>
   <label>Обложка <input type="file" name="image" accept="image/*">{% if item.image %}<span>сейчас: {{ item.image }}</span>{% endif %}</label>
-  <label><input type="checkbox" name="is_published" {% if item.is_published %}checked{% endif %}> Опубликовать</label>
+  <label class="admin-check"><input type="checkbox" name="is_published" {% if item.is_published %}checked{% endif %}> Опубликовать</label>
   <details class="admin-details">
     <summary>Для поисковиков — обычно трогать не нужно</summary>
     <label>Адрес страницы <input name="slug" value="{{ item.slug or '' }}"></label>

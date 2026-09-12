@@ -15,8 +15,7 @@
             <div class="admin-sidebar__group">
               <span class="admin-sidebar__label">Входящие</span>
               <a class="admin-sidebar__link {{ 'is-active' if request.endpoint == 'admin.dashboard' }}" href="{{ url_for('admin.dashboard') }}" data-nav="leads">Заявки</a>
-              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint in ['admin.orders', 'admin.order_status', 'admin.order_trash'] }}" href="{{ url_for('admin.orders') }}" data-nav="orders">Заказы</a>
-              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint and 'trash' in request.endpoint }}" href="{{ url_for('admin.trash') }}" data-nav="trash">Корзина</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint in ['admin.orders', 'admin.order_trash'] }}" href="{{ url_for('admin.orders') }}" data-nav="orders">Заказы</a>
             </div>
             <div class="admin-sidebar__group">
               <span class="admin-sidebar__label">Контент</span>
@@ -57,13 +56,20 @@
       <div class="admin-main">
         <div class="admin-top">
           <h1>{% block heading %}Админка{% endblock %}</h1>
-          <a
-            class="admin-btn admin-btn--ghost"
-            href="{{ url_for('main.home') }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-icon="external"
-          >Открыть сайт</a>
+          <div class="admin-top__actions">
+            <a
+              class="admin-btn admin-btn--ghost"
+              href="{{ url_for('main.home') }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-icon="external"
+            >Открыть сайт</a>
+            <a
+              class="admin-btn admin-btn--ghost{% if request.endpoint and 'trash' in request.endpoint %} is-active{% endif %}"
+              href="{{ url_for('admin.trash') }}"
+              data-icon="trash"
+            >Корзина{% if admin_trash_count %} ({{ admin_trash_count }}){% endif %}</a>
+          </div>
         </div>
         {% with messages = get_flashed_messages() %}
           {% if messages %}
