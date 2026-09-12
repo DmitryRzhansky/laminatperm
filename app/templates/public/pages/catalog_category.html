@@ -85,7 +85,10 @@
               <a
                 class="shop-sort__link{% if current_sort == value or (value == 'default' and current_sort not in ['price_asc', 'price_desc', 'name']) %} is-active{% endif %}"
                 href="{{ url_for('catalog.category', category_slug=current_category.slug) }}{% if query %}?{{ query }}{% endif %}"
-              >{{ label }}</a>
+              >
+                <span class="shop-sort__icon shop-sort__icon--{{ value }}" aria-hidden="true"></span>
+                <span class="shop-sort__label">{{ label }}</span>
+              </a>
             </li>
           {% endfor %}
         </ul>
