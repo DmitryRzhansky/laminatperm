@@ -1,0 +1,31 @@
+{% macro render_pagination(pager, endpoint) %}
+{% if pager and pager.pages > 1 %}
+<nav class="admin-pagination" aria-label="Пагинация">
+  {% if pager.has_prev %}
+  <a class="admin-pagination__link" href="{{ url_for(endpoint, page=pager.prev_num) }}">Назад</a>
+  {% else %}
+  <span class="admin-pagination__link is-disabled">Назад</span>
+  {% endif %}
+
+  <ul class="admin-pagination__list">
+    {% for page_num in pager.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+      {% if page_num %}
+        {% if page_num == pager.page %}
+        <li><span class="admin-pagination__page is-current" aria-current="page">{{ page_num }}</span></li>
+        {% else %}
+        <li><a class="admin-pagination__page" href="{{ url_for(endpoint, page=page_num) }}">{{ page_num }}</a></li>
+        {% endif %}
+      {% else %}
+        <li><span class="admin-pagination__ellipsis">…</span></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  {% if pager.has_next %}
+  <a class="admin-pagination__link" href="{{ url_for(endpoint, page=pager.next_num) }}">Вперёд</a>
+  {% else %}
+  <span class="admin-pagination__link is-disabled">Вперёд</span>
+  {% endif %}
+</nav>
+{% endif %}
+{% endmacro %}

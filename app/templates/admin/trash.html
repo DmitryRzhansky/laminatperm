@@ -1,0 +1,100 @@
+{% extends "admin/layout.html" %}
+{% block title %}Корзина{% endblock %}
+{% block heading %}Корзина{% endblock %}
+{% block content %}
+<div class="admin-toolbar admin-toolbar--split">
+  <p class="admin-lead admin-lead--inline">
+    В корзине: {{ trash_count }} {% if trash_count == 1 %}запись{% elif trash_count in [2, 3, 4] %}записи{% else %}записей{% endif %}
+  </p>
+  <div class="admin-toolbar__actions">
+    <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.dashboard') }}" data-icon="arrow-left">К заявкам</a>
+    <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.orders') }}" data-icon="arrow-left">К заказам</a>
+    {% if trash_count %}
+    <form method="post" action="{{ url_for('admin.trash_empty') }}" onsubmit="return confirm('Очистить корзину без возможности восстановления?');">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="admin-btn admin-btn--danger" type="submit" data-icon="trash">Очистить корзину</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+{% if not leads and not orders %}
+<div class="admin-empty">
+  <p>Корзина пуста.</p>
+</div>
+{% else %}
+
+{% if leads %}
+<section class="admin-trash-section">
+  <h2 class="admin-trash-section__title">Заявки</h2>
+  <div class="admin-leads">
+    {% for lead in leads %}
+    <article class="admin-lead-card admin-lead-card--trashed">
+      <header class="admin-lead-card__header">
+        <div>
+          <p class="admin-lead-card__name">{{ lead.first_name }} {{ lead.last_name }}</p>
+          <p class="admin-lead-card__date">
+            Удалено: {{ lead.deleted_at.strftime('%d.%m.%Y %H:%M') if lead.deleted_at else '' }}
+          </p>
+        </div>
+        <form method="post" action="{{ url_for('admin.lead_restore', item_id=lead.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="admin-btn admin-btn--ghost" type="submit" data-icon="restore">Восстановить</button>
+        </form>
+      </header>
+      <dl class="admin-lead-card__facts">
+        <div>
+          <dt>Телефон</dt>
+          <dd>{{ lead.phone }}</dd>
+        </div>
+        <div>
+          <dt>Услуга</dt>
+          <dd>{{ lead.product|lead_service_label }}</dd>
+        </div>
+        {% if lead.details %}
+        <div class="admin-lead-card__facts-wide">
+          <dt>Детали</dt>
+          <dd>{{ lead.details }}</dd>
+        </div>
+        {% endif %}
+      </dl>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if orders %}
+<section class="admin-trash-section">
+  <h2 class="admin-trash-section__title">Заказы</h2>
+  <div class="admin-orders">
+    {% for order in orders %}
+    <article class="admin-order admin-order--trashed">
+      <header class="admin-order__header">
+        <div class="admin-order__meta">
+          <p class="admin-order__id">Заказ №{{ order.id }} — {{ order.first_name }}</p>
+          <p class="admin-order__date">
+            Удалено: {{ order.deleted_at.strftime('%d.%m.%Y %H:%M') if order.deleted_at else '' }}
+            · Итого {{ order.total|rub }} ₽
+          </p>
+        </div>
+        <form method="post" action="{{ url_for('admin.order_restore', item_id=order.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="admin-btn admin-btn--ghost" type="submit" data-icon="restore">Восстановить</button>
+        </form>
+      </header>
+      {% if order.items %}
+      <ul class="admin-trash-items">
+        {% for item in order.items %}
+        <li>{{ item.name }} — {{ item.quantity|rub }} {{ item.unit_label }} · {{ item.line_total|rub }} ₽</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% endif %}
+{% endblock %}

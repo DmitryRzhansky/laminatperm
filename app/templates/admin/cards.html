@@ -2,7 +2,7 @@
 {% block title %}{{ title }}{% endblock %}
 {% block heading %}{{ title }}{% endblock %}
 {% block content %}
-<p class="admin-toolbar"><a class="admin-btn" href="{{ create_url }}">Добавить</a></p>
+<p class="admin-toolbar"><a class="admin-btn" href="{{ create_url }}" data-icon="plus">Добавить</a></p>
 <div class="admin-cards">
   {% for item in items %}
     <article class="admin-card">
@@ -10,8 +10,8 @@
       <div class="admin-card__body">
         <h2>{{ item.title }}</h2>
         <div class="admin-actions">
-          <a class="admin-btn" href="{{ item.edit }}">Изменить</a>
-          {% if item.preview %}<a class="admin-btn admin-btn--ghost" href="{{ item.preview }}">Смотреть на сайте</a>{% endif %}
+          <a class="admin-btn" href="{{ item.edit }}" data-icon="edit">Изменить</a>
+          {% if item.preview %}<a class="admin-btn admin-btn--ghost" href="{{ item.preview }}" data-icon="eye">Смотреть на сайте</a>{% endif %}
         </div>
       </div>
     </article>

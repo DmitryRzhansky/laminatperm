@@ -13,7 +13,10 @@ from app.models import (
     Case,
     CaseImage,
     FaqItem,
+    Lead,
     News,
+    Order,
+    OrderItem,
     Partner,
     Product,
     ProductAttribute,
@@ -23,6 +26,7 @@ from app.models import (
     Review,
     ReviewPhoto,
     Service,
+    ServiceFaq,
     SitePage,
     SiteSetting,
 )
@@ -113,6 +117,19 @@ def register_cli(app):
         db.session.commit()
         print(f"Updated descriptions: {updated}")
 
+    @app.cli.command("seed-test-orders-leads")
+    def seed_test_orders_leads():
+        """Create 10 test cart orders and 10 test lead form submissions."""
+        orders_count, leads_count = _seed_test_orders_and_leads()
+        print(f"Created test orders: {orders_count}, test leads: {leads_count}")
+
+    @app.cli.command("sync-service-pages")
+    def sync_service_pages():
+        """Import /uslugi/ content from service_pages.py into the services table."""
+        count = _sync_service_pages_from_static()
+        db.session.commit()
+        print(f"Synced service pages: {count}")
+
 
 def _seed_settings():
     defaults = {
@@ -122,7 +139,27 @@ def _seed_settings():
         "header.address": "Агатовая улица, 28, Пермь",
         "header.hours": "7 дней в неделю: 09:00–20:00",
         "header.org": "Ламинейшен — подбор и укладка напольных покрытий",
-        "hero.h1": "Пол, который начинается с правильного выбора",
+        "hero.h1": "Пол, который начинается с правильного решения",
+        "hero.text": (
+            "Подбираем покрытие под помещение, привозим образцы, рассчитываем "
+            "материал и при необходимости берём на себя подготовку основания и укладку."
+        ),
+        "hero.cta_primary": "Подобрать покрытие",
+        "hero.cta_secondary": "Посмотреть каталог",
+        "hero.video": "video/hero.mp4",
+        "hero.poster": "video/hero-poster.webp",
+        "about.label": "О компании",
+        "about.title": "Напольные покрытия с подбором, доставкой и укладкой",
+        "about.text": (
+            "«Ламинейшен» помогает закрыть весь вопрос с полом в одном месте: "
+            "подобрать покрытие, рассчитать нужное количество материала, "
+            "привезти его на объект и выполнить укладку.\n\n"
+            "Мастер может приехать к вам с образцами ламината, SPC, кварцвинила, "
+            "линолеума и других покрытий, чтобы выбрать подходящий вариант прямо "
+            "в интерьере. На месте проводится замер, рассчитываются материалы "
+            "и стоимость работ. При необходимости выполняем демонтаж старого "
+            "покрытия и подготовку основания."
+        ),
         "contacts.email": "vip.shapen@mail.ru",
         "footer.ogrn": "ОГРН 1255900000000",
         "checkout.delivery": "Самовывоз из шоурума на Агатовой, 28. Доставка по Перми — согласуем при звонке.",
@@ -135,90 +172,131 @@ def _seed_settings():
 
 def _seed_pages():
     pages = [
-        ("akciya", "Акция", "Скидка 10% на материал при заказе укладки под ключ. Подробности — по телефону или в шоуруме."),
-        ("garantiya", "Гарантия", "Даём гарантию на укладку и помогаем с гарантийными обязательствами производителя покрытия."),
-        ("oplata", "Оплата", "Наличные, карта при получении и перевод. Счёт для юридических лиц — по запросу."),
-        ("dostavka", "Доставка", "Самовывоз с Агатовой, 28. Доставка по Перми и краю — рассчитаем при оформлении."),
+        (
+            "akciya",
+            "Акция",
+            "Скидка 10% на материал",
+            "При заказе укладки под ключ — скидка на покрытие. Подробности по телефону или в шоуруме.",
+            "Скидка действует при заказе укладки под ключ\nМатериал подбираем под помещение и бюджет\nТочные условия уточним на замере или в шоуруме",
+        ),
+        (
+            "garantiya",
+            "Гарантия",
+            "Гарантия на работы и покрытие",
+            "Даём гарантию на укладку и помогаем с гарантийными обязательствами производителя покрытия.",
+            "На выполненные работы по укладке — отдельная гарантия исполнителя\nНа материал действует гарантия производителя по паспорту покрытия\nПомогаем разобраться, если вопрос по качеству или монтажу",
+        ),
+        (
+            "oplata",
+            "Оплата",
+            "Оплата",
+            "Наличные, карта при получении и перевод. Счёт для юридических лиц — по запросу.",
+            "Наличные и карта при получении материала или после работ\nПеревод на карту / расчётный счёт\nДля юридических лиц подготовим счёт и закрывающие документы",
+        ),
+        (
+            "dostavka",
+            "Доставка",
+            "Доставка",
+            "Самовывоз с Агатовой, 28. Доставка по Перми и краю — рассчитаем при оформлении.",
+            "Самовывоз со склада / шоурума на Агатовой, 28\nДоставка по Перми и Пермскому краю\nСтоимость и сроки согласуем при оформлении заказа",
+        ),
     ]
-    for slug, title, body in pages:
-        if SitePage.query.filter_by(slug=slug).first():
+    for slug, title, h1, summary, points in pages:
+        page = SitePage.query.filter_by(slug=slug).first()
+        if page is None:
+            page = SitePage(
+                slug=slug,
+                title=title,
+                h1=h1,
+                summary=summary,
+                points=points,
+                body_md=summary,
+                seo_title=title,
+                seo_description=summary,
+            )
+            db.session.add(page)
             continue
-        page = SitePage(slug=slug, title=title, summary=body, body_md=body, seo_title=title, seo_description=body)
-        db.session.add(page)
+        if not page.h1:
+            page.h1 = h1
+        if not page.points:
+            page.points = points
 
 
 def _seed_services():
-    items = [
-        (
-            "Укладка ламината",
-            "400 ₽/м²",
-            "Замковая укладка ламината с подрезкой и оформлением примыканий.",
-            "images/services/laminate.webp",
-        ),
-        (
-            "Укладка SPC",
-            "300 ₽/м²",
-            "Жёсткий винил с замком для жилых и коммерческих помещений.",
-            "images/services/spc.webp",
-        ),
-        (
-            "Кварцвинил / LVT",
-            "400 ₽/м²",
-            "Замковые и клеевые покрытия.",
-            "images/services/lvt.webp",
-        ),
-        (
-            "Линолеум",
-            "300 ₽/м²",
-            "Раскрой и укладка рулонных покрытий.",
-            "images/services/linoleum.webp",
-        ),
-        (
-            "Ковролин",
-            "300 ₽/м²",
-            "Укладка ковролина в квартирах и офисах.",
-            "images/services/carpet.webp",
-        ),
-        (
-            "Демонтаж",
-            "по расчёту",
-            "Снятие старого покрытия и вывоз мусора.",
-            "images/services/demolition.webp",
-        ),
-        (
-            "Подготовка основания",
-            "по расчёту",
-            "Стяжка, выравнивание, подготовка под тёплый пол.",
-            "images/services/subfloor.webp",
-        ),
-        (
-            "Плинтус",
-            "по расчёту",
-            "Монтаж плинтуса, порогов и примыканий.",
-            "images/services/skirting.webp",
-        ),
-    ]
-    if Service.query.first():
-        by_title = {item.title: item for item in Service.query.all()}
-        for index, (title, price, text, image) in enumerate(items, start=1):
-            service = by_title.get(title)
-            if service is None:
-                continue
-            if not service.image:
-                service.image = image
-            service.sort_order = service.sort_order or index
-        return
+    _sync_service_pages_from_static()
 
-    for index, (title, price, text, image) in enumerate(items, start=1):
-        db.session.add(
-            Service(
-                title=title,
-                price=price,
-                text=text,
-                image=image,
-                sort_order=index,
+
+def _sync_service_pages_from_static() -> int:
+    from app.services.service_pages import SERVICE_PAGES
+
+    known_slugs = {page.slug for page in SERVICE_PAGES}
+    title_aliases = {
+        "Кварцвинил / LVT": "ukladka-kvartsvinila-i-lvt",
+        "Линолеум": "ukladka-linoleuma",
+        "Ковролин": "ukladka-kovrolina",
+        "Демонтаж": "demontazh-starogo-pokrytiya",
+        "Плинтус": "montazh-plintusa",
+        "Подготовка основания": "podgotovka-osnovaniya",
+        "Укладка ламината": "ukladka-laminata",
+        "Укладка SPC": "ukladka-spc",
+    }
+
+    count = 0
+    for index, page in enumerate(SERVICE_PAGES, start=1):
+        service = Service.query.filter_by(slug=page.slug).first()
+        if service is None:
+            service = Service.query.filter_by(title=page.title).first()
+        if service is None:
+            alias_slug = title_aliases.get(page.title)
+            if alias_slug:
+                service = Service.query.filter_by(slug=alias_slug).first()
+            if service is None:
+                for old_title, slug in title_aliases.items():
+                    if slug == page.slug:
+                        service = Service.query.filter_by(title=old_title).first()
+                        if service is not None:
+                            break
+        if service is None:
+            service = Service(is_published=True)
+            db.session.add(service)
+
+        service.slug = page.slug
+        service.title = page.title
+        service.heading = page.heading
+        service.intro = page.intro
+        service.body_md = "\n\n".join(page.body)
+        service.text = page.intro
+        service.price = page.price
+        service.image = page.image
+        service.hero_image = page.hero_image
+        service.icon = page.icon
+        service.seo_title = page.seo_title
+        service.seo_description = page.seo_description
+        service.sort_order = index
+        service.is_published = True
+
+        service.faqs.clear()
+        db.session.flush()
+        for faq_index, faq in enumerate(page.faqs):
+            service.faqs.append(
+                ServiceFaq(
+                    question=faq.question,
+                    answer=faq.answer,
+                    sort_order=faq_index,
+                )
             )
-        )
+        count += 1
+
+    # Remove leftover price-table stubs without a public URL.
+    for orphan in Service.query.filter((Service.slug.is_(None)) | (Service.slug == "")).all():
+        db.session.delete(orphan)
+
+    # Remove duplicates that are not in the canonical service pages set.
+    for extra in Service.query.filter(Service.slug.isnot(None), Service.slug != "").all():
+        if extra.slug not in known_slugs:
+            db.session.delete(extra)
+
+    return count
 
 
 def _seed_partners():
@@ -456,3 +534,148 @@ def _download_image(url: str, folder: Path) -> str | None:
     except Exception as error:
         print("image download failed", url, error)
         return None
+
+
+def _seed_test_orders_and_leads(orders_n: int = 10, leads_n: int = 10) -> tuple[int, int]:
+    products = (
+        Product.query.filter_by(is_published=True)
+        .order_by(Product.id)
+        .limit(24)
+        .all()
+    )
+    if not products:
+        raise RuntimeError("Нет опубликованных товаров для тестовых заказов")
+
+    customers = [
+        ("Анна", "+7 (912) 100-10-01", "anna.test@example.com"),
+        ("Игорь", "+7 (912) 100-10-02", "igor.test@example.com"),
+        ("Мария", "+7 (912) 100-10-03", "maria.test@example.com"),
+        ("Сергей", "+7 (912) 100-10-04", "sergey.test@example.com"),
+        ("Елена", "+7 (912) 100-10-05", "elena.test@example.com"),
+        ("Дмитрий", "+7 (912) 100-10-06", "dmitry.test@example.com"),
+        ("Ольга", "+7 (912) 100-10-07", "olga.test@example.com"),
+        ("Павел", "+7 (912) 100-10-08", "pavel.test@example.com"),
+        ("Наталья", "+7 (912) 100-10-09", "natalya.test@example.com"),
+        ("Алексей", "+7 (912) 100-10-10", "alexey.test@example.com"),
+    ]
+    delivery_options = [
+        ("pickup", ""),
+        ("delivery", "Пермь, ул. Ленина, 45, кв. 12"),
+        ("delivery", "Пермь, ул. Мира, 10"),
+        ("pickup", ""),
+        ("delivery", "Пермь, ул. Куйбышева, 88"),
+    ]
+    payment_options = ["cash", "card", "transfer"]
+
+    created_orders = 0
+    for index in range(orders_n):
+        first_name, phone, email = customers[index % len(customers)]
+        delivery_method, address = delivery_options[index % len(delivery_options)]
+        payment_method = payment_options[index % len(payment_options)]
+        line_products = [
+            products[(index + offset) % len(products)]
+            for offset in range(1 + (index % 3))
+        ]
+        quantities = [Decimal("12.5"), Decimal("18"), Decimal("1"), Decimal("24.3"), Decimal("8")]
+        total = Decimal("0")
+        order = Order(
+            first_name=first_name,
+            phone=phone,
+            email=email,
+            delivery_method=delivery_method,
+            address=address,
+            payment_method=payment_method,
+            comment=f"Тестовый заказ #{index + 1}",
+            status="new",
+            total=0,
+        )
+        db.session.add(order)
+        db.session.flush()
+        for line_index, product in enumerate(line_products):
+            quantity = quantities[(index + line_index) % len(quantities)]
+            if product.unit != "m2":
+                quantity = Decimal(str(1 + ((index + line_index) % 4)))
+            price = Decimal(product.price or 0)
+            total += quantity * price
+            db.session.add(
+                OrderItem(
+                    order_id=order.id,
+                    product_id=product.id,
+                    name=product.name,
+                    unit=product.unit or "m2",
+                    quantity=quantity,
+                    price=price,
+                )
+            )
+        order.total = total
+        created_orders += 1
+
+    db.session.commit()
+
+    service_options = [
+        ("ukladka-laminata", "Нужна укладка ламината в комнате 18 м²"),
+        ("ukladka-spc", "Интересует укладка SPC на кухне"),
+        ("ukladka-kvartsvinila-lvt", "Кварцвинил в коридор, нужен замер"),
+        ("ukladka-linoleuma", "Линолеум в офис около 40 м²"),
+        ("ukladka-kovrolina", "Ковролин в детскую"),
+        ("demontazh-pokrytiya", "Демонтаж старого ламината"),
+        ("podgotovka-osnovaniya", "Нужно выровнять основание"),
+        ("montazh-plintusa", "Монтаж плинтуса по периметру"),
+        ("podbor-pokrytiya", "Подбор покрытия и выезд с образцами"),
+        ("ukladka-laminata", "Укладка под ключ, 2 комнаты"),
+    ]
+    sources = [
+        "consultation",
+        "contacts",
+        "services",
+        "delivery",
+        "warranty",
+        "payment",
+        "promo",
+        "consultation",
+        "contacts",
+        "services",
+    ]
+    lead_names = [
+        ("Ирина", "Соколова"),
+        ("Артём", "Белов"),
+        ("Виктория", "Кузнецова"),
+        ("Никита", "Орлов"),
+        ("Светлана", "Морозова"),
+        ("Роман", "Васильев"),
+        ("Дарья", "Новикова"),
+        ("Кирилл", "Фёдоров"),
+        ("Юлия", "Смирнова"),
+        ("Максим", "Попов"),
+    ]
+
+    leads_before = Lead.query.count()
+    csrf_was_enabled = current_app.config.get("WTF_CSRF_ENABLED", True)
+    current_app.config["WTF_CSRF_ENABLED"] = False
+    try:
+        client = current_app.test_client()
+        for index in range(leads_n):
+            first_name, last_name = lead_names[index % len(lead_names)]
+            product_slug, details = service_options[index % len(service_options)]
+            response = client.post(
+                "/zayavka/",
+                data={
+                    "name": first_name,
+                    "lastname": last_name,
+                    "phone": f"+7 (909) 200-2{index:02d}-{10 + index:02d}",
+                    "email": f"lead.test{index + 1}@example.com",
+                    "product": product_slug,
+                    "details": details,
+                    "source": sources[index % len(sources)],
+                    "consent": "on",
+                    "website": "",
+                },
+                follow_redirects=True,
+            )
+            if response.status_code >= 400:
+                raise RuntimeError(f"Не удалось отправить тестовую заявку #{index + 1}")
+    finally:
+        current_app.config["WTF_CSRF_ENABLED"] = csrf_was_enabled
+
+    created_leads = Lead.query.count() - leads_before
+    return created_orders, created_leads

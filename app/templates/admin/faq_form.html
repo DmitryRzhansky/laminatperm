@@ -6,6 +6,6 @@
   <label>Вопрос <input name="question" required value="{{ item.question or '' }}"></label>
   <label>Ответ <textarea name="answer">{{ item.answer or '' }}</textarea></label>
   <label><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Показать на сайте</label>
-  <button class="admin-btn" type="submit">Сохранить</button>
+  <button class="admin-btn" type="submit" data-icon="check">Сохранить</button>
 </form>
 {% endblock %}

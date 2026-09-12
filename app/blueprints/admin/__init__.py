@@ -1,14 +1,19 @@
 from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
+from sqlalchemy.orm import joinedload
 
 from app.extensions import db
-from app.models import Lead, Order
+from app.models import Lead, Order, OrderItem, Product
+from app.models.settings import utcnow
 from app.utils.files import ALLOWED_IMAGE_EXTENSIONS, save_upload
 from app.utils.seo import apply_seo
 from app.utils.settings import get_setting, set_setting
 from app.utils.slugs import unique_slug
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
+
+ORDERS_PER_PAGE = 5
+LEADS_PER_PAGE = 10
 
 
 def _uploads(*parts):
@@ -25,6 +30,38 @@ def _save_image(field_name, *parts):
     return save_upload(file, _uploads(*parts), ALLOWED_IMAGE_EXTENSIONS)
 
 
+def _page_number(name: str = "page") -> int:
+    try:
+        value = int(request.args.get(name, 1))
+    except (TypeError, ValueError):
+        return 1
+    return max(1, value)
+
+
+def _orders_query(*, trashed: bool = False):
+    query = Order.query.options(
+        joinedload(Order.items).joinedload(OrderItem.product).joinedload(Product.images),
+        joinedload(Order.items).joinedload(OrderItem.product).joinedload(Product.category),
+    )
+    if trashed:
+        return query.filter(Order.deleted_at.isnot(None)).order_by(Order.deleted_at.desc())
+    return query.filter(Order.deleted_at.is_(None)).order_by(Order.created_at.desc())
+
+
+def _leads_query(*, trashed: bool = False):
+    query = Lead.query
+    if trashed:
+        return query.filter(Lead.deleted_at.isnot(None)).order_by(Lead.deleted_at.desc())
+    return query.filter(Lead.deleted_at.is_(None)).order_by(Lead.created_at.desc())
+
+
+def _redirect_back(default_endpoint: str, **values):
+    target = request.form.get("next") or request.referrer
+    if target and target.startswith(request.host_url):
+        return redirect(target)
+    return redirect(url_for(default_endpoint, **values))
+
+
 @admin_bp.before_request
 def require_login():
     if request.endpoint in {"auth.login", "static"}:
@@ -36,44 +73,126 @@ def require_login():
 @admin_bp.route("/")
 @login_required
 def dashboard():
-    leads = Lead.query.order_by(Lead.created_at.desc()).all()
-    orders = Order.query.order_by(Order.created_at.desc()).limit(8).all()
-    new_leads = Lead.query.filter_by(status="new").count()
-    new_orders = Order.query.filter_by(status="new").count()
+    page = _page_number()
+    pagination = _leads_query().paginate(page=page, per_page=LEADS_PER_PAGE, error_out=False)
+    trash_count = (
+        Lead.query.filter(Lead.deleted_at.isnot(None)).count()
+        + Order.query.filter(Order.deleted_at.isnot(None)).count()
+    )
     return render_template(
         "admin/dashboard.html",
-        leads=leads,
-        orders=orders,
-        new_leads=new_leads,
-        new_orders=new_orders,
+        leads=pagination.items,
+        pagination=pagination,
+        new_leads=Lead.query.filter(Lead.deleted_at.is_(None), Lead.status == "new").count(),
+        new_orders=Order.query.filter(Order.deleted_at.is_(None), Order.status == "new").count(),
+        trash_count=trash_count,
     )
 
 
 @admin_bp.route("/leads/<int:item_id>/status/", methods=["POST"])
 @login_required
 def lead_status(item_id):
-    lead = Lead.query.get_or_404(item_id)
+    lead = Lead.query.filter_by(id=item_id, deleted_at=None).first_or_404()
     lead.status = request.form.get("status") or lead.status
     db.session.commit()
     flash("Статус заявки обновлён", "success")
-    return redirect(url_for("admin.dashboard"))
+    return _redirect_back("admin.dashboard")
+
+
+@admin_bp.route("/leads/<int:item_id>/trash/", methods=["POST"])
+@login_required
+def lead_trash(item_id):
+    lead = Lead.query.filter_by(id=item_id, deleted_at=None).first_or_404()
+    lead.deleted_at = utcnow()
+    db.session.commit()
+    flash("Заявка перемещена в корзину", "success")
+    return _redirect_back("admin.dashboard")
+
+
+@admin_bp.route("/leads/<int:item_id>/restore/", methods=["POST"])
+@login_required
+def lead_restore(item_id):
+    lead = Lead.query.filter(Lead.id == item_id, Lead.deleted_at.isnot(None)).first_or_404()
+    lead.deleted_at = None
+    db.session.commit()
+    flash("Заявка восстановлена", "success")
+    return _redirect_back("admin.trash")
 
 
 @admin_bp.route("/orders/")
 @login_required
 def orders():
-    items = Order.query.order_by(Order.created_at.desc()).all()
-    return render_template("admin/orders.html", items=items)
+    page = _page_number()
+    pagination = _orders_query().paginate(page=page, per_page=ORDERS_PER_PAGE, error_out=False)
+    trash_count = (
+        Lead.query.filter(Lead.deleted_at.isnot(None)).count()
+        + Order.query.filter(Order.deleted_at.isnot(None)).count()
+    )
+    return render_template(
+        "admin/orders.html",
+        items=pagination.items,
+        pagination=pagination,
+        trash_count=trash_count,
+    )
 
 
 @admin_bp.route("/orders/<int:item_id>/status/", methods=["POST"])
 @login_required
 def order_status(item_id):
-    order = Order.query.get_or_404(item_id)
+    order = Order.query.filter_by(id=item_id, deleted_at=None).first_or_404()
     order.status = request.form.get("status") or order.status
     db.session.commit()
     flash("Статус заказа обновлён", "success")
-    return redirect(url_for("admin.orders"))
+    return _redirect_back("admin.orders")
+
+
+@admin_bp.route("/orders/<int:item_id>/trash/", methods=["POST"])
+@login_required
+def order_trash(item_id):
+    order = Order.query.filter_by(id=item_id, deleted_at=None).first_or_404()
+    order.deleted_at = utcnow()
+    db.session.commit()
+    flash("Заказ перемещён в корзину", "success")
+    return _redirect_back("admin.orders")
+
+
+@admin_bp.route("/orders/<int:item_id>/restore/", methods=["POST"])
+@login_required
+def order_restore(item_id):
+    order = Order.query.filter(Order.id == item_id, Order.deleted_at.isnot(None)).first_or_404()
+    order.deleted_at = None
+    db.session.commit()
+    flash("Заказ восстановлен", "success")
+    return _redirect_back("admin.trash")
+
+
+@admin_bp.route("/trash/")
+@login_required
+def trash():
+    leads = _leads_query(trashed=True).all()
+    orders_list = _orders_query(trashed=True).all()
+    return render_template(
+        "admin/trash.html",
+        leads=leads,
+        orders=orders_list,
+        trash_count=len(leads) + len(orders_list),
+    )
+
+
+@admin_bp.route("/trash/empty/", methods=["POST"])
+@login_required
+def trash_empty():
+    deleted_leads = Lead.query.filter(Lead.deleted_at.isnot(None)).delete(synchronize_session=False)
+    trashed_orders = Order.query.filter(Order.deleted_at.isnot(None)).all()
+    deleted_orders = len(trashed_orders)
+    for order in trashed_orders:
+        db.session.delete(order)
+    db.session.commit()
+    flash(
+        f"Корзина очищена: удалено заявок — {deleted_leads}, заказов — {deleted_orders}",
+        "success",
+    )
+    return redirect(url_for("admin.trash"))
 
 
 from app.blueprints.admin import content  # noqa: E402,F401

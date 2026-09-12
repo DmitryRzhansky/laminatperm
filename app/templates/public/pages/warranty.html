@@ -1,5 +1,5 @@
 {% extends "public/pages/inner_base.html" %}
-{% set title = page.title %}
+{% set title = page.seo_title or page.title %}
 {% set description = page.seo_description or page.summary %}
 {% set page_hero_compact = true %}
 {% set hide_page_hero_title = true %}
@@ -13,7 +13,7 @@
       <div class="promo-offer__visual">
         <img
           class="promo-offer__icon"
-          src="{{ url_for('static', filename='images/warranty/shield-3d.webp') }}"
+          src="{{ url_for('static', filename=page.image or 'images/warranty/shield-3d.webp') }}"
           alt=""
           width="420"
           height="420"
@@ -23,17 +23,19 @@
 
       <div class="promo-offer__content">
         <h1 class="promo-offer__title" id="warranty-offer-title">
-          Гарантия на работы и покрытие
+          {{ page.h1 or page.title }}
         </h1>
         <p class="promo-offer__lead">
           {{ page.summary or "Даём гарантию на укладку и помогаем с гарантийными обязательствами производителя покрытия." }}
         </p>
 
+        {% if page.points_list %}
         <ul class="promo-offer__points" role="list">
-          <li>На выполненные работы по укладке — отдельная гарантия исполнителя</li>
-          <li>На материал действует гарантия производителя по паспорту покрытия</li>
-          <li>Помогаем разобраться, если вопрос по качеству или монтажу</li>
+          {% for point in page.points_list %}
+          <li>{{ point }}</li>
+          {% endfor %}
         </ul>
+        {% endif %}
       </div>
     </article>
   </div>

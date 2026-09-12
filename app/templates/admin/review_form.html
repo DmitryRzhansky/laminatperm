@@ -89,8 +89,8 @@
   </label>
 
   <div class="admin-reviews-form__actions">
-    <button class="admin-btn" type="submit">Сохранить</button>
-    <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.reviews_list', platform=selected_platform) }}">К списку</a>
+    <button class="admin-btn" type="submit" data-icon="check">Сохранить</button>
+    <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.reviews_list', platform=selected_platform) }}" data-icon="arrow-left">К списку</a>
   </div>
 </form>
 {% endblock %}

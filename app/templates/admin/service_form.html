@@ -1,13 +1,105 @@
 {% extends "admin/layout.html" %}
-{% block heading %}Услуга{% endblock %}
+{% block heading %}{% if item.id %}Услуга{% else %}Новая услуга{% endif %}{% endblock %}
 {% block content %}
-<form class="admin-form" method="post" enctype="multipart/form-data">
+<form class="admin-form admin-form--wide" method="post" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-  <label>Название <input name="title" required value="{{ item.title or '' }}"></label>
-  <label>Цена <input name="price" value="{{ item.price or '' }}"></label>
-  <label>Коротко <textarea name="text">{{ item.text or '' }}</textarea></label>
-  <label>Фото <input type="file" name="image" accept="image/*"></label>
-  <label><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Показать на сайте</label>
-  <button class="admin-btn" type="submit">Сохранить</button>
+
+  <div class="admin-tabs__grid">
+    <label>Название (в списках) <input name="title" required value="{{ item.title or '' }}"></label>
+    <label>URL (slug) <input name="slug" required value="{{ item.slug or '' }}" placeholder="ukladka-laminata"></label>
+  </div>
+
+  <label>H1 на странице <input name="heading" value="{{ item.heading or '' }}"></label>
+  <label>Текст под H1 (короткий intro) <textarea name="intro" rows="3">{{ item.intro or '' }}</textarea></label>
+  <label>Текст под H1 (абзацы через пустую строку) <textarea name="body_md" rows="10">{{ item.body_md or '' }}</textarea></label>
+
+  <div class="admin-tabs__grid">
+    <label>SEO title <input name="seo_title" value="{{ item.seo_title or '' }}" placeholder="Если пусто — возьмём H1"></label>
+    <label>Цена (для карточек) <input name="price" value="{{ item.price or '' }}"></label>
+  </div>
+  <label>SEO description <textarea name="seo_description" rows="3">{{ item.seo_description or '' }}</textarea></label>
+  <label>Короткое описание для прайса <textarea name="text" rows="3">{{ item.text or '' }}</textarea></label>
+
+  <div class="admin-tabs__grid">
+    <label>Порядок <input type="number" name="sort_order" value="{{ item.sort_order or 0 }}"></label>
+    <label class="admin-check"><input type="checkbox" name="is_published" {% if item.is_published or not item.id %}checked{% endif %}> Показать на сайте</label>
+  </div>
+
+  <div class="admin-tabs__grid">
+    <label>
+      Фото карточки
+      <input type="file" name="image" accept="image/*">
+      {% if item.image %}<span class="admin-details">Сейчас: {{ item.image }}</span>{% endif %}
+    </label>
+    <label>
+      Hero-фото страницы
+      <input type="file" name="hero_image" accept="image/*">
+      {% if item.hero_image %}<span class="admin-details">Сейчас: {{ item.hero_image }}</span>{% endif %}
+    </label>
+  </div>
+  <label>Иконка (путь, например icons/services/replan.svg) <input name="icon" value="{{ item.icon or '' }}"></label>
+
+  <fieldset class="admin-faq-block">
+    <legend>FAQ</legend>
+    <div class="admin-faq-list" data-faq-list>
+      {% for faq in item.faqs %}
+      <div class="admin-faq-row" data-faq-row>
+        <label>Вопрос <input name="faq_question" value="{{ faq.question }}" maxlength="500"></label>
+        <label>Ответ <textarea name="faq_answer" rows="3">{{ faq.answer }}</textarea></label>
+        <button class="admin-btn admin-btn--ghost" type="button" data-remove-row data-icon="trash">Удалить</button>
+      </div>
+      {% else %}
+      <div class="admin-faq-row" data-faq-row>
+        <label>Вопрос <input name="faq_question" value="" maxlength="500"></label>
+        <label>Ответ <textarea name="faq_answer" rows="3"></textarea></label>
+        <button class="admin-btn admin-btn--ghost" type="button" data-remove-row data-icon="trash">Удалить</button>
+      </div>
+      {% endfor %}
+    </div>
+    <button class="admin-btn admin-btn--ghost" type="button" data-add-faq data-icon="plus">Добавить вопрос</button>
+  </fieldset>
+
+  <div class="admin-actions">
+    <button class="admin-btn" type="submit" data-icon="check">Сохранить</button>
+    <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.services_list') }}" data-icon="arrow-left">К списку</a>
+    {% if item.slug %}
+    <a class="admin-btn admin-btn--ghost" href="{{ url_for('services.detail', slug=item.slug) }}" target="_blank" rel="noopener noreferrer" data-icon="eye">Открыть на сайте</a>
+    {% endif %}
+  </div>
 </form>
+{% endblock %}
+{% block extra_js %}
+<script>
+  (() => {
+    const list = document.querySelector("[data-faq-list]");
+    const addBtn = document.querySelector("[data-add-faq]");
+    if (!list || !addBtn) return;
+
+    const bindRemove = (root) => {
+      root.querySelectorAll("[data-remove-row]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const row = btn.closest("[data-faq-row]");
+          if (!row) return;
+          if (list.querySelectorAll("[data-faq-row]").length <= 1) {
+            row.querySelectorAll("input, textarea").forEach((field) => {
+              field.value = "";
+            });
+            return;
+          }
+          row.remove();
+        });
+      });
+    };
+
+    bindRemove(list);
+    addBtn.addEventListener("click", () => {
+      const row = document.createElement("div");
+      row.className = "admin-faq-row";
+      row.setAttribute("data-faq-row", "");
+      row.innerHTML = '<label>Вопрос <input name="faq_question" value="" maxlength="500"></label><label>Ответ <textarea name="faq_answer" rows="3"></textarea></label><button class="admin-btn admin-btn--ghost" type="button" data-remove-row data-icon="trash">Удалить</button>';
+      list.appendChild(row);
+      bindRemove(row);
+    });
+  })();
+</script>
 {% endblock %}

@@ -16,10 +16,10 @@
     <label>Короткое описание для поиска <textarea name="seo_description">{{ item.seo_description or '' }}</textarea></label>
   </details>
   <div class="admin-actions">
-    <button class="admin-btn" type="submit">Сохранить</button>
+    <button class="admin-btn" type="submit" data-icon="check">Сохранить</button>
     {% if item.id %}
-      <a class="admin-btn admin-btn--ghost" href="{{ url_for('news.detail', slug=item.slug) }}">Смотреть на сайте</a>
-      <button class="admin-btn admin-btn--danger" form="delete-form" type="submit" onclick="return confirm('Убрать с сайта?')">Удалить</button>
+      <a class="admin-btn admin-btn--ghost" href="{{ url_for('news.detail', slug=item.slug) }}" data-icon="eye">Смотреть на сайте</a>
+      <button class="admin-btn admin-btn--danger" form="delete-form" type="submit" onclick="return confirm('Убрать с сайта?')" data-icon="trash">Удалить</button>
     {% endif %}
   </div>
 </form>

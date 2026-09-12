@@ -126,12 +126,18 @@ class Order(db.Model):
     status = db.Column(db.String(32), default="new", index=True)
     total = db.Column(db.Numeric(12, 2), default=0)
     created_at = db.Column(db.DateTime, default=utcnow, index=True)
+    deleted_at = db.Column(db.DateTime, nullable=True, index=True)
 
     items = db.relationship(
         "OrderItem",
         backref="order",
         cascade="all, delete-orphan",
     )
+
+    @property
+    def is_deleted(self) -> bool:
+        return self.deleted_at is not None
+
 
 
 class OrderItem(db.Model):
@@ -144,3 +150,15 @@ class OrderItem(db.Model):
     unit = db.Column(db.String(16), default="m2")
     quantity = db.Column(db.Numeric(12, 2), default=1)
     price = db.Column(db.Numeric(12, 2), default=0)
+
+    product = db.relationship("Product")
+
+    @property
+    def unit_label(self) -> str:
+        return "м²" if self.unit == "m2" else "шт"
+
+    @property
+    def line_total(self):
+        qty = self.quantity or 0
+        price = self.price or 0
+        return qty * price

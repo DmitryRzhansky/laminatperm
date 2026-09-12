@@ -8,8 +8,8 @@
   <label>Короткий текст <textarea name="intro">{{ item.intro }}</textarea></label>
   <label>Обложка <input type="file" name="cover" accept="image/*">{% if item.cover %}<span class="admin-hint">сейчас: {{ item.cover }}</span>{% endif %}</label>
   <div class="admin-actions">
-    <button class="admin-btn" type="submit">Сохранить</button>
-    <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.categories_list') }}">К каталогу</a>
+    <button class="admin-btn" type="submit" data-icon="check">Сохранить</button>
+    <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.categories_list') }}" data-icon="arrow-left">К каталогу</a>
   </div>
 </form>
 {% endblock %}

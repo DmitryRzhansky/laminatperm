@@ -29,25 +29,23 @@
 
         <div class="hero__content">
           <h1 class="hero__title">
-            Пол, который начинается с правильного решения
+            {{ get_setting('hero.h1', 'Пол, который начинается с правильного решения') }}
           </h1>
           <p class="hero__description">
-            Подбираем покрытие под помещение, привозим образцы, рассчитываем
-            материал и при необходимости берём на себя подготовку основания
-            и укладку.
+            {{ get_setting('hero.text', 'Подбираем покрытие под помещение, привозим образцы, рассчитываем материал и при необходимости берём на себя подготовку основания и укладку.') }}
           </p>
           <div class="hero__actions">
             <a class="button button--primary" href="#consultation">
               <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
                 <path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/>
               </svg>
-              Подобрать покрытие
+              {{ get_setting('hero.cta_primary', 'Подобрать покрытие') }}
             </a>
             <a class="button button--outline" href="#catalog">
               <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
                 <path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/>
               </svg>
-              Посмотреть каталог
+              {{ get_setting('hero.cta_secondary', 'Посмотреть каталог') }}
             </a>
           </div>
         </div>
@@ -56,10 +54,16 @@
       <section class="about" id="about" aria-labelledby="about-title">
         <div class="about__inner">
           <div class="about__content">
-            <p class="about__label">О компании</p>
+            <p class="about__label">{{ get_setting('about.label', 'О компании') }}</p>
             <h2 class="about__title" id="about-title">
-              Напольные покрытия с подбором, доставкой и укладкой
+              {{ get_setting('about.title', 'Напольные покрытия с подбором, доставкой и укладкой') }}
             </h2>
+            {% set about_text = get_setting('about.text', '') %}
+            {% if about_text %}
+              {% for paragraph in about_text.split('\n\n') if paragraph.strip() %}
+              <p class="about__text">{{ paragraph.strip() }}</p>
+              {% endfor %}
+            {% else %}
             <p class="about__text">
               «Ламинейшен» помогает закрыть весь вопрос с полом в одном месте:
               подобрать покрытие, рассчитать нужное количество материала,
@@ -72,6 +76,7 @@
               и стоимость работ. При необходимости выполняем демонтаж старого
               покрытия и подготовку основания.
             </p>
+            {% endif %}
             <ul class="about__stats" role="list">
               <li class="about__stat">
                 <p class="about__stat-value">5+ видов</p>

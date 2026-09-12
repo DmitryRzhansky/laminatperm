@@ -2,7 +2,7 @@
 {% block title %}{{ title }}{% endblock %}
 {% block heading %}{{ title }}{% endblock %}
 {% block content %}
-<p class="admin-toolbar"><a class="admin-btn" href="{{ create_url }}">Добавить</a></p>
+<p class="admin-toolbar"><a class="admin-btn" href="{{ create_url }}" data-icon="plus">Добавить</a></p>
 <div class="admin-table-wrap">
   <table class="admin-table">
     <tbody>
@@ -11,10 +11,10 @@
           <td>{{ row.title }}</td>
           <td>
             <div class="admin-row-actions">
-              <a class="admin-btn" href="{{ row.edit }}">Изменить</a>
+              <a class="admin-btn" href="{{ row.edit }}" data-icon="edit">Изменить</a>
               <form method="post" action="{{ row.delete }}" onsubmit="return confirm('Убрать с сайта?')">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button class="admin-btn admin-btn--danger" type="submit">Удалить</button>
+                <button class="admin-btn admin-btn--danger" type="submit" data-icon="trash">Удалить</button>
               </form>
             </div>
           </td>

@@ -3,8 +3,8 @@
 {% block heading %}{{ category.name }}{% endblock %}
 {% block content %}
 <p class="admin-toolbar">
-  <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.categories_list') }}">← Каталог</a>
-  <a class="admin-btn" href="{{ url_for('admin.products_edit', category=category.id) }}">Добавить товар</a>
+  <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.categories_list') }}" data-icon="arrow-left">Каталог</a>
+  <a class="admin-btn" href="{{ url_for('admin.products_edit', category=category.id) }}" data-icon="plus">Добавить товар</a>
 </p>
 <div class="admin-table-wrap">
   <table class="admin-table">
@@ -32,10 +32,10 @@
           </td>
           <td>
             <div class="admin-row-actions">
-              <a class="admin-btn" href="{{ url_for('admin.products_edit', item_id=item.id) }}">Изменить</a>
+              <a class="admin-btn" href="{{ url_for('admin.products_edit', item_id=item.id) }}" data-icon="edit">Изменить</a>
               <form method="post" action="{{ url_for('admin.products_delete', item_id=item.id) }}" onsubmit="return confirm('Убрать с сайта?')">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button class="admin-btn admin-btn--danger" type="submit">Удалить</button>
+                <button class="admin-btn admin-btn--danger" type="submit" data-icon="trash">Удалить</button>
               </form>
             </div>
           </td>

@@ -16,3 +16,9 @@ class Lead(db.Model):
     source = db.Column(db.String(64), default="consultation")
     product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=True)
     created_at = db.Column(db.DateTime, default=utcnow, index=True)
+    deleted_at = db.Column(db.DateTime, nullable=True, index=True)
+
+    @property
+    def is_deleted(self) -> bool:
+        return self.deleted_at is not None
+

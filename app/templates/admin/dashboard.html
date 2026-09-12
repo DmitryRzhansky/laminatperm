@@ -1,31 +1,76 @@
 {% extends "admin/layout.html" %}
+{% from "admin/_pagination.html" import render_pagination %}
 {% block title %}Заявки{% endblock %}
 {% block heading %}Заявки{% endblock %}
 {% block content %}
-<p class="admin-lead">Новых заявок: {{ new_leads }}. Новых заказов: {{ new_orders }}.</p>
-<div class="admin-table-wrap">
-<table class="admin-table">
-  <thead><tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Что нужно</th><th>Статус</th></tr></thead>
-  <tbody>
-    {% for lead in leads %}
-      <tr>
-        <td>{{ lead.created_at.strftime('%d.%m.%Y %H:%M') if lead.created_at else '' }}</td>
-        <td>{{ lead.first_name }} {{ lead.last_name }}</td>
-        <td>{{ lead.phone }}</td>
-        <td>{{ lead.product }}</td>
-        <td>
-          <form method="post" action="{{ url_for('admin.lead_status', item_id=lead.id) }}">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <select name="status" onchange="this.form.submit()">
-              <option value="new" {% if lead.status == 'new' %}selected{% endif %}>Новая</option>
-              <option value="in_progress" {% if lead.status == 'in_progress' %}selected{% endif %}>В работе</option>
-              <option value="closed" {% if lead.status == 'closed' %}selected{% endif %}>Закрыта</option>
-            </select>
-          </form>
-        </td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="admin-toolbar admin-toolbar--split">
+  <p class="admin-lead admin-lead--inline">
+    Новых заявок: {{ new_leads }}. Новых заказов: {{ new_orders }}.
+  </p>
+  <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.trash') }}" data-icon="trash">
+    Корзина{% if trash_count %} ({{ trash_count }}){% endif %}
+  </a>
 </div>
+
+{% if not leads %}
+<div class="admin-empty">
+  <p>Заявок пока нет.</p>
+</div>
+{% else %}
+<div class="admin-leads">
+  {% for lead in leads %}
+  <article class="admin-lead-card">
+    <header class="admin-lead-card__header">
+      <div>
+        <p class="admin-lead-card__name">{{ lead.first_name }} {{ lead.last_name }}</p>
+        <p class="admin-lead-card__date">{{ lead.created_at.strftime('%d.%m.%Y %H:%M') if lead.created_at else '' }}</p>
+      </div>
+      <div class="admin-lead-card__controls">
+        <form method="post" action="{{ url_for('admin.lead_status', item_id=lead.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <label class="visually-hidden" for="lead-status-{{ lead.id }}">Статус заявки</label>
+          <select class="admin-select" id="lead-status-{{ lead.id }}" name="status" onchange="this.form.submit()">
+            <option value="new" {% if lead.status == 'new' %}selected{% endif %}>Новая</option>
+            <option value="in_progress" {% if lead.status == 'in_progress' %}selected{% endif %}>В работе</option>
+            <option value="closed" {% if lead.status == 'closed' %}selected{% endif %}>Закрыта</option>
+          </select>
+        </form>
+        <form method="post" action="{{ url_for('admin.lead_trash', item_id=lead.id) }}" onsubmit="return confirm('Переместить заявку в корзину?');">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="admin-btn admin-btn--danger" type="submit" data-icon="trash">В корзину</button>
+        </form>
+      </div>
+    </header>
+
+    <dl class="admin-lead-card__facts">
+      <div>
+        <dt>Телефон</dt>
+        <dd><a href="tel:{{ lead.phone }}">{{ lead.phone }}</a></dd>
+      </div>
+      {% if lead.email %}
+      <div>
+        <dt>Email</dt>
+        <dd><a href="mailto:{{ lead.email }}">{{ lead.email }}</a></dd>
+      </div>
+      {% endif %}
+      <div>
+        <dt>Услуга</dt>
+        <dd>{{ lead.product|lead_service_label }}</dd>
+      </div>
+      <div>
+        <dt>Источник</dt>
+        <dd>{{ lead.source|lead_source_label }}</dd>
+      </div>
+      {% if lead.details %}
+      <div class="admin-lead-card__facts-wide">
+        <dt>Детали</dt>
+        <dd>{{ lead.details }}</dd>
+      </div>
+      {% endif %}
+    </dl>
+  </article>
+  {% endfor %}
+</div>
+{{ render_pagination(pagination, 'admin.dashboard') }}
+{% endif %}
 {% endblock %}

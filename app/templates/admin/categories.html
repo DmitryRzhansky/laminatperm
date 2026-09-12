@@ -19,8 +19,8 @@
           <td>{{ item.products.count() }}</td>
           <td>
             <div class="admin-row-actions">
-              <a class="admin-btn" href="{{ url_for('admin.categories_edit', item_id=item.id) }}">Изменить</a>
-              <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.products_list', category=item.id) }}">Товары</a>
+              <a class="admin-btn" href="{{ url_for('admin.categories_edit', item_id=item.id) }}" data-icon="edit">Изменить</a>
+              <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.products_list', category=item.id) }}" data-icon="eye">Товары</a>
             </div>
           </td>
         </tr>

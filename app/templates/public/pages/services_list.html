@@ -21,6 +21,7 @@
             </a>
             <div class="services-page__body">
               <div class="services-page__top">
+                {% if item.icon %}
                 <img
                   class="services-page__icon"
                   src="{{ url_for('static', filename=item.icon) }}"
@@ -29,12 +30,13 @@
                   height="40"
                   decoding="async"
                 >
+                {% endif %}
                 <h2 class="services-page__card-title">
                   <a href="{{ url_for('services.detail', slug=item.slug) }}">{{ item.title }}</a>
                 </h2>
               </div>
               <p class="services-page__price">{{ item.price }}</p>
-              <p class="services-page__text">{{ item.intro }}</p>
+              <p class="services-page__text">{{ item.intro or item.text }}</p>
               <div class="services-page__actions">
                 <a
                   class="services__card-link services__card-link--outline"

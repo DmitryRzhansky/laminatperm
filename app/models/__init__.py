@@ -20,6 +20,7 @@ from app.models.content import (
     Review,
     ReviewPhoto,
     Service,
+    ServiceFaq,
     SitePage,
     TeamMember,
 )
@@ -50,6 +51,7 @@ __all__ = [
     "Review",
     "ReviewPhoto",
     "Service",
+    "ServiceFaq",
     "SitePage",
     "SiteSetting",
     "TeamMember",

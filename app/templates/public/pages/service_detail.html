@@ -2,11 +2,11 @@
 {% block title %}{{ title }} — Ламинейшен{% endblock %}
 {% block description %}{{ description }}{% endblock %}
 {% block content %}
-<section class="hero hero--service" aria-label="{{ service.heading }}">
+<section class="hero hero--service" aria-label="{{ service.display_heading }}">
   <div class="hero__media">
     <img
       class="hero__image"
-      src="{{ url_for('static', filename=service.hero_image) }}"
+      src="{{ url_for('static', filename=service.hero_image or service.image) }}"
       alt=""
       width="1920"
       height="1080"
@@ -21,12 +21,12 @@
         {% include "components/breadcrumbs.html" %}
       </div>
     {% endif %}
-    <h1 class="hero__title">{{ service.heading }}</h1>
+    <h1 class="hero__title">{{ service.display_heading }}</h1>
     {% if service.body %}
       {% for paragraph in service.body %}
         <p class="hero__body-text hero__body-text--{{ loop.index }}">{{ paragraph }}</p>
       {% endfor %}
-    {% else %}
+    {% elif service.intro %}
       <p class="hero__description">{{ service.intro }}</p>
     {% endif %}
     <div class="hero__actions">
@@ -34,13 +34,13 @@
         <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
           <path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/>
         </svg>
-        {{ service.hero_cta_primary }}
+        Рассчитать стоимость
       </a>
       <a class="button button--outline" href="{{ url_for('catalog.index') }}">
         <svg class="button__icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" width="16" height="16">
           <path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/>
         </svg>
-        {{ service.hero_cta_secondary }}
+        Каталог
       </a>
     </div>
   </div>

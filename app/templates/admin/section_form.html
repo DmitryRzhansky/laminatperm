@@ -5,13 +5,13 @@
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   {% for key, label in fields %}
     <label>{{ label }}
-      {% if 'text' in key or 'map' in key or 'checkout' in key %}
+      {% if 'text' in key or 'map' in key or 'checkout' in key or 'description' in key or key.endswith('.points') %}
         <textarea name="{{ key }}">{{ values[key] }}</textarea>
       {% else %}
         <input name="{{ key }}" value="{{ values[key] }}">
       {% endif %}
     </label>
   {% endfor %}
-  <button class="admin-btn" type="submit">Сохранить</button>
+  <button class="admin-btn" type="submit" data-icon="check">Сохранить</button>
 </form>
 {% endblock %}

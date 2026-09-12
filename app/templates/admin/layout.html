@@ -4,52 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Админка{% endblock %} — Ламинейшен</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicons/favicon.ico') }}" sizes="32x32">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
   </head>
   <body class="admin-body">
     <div class="admin-shell">
       <aside class="admin-sidebar">
-        <a class="admin-sidebar__brand" href="{{ url_for('admin.dashboard') }}">Ламинейшен</a>
-        <div class="admin-sidebar__group">
-          <span class="admin-sidebar__label">Входящие</span>
-          <a class="{{ 'is-active' if request.endpoint == 'admin.dashboard' }}" href="{{ url_for('admin.dashboard') }}">Заявки</a>
-          <a class="{{ 'is-active' if request.endpoint in ['admin.orders', 'admin.order_status'] }}" href="{{ url_for('admin.orders') }}">Заказы</a>
+        <div class="admin-sidebar__inner">
+          <nav class="admin-sidebar__nav" aria-label="Разделы админки">
+            <div class="admin-sidebar__group">
+              <span class="admin-sidebar__label">Входящие</span>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint == 'admin.dashboard' }}" href="{{ url_for('admin.dashboard') }}" data-nav="leads">Заявки</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint in ['admin.orders', 'admin.order_status', 'admin.order_trash'] }}" href="{{ url_for('admin.orders') }}" data-nav="orders">Заказы</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint and 'trash' in request.endpoint }}" href="{{ url_for('admin.trash') }}" data-nav="trash">Корзина</a>
+            </div>
+            <div class="admin-sidebar__group">
+              <span class="admin-sidebar__label">Контент</span>
+              <a class="admin-sidebar__link {{ 'is-active' if 'news' in (request.endpoint or '') }}" href="{{ url_for('admin.news_list') }}" data-nav="news">Новости</a>
+              <a class="admin-sidebar__link {{ 'is-active' if 'cases' in (request.endpoint or '') }}" href="{{ url_for('admin.cases_list') }}" data-nav="cases">Кейсы</a>
+              <a class="admin-sidebar__link {{ 'is-active' if 'reviews' in (request.endpoint or '') }}" href="{{ url_for('admin.reviews_list') }}" data-nav="reviews">Отзывы</a>
+            </div>
+            <div class="admin-sidebar__group">
+              <span class="admin-sidebar__label">Каталог</span>
+              <a class="admin-sidebar__link {{ 'is-active' if 'products' in (request.endpoint or '') or 'categories' in (request.endpoint or '') }}" href="{{ url_for('admin.categories_list') }}" data-nav="catalog">Каталог</a>
+            </div>
+            <div class="admin-sidebar__group">
+              <span class="admin-sidebar__label">Страницы</span>
+              <a class="admin-sidebar__link {{ 'is-active' if 'services' in (request.endpoint or '') }}" href="{{ url_for('admin.services_list') }}" data-nav="prices">Услуги</a>
+              <a class="admin-sidebar__link {{ 'is-active' if 'partners' in (request.endpoint or '') }}" href="{{ url_for('admin.partners_list') }}" data-nav="partners">Партнёры</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.args.get('slug') == 'akciya' or (request.view_args or {}).get('slug') == 'akciya' }}" href="{{ url_for('admin.page_edit', slug='akciya') }}" data-nav="promo">Акция</a>
+              <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('slug') == 'garantiya' }}" href="{{ url_for('admin.page_edit', slug='garantiya') }}" data-nav="warranty">Гарантия</a>
+              <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('slug') == 'oplata' }}" href="{{ url_for('admin.page_edit', slug='oplata') }}" data-nav="payment">Оплата</a>
+              <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('slug') == 'dostavka' }}" href="{{ url_for('admin.page_edit', slug='dostavka') }}" data-nav="delivery">Доставка</a>
+              <a class="admin-sidebar__link {{ 'is-active' if 'faq' in (request.endpoint or '') }}" href="{{ url_for('admin.faq_list') }}" data-nav="faq">Вопросы</a>
+            </div>
+            <div class="admin-sidebar__group">
+              <span class="admin-sidebar__label">Сайт</span>
+              <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('name') == 'header' }}" href="{{ url_for('admin.section_edit', name='header') }}" data-nav="header">Шапка</a>
+              <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('name') == 'hero' }}" href="{{ url_for('admin.section_edit', name='hero') }}" data-nav="hero">Первый экран</a>
+              <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('name') == 'about' }}" href="{{ url_for('admin.section_edit', name='about') }}" data-nav="about">О компании</a>
+              <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('name') == 'contacts' }}" href="{{ url_for('admin.section_edit', name='contacts') }}" data-nav="contacts">Контакты</a>
+            </div>
+          </nav>
         </div>
-        <div class="admin-sidebar__group">
-          <span class="admin-sidebar__label">Контент</span>
-          <a class="{{ 'is-active' if 'news' in (request.endpoint or '') }}" href="{{ url_for('admin.news_list') }}">Новости</a>
-          <a class="{{ 'is-active' if 'cases' in (request.endpoint or '') }}" href="{{ url_for('admin.cases_list') }}">Кейсы</a>
-          <a class="{{ 'is-active' if 'reviews' in (request.endpoint or '') }}" href="{{ url_for('admin.reviews_list') }}">Отзывы</a>
-        </div>
-        <div class="admin-sidebar__group">
-          <span class="admin-sidebar__label">Каталог</span>
-          <a class="{{ 'is-active' if 'products' in (request.endpoint or '') or 'categories' in (request.endpoint or '') }}" href="{{ url_for('admin.categories_list') }}">Каталог</a>
-        </div>
-        <div class="admin-sidebar__group">
-          <span class="admin-sidebar__label">Страницы</span>
-          <a class="{{ 'is-active' if 'services' in (request.endpoint or '') }}" href="{{ url_for('admin.services_list') }}">Цены</a>
-          <a class="{{ 'is-active' if 'partners' in (request.endpoint or '') }}" href="{{ url_for('admin.partners_list') }}">Партнёры</a>
-          <a class="{{ 'is-active' if request.args.get('slug') == 'akciya' or (request.view_args or {}).get('slug') == 'akciya' }}" href="{{ url_for('admin.page_edit', slug='akciya') }}">Акция</a>
-          <a class="{{ 'is-active' if (request.view_args or {}).get('slug') == 'garantiya' }}" href="{{ url_for('admin.page_edit', slug='garantiya') }}">Гарантия</a>
-          <a class="{{ 'is-active' if (request.view_args or {}).get('slug') == 'oplata' }}" href="{{ url_for('admin.page_edit', slug='oplata') }}">Оплата</a>
-          <a class="{{ 'is-active' if (request.view_args or {}).get('slug') == 'dostavka' }}" href="{{ url_for('admin.page_edit', slug='dostavka') }}">Доставка</a>
-          <a class="{{ 'is-active' if 'faq' in (request.endpoint or '') }}" href="{{ url_for('admin.faq_list') }}">Вопросы</a>
-        </div>
-        <div class="admin-sidebar__group">
-          <span class="admin-sidebar__label">Сайт</span>
-          <a class="{{ 'is-active' if (request.view_args or {}).get('name') == 'header' }}" href="{{ url_for('admin.section_edit', name='header') }}">Шапка</a>
-          <a class="{{ 'is-active' if (request.view_args or {}).get('name') == 'hero' }}" href="{{ url_for('admin.section_edit', name='hero') }}">Первый экран</a>
-          <a class="{{ 'is-active' if (request.view_args or {}).get('name') == 'about' }}" href="{{ url_for('admin.section_edit', name='about') }}">О компании</a>
-          <a class="{{ 'is-active' if (request.view_args or {}).get('name') == 'contacts' }}" href="{{ url_for('admin.section_edit', name='contacts') }}">Контакты</a>
-        </div>
+
+        <form class="admin-sidebar__footer" method="post" action="{{ url_for('auth.logout') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="admin-btn admin-btn--ghost admin-sidebar__logout" type="submit" data-icon="logout">Выйти</button>
+        </form>
       </aside>
+
       <div class="admin-main">
         <div class="admin-top">
           <h1>{% block heading %}Админка{% endblock %}</h1>
-          <form method="post" action="{{ url_for('auth.logout') }}">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <button class="admin-btn admin-btn--ghost" type="submit">Выйти</button>
-          </form>
+          <a
+            class="admin-btn admin-btn--ghost"
+            href="{{ url_for('main.home') }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-icon="external"
+          >Открыть сайт</a>
         </div>
         {% with messages = get_flashed_messages() %}
           {% if messages %}

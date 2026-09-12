@@ -82,6 +82,30 @@ def create_app(config_class=Config):
             return value
         return f"{number:,.0f}".replace(",", " ")
 
+    @app.template_filter("delivery_label")
+    def delivery_label_filter(value):
+        from app.utils.labels import delivery_label
+
+        return delivery_label(value)
+
+    @app.template_filter("payment_label")
+    def payment_label_filter(value):
+        from app.utils.labels import payment_label
+
+        return payment_label(value)
+
+    @app.template_filter("lead_service_label")
+    def lead_service_label_filter(value):
+        from app.utils.labels import lead_service_label
+
+        return lead_service_label(value)
+
+    @app.template_filter("lead_source_label")
+    def lead_source_label_filter(value):
+        from app.utils.labels import lead_source_label
+
+        return lead_source_label(value)
+
     @app.context_processor
     def inject_globals():
         from app.models import ProductCategory

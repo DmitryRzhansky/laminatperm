@@ -3,11 +3,17 @@
 {% block content %}
 <form class="admin-form" method="post" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-  <label>Заголовок <input name="title" required value="{{ item.title or '' }}"></label>
-  <label>Коротко <textarea name="summary">{{ item.summary or '' }}</textarea></label>
-  <label>Текст <textarea id="body-md" name="body_md">{{ item.body_md or '' }}</textarea></label>
+  <label>Title (вкладка браузера) <input name="title" required value="{{ item.title or '' }}"></label>
+  <label>Description (SEO) <textarea name="seo_description" rows="3">{{ item.seo_description or '' }}</textarea></label>
+  <label>H1 на странице <input name="h1" value="{{ item.h1 or '' }}"></label>
+  <label>Текст под H1 <textarea name="summary" rows="4">{{ item.summary or '' }}</textarea></label>
+  <label>Пункты списка (каждый с новой строки) <textarea name="points" rows="5">{{ item.points or '' }}</textarea></label>
+  <label>Дополнительный текст <textarea id="body-md" name="body_md">{{ item.body_md or '' }}</textarea></label>
   <label>Картинка <input type="file" name="image" accept="image/*"></label>
-  <button class="admin-btn" type="submit">Сохранить</button>
+  {% if item.image %}
+  <p class="admin-details">Сейчас: {{ item.image }}</p>
+  {% endif %}
+  <button class="admin-btn" type="submit" data-icon="check">Сохранить</button>
 </form>
 {% endblock %}
 {% block extra_js %}

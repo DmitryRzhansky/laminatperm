@@ -97,16 +97,16 @@
             <div class="admin-pair-row">
               <input name="attr_name" value="{{ attr.name }}" placeholder="Название">
               <input name="attr_value" value="{{ attr.value }}" placeholder="Значение">
-              <button class="admin-btn admin-btn--ghost admin-btn--icon" type="button" data-remove-row aria-label="Удалить характеристику">×</button>
+              <button class="admin-btn admin-btn--ghost admin-btn--icon" type="button" data-icon="close" data-remove-row aria-label="Удалить характеристику"></button>
             </div>
           {% endfor %}
           <div class="admin-pair-row">
             <input name="attr_name" value="" placeholder="Название">
             <input name="attr_value" value="" placeholder="Значение">
-            <button class="admin-btn admin-btn--ghost admin-btn--icon" type="button" data-remove-row aria-label="Удалить характеристику">×</button>
+            <button class="admin-btn admin-btn--ghost admin-btn--icon" type="button" data-icon="close" data-remove-row aria-label="Удалить характеристику"></button>
           </div>
         </div>
-        <button class="admin-btn admin-btn--ghost" type="button" data-add-attr>Добавить характеристику</button>
+        <button class="admin-btn admin-btn--ghost" type="button" data-add-attr data-icon="plus">Добавить характеристику</button>
       </div>
     </div>
 
@@ -125,18 +125,18 @@
             <div class="admin-faq-row">
               <label>Вопрос <input name="faq_question" value="{{ faq.question }}" maxlength="500"></label>
               <label>Ответ <textarea name="faq_answer" rows="3">{{ faq.answer }}</textarea></label>
-              <button class="admin-btn admin-btn--ghost" type="button" data-remove-row>Удалить</button>
+              <button class="admin-btn admin-btn--ghost" type="button" data-remove-row data-icon="trash">Удалить</button>
             </div>
           {% endfor %}
           {% if (item.faqs|length) < 10 %}
             <div class="admin-faq-row">
               <label>Вопрос <input name="faq_question" value="" maxlength="500"></label>
               <label>Ответ <textarea name="faq_answer" rows="3"></textarea></label>
-              <button class="admin-btn admin-btn--ghost" type="button" data-remove-row>Удалить</button>
+              <button class="admin-btn admin-btn--ghost" type="button" data-remove-row data-icon="trash">Удалить</button>
             </div>
           {% endif %}
         </div>
-        <button class="admin-btn admin-btn--ghost" type="button" data-add-faq {% if (item.faqs|length) >= 10 %}hidden{% endif %}>Добавить вопрос</button>
+        <button class="admin-btn admin-btn--ghost" type="button" data-add-faq {% if (item.faqs|length) >= 10 %}hidden{% endif %} data-icon="plus">Добавить вопрос</button>
       </div>
     </div>
 
@@ -147,21 +147,21 @@
         </label>
         <p class="admin-json-status" data-json-status hidden></p>
         <div class="admin-actions">
-          <button class="admin-btn" type="button" data-json-apply>Заполнить карточку</button>
+          <button class="admin-btn" type="button" data-json-apply data-icon="check">Заполнить карточку</button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="admin-actions">
-    <button class="admin-btn" type="submit">Сохранить</button>
+    <button class="admin-btn" type="submit" data-icon="check">Сохранить</button>
     {% if item.category_id %}
-      <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.products_list', category=item.category_id) }}">К товарам</a>
+      <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.products_list', category=item.category_id) }}" data-icon="arrow-left">К товарам</a>
     {% else %}
-      <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.categories_list') }}">К каталогу</a>
+      <a class="admin-btn admin-btn--ghost" href="{{ url_for('admin.categories_list') }}" data-icon="arrow-left">К каталогу</a>
     {% endif %}
     {% if item.id %}
-      <button class="admin-btn admin-btn--danger" form="delete-form" type="submit" onclick="return confirm('Убрать с сайта?')">Удалить</button>
+      <button class="admin-btn admin-btn--danger" form="delete-form" type="submit" onclick="return confirm('Убрать с сайта?')" data-icon="trash">Удалить</button>
     {% endif %}
   </div>
 </form>
@@ -285,7 +285,7 @@
     function createAttrRow(name, value) {
       const row = document.createElement("div");
       row.className = "admin-pair-row";
-      row.innerHTML = '<input name="attr_name" value="" placeholder="Название"><input name="attr_value" value="" placeholder="Значение"><button class="admin-btn admin-btn--ghost admin-btn--icon" type="button" data-remove-row aria-label="Удалить характеристику">×</button>';
+      row.innerHTML = '<input name="attr_name" value="" placeholder="Название"><input name="attr_value" value="" placeholder="Значение"><button class="admin-btn admin-btn--ghost admin-btn--icon" type="button" data-icon="close" data-remove-row aria-label="Удалить характеристику"></button>';
       row.querySelector('[name="attr_name"]').value = name || "";
       row.querySelector('[name="attr_value"]').value = value || "";
       bindRemove(row);
@@ -295,7 +295,7 @@
     function createFaqRow(question, answer) {
       const row = document.createElement("div");
       row.className = "admin-faq-row";
-      row.innerHTML = '<label>Вопрос <input name="faq_question" value="" maxlength="500"></label><label>Ответ <textarea name="faq_answer" rows="3"></textarea></label><button class="admin-btn admin-btn--ghost" type="button" data-remove-row>Удалить</button>';
+      row.innerHTML = '<label>Вопрос <input name="faq_question" value="" maxlength="500"></label><label>Ответ <textarea name="faq_answer" rows="3"></textarea></label><button class="admin-btn admin-btn--ghost" type="button" data-remove-row data-icon="trash">Удалить</button>';
       row.querySelector('[name="faq_question"]').value = question || "";
       row.querySelector('[name="faq_answer"]').value = answer || "";
       bindRemove(row);

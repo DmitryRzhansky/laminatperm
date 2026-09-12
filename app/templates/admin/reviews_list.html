@@ -29,7 +29,7 @@
         </a>
       {% endfor %}
     </nav>
-    <a class="admin-btn" href="{{ url_for('admin.reviews_edit', platform=current_platform) }}">Добавить</a>
+    <a class="admin-btn" href="{{ url_for('admin.reviews_edit', platform=current_platform) }}" data-icon="plus">Добавить</a>
   </div>
 
   {% if items %}
@@ -69,10 +69,10 @@
             {% if not item.is_published %}
               <span class="admin-reviews__badge">Скрыт</span>
             {% endif %}
-            <a class="admin-btn" href="{{ url_for('admin.reviews_edit', item_id=item.id) }}">Изменить</a>
+            <a class="admin-btn" href="{{ url_for('admin.reviews_edit', item_id=item.id) }}" data-icon="edit">Изменить</a>
             <form method="post" action="{{ url_for('admin.reviews_delete', item_id=item.id) }}" onsubmit="return confirm('Убрать отзыв с сайта?')">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-              <button class="admin-btn admin-btn--danger" type="submit">Удалить</button>
+              <button class="admin-btn admin-btn--danger" type="submit" data-icon="trash">Удалить</button>
             </form>
           </div>
         </li>

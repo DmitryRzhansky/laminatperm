@@ -1,0 +1,36 @@
+{% macro admin_btn(
+  label,
+  href=None,
+  type='submit',
+  variant='primary',
+  icon=None,
+  confirm=None,
+  form=None,
+  attrs='',
+  class_name=''
+) -%}
+{%- set classes = ['admin-btn'] -%}
+{%- if variant and variant != 'primary' -%}
+  {%- set _ = classes.append('admin-btn--' ~ variant) -%}
+{%- endif -%}
+{%- if class_name -%}
+  {%- set _ = classes.append(class_name) -%}
+{%- endif -%}
+{%- if href -%}
+<a
+  class="{{ classes|join(' ') }}"
+  href="{{ href }}"
+  {% if icon %}data-icon="{{ icon }}"{% endif %}
+  {{ attrs|safe }}
+><span class="admin-btn__label">{{ label }}</span></a>
+{%- else -%}
+<button
+  class="{{ classes|join(' ') }}"
+  type="{{ type }}"
+  {% if icon %}data-icon="{{ icon }}"{% endif %}
+  {% if form %}form="{{ form }}"{% endif %}
+  {% if confirm %}onclick="return confirm({{ confirm|tojson }})"{% endif %}
+  {{ attrs|safe }}
+><span class="admin-btn__label">{{ label }}</span></button>
+{%- endif -%}
+{%- endmacro %}

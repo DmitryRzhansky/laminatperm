@@ -19,6 +19,7 @@ from app.models import (
     Review,
     ReviewPhoto,
     Service,
+    ServiceFaq,
     SitePage,
 )
 from app.utils.files import ALLOWED_IMAGE_EXTENSIONS, save_upload
@@ -244,8 +245,12 @@ def _collection_edit(model, form_template, list_endpoint, fields, image_field=No
 @admin_bp.route("/services/")
 @login_required
 def services_list():
-    return render_template("admin/simple_list.html", title="Цены и услуги", create_url=url_for("admin.services_edit"), rows=[
-        {"title": f"{item.title} — {item.price}", "edit": url_for("admin.services_edit", item_id=item.id), "delete": url_for("admin.services_delete", item_id=item.id)}
+    return render_template("admin/simple_list.html", title="Услуги", create_url=url_for("admin.services_edit"), rows=[
+        {
+            "title": f"{item.title} — /uslugi/{item.slug}/" if item.slug else item.title,
+            "edit": url_for("admin.services_edit", item_id=item.id),
+            "delete": url_for("admin.services_delete", item_id=item.id),
+        }
         for item in Service.query.order_by(Service.sort_order, Service.id).all()
     ])
 
@@ -257,16 +262,52 @@ def services_edit(item_id=None):
     item = Service.query.get(item_id) if item_id else Service(is_published=True)
     if request.method == "POST":
         item.title = request.form.get("title", "").strip()
+        slug_source = request.form.get("slug", "").strip() or item.title
+        item.slug = unique_slug(Service, slug_source, current_id=item.id)
+        item.heading = request.form.get("heading", "").strip()
+        item.intro = request.form.get("intro", "").strip()
+        item.body_md = request.form.get("body_md", "").strip()
         item.text = request.form.get("text", "").strip()
         item.price = request.form.get("price", "").strip()
+        item.seo_title = request.form.get("seo_title", "").strip()
+        item.seo_description = request.form.get("seo_description", "").strip()
+        item.icon = request.form.get("icon", "").strip()
+        item.sort_order = request.form.get("sort_order", type=int) or 0
         item.is_published = bool(request.form.get("is_published"))
+
         image = _save_image("image", "services")
         if image:
             item.image = image
+        hero_image = _save_image("hero_image", "services", "hero")
+        if hero_image:
+            item.hero_image = hero_image
+
         if item.id is None:
             db.session.add(item)
+            db.session.flush()
+
+        item.faqs.clear()
+        questions = request.form.getlist("faq_question")
+        answers = request.form.getlist("faq_answer")
+        order = 0
+        for question, answer in zip(questions, answers):
+            question = (question or "").strip()
+            answer = (answer or "").strip()
+            if not question:
+                continue
+            item.faqs.append(
+                ServiceFaq(question=question, answer=answer, sort_order=order)
+            )
+            order += 1
+
+        if not item.seo_title:
+            item.seo_title = item.heading or item.title
+        if not item.seo_description:
+            from app.utils.markdown import excerpt
+
+            item.seo_description = excerpt(item.intro or item.text or item.title, 160)
         _commit("Услуга сохранена")
-        return redirect(url_for("admin.services_list"))
+        return redirect(url_for("admin.services_edit", item_id=item.id))
     return render_template("admin/service_form.html", item=item)
 
 
@@ -348,12 +389,19 @@ def page_edit(slug):
     item = SitePage.query.filter_by(slug=slug).first_or_404()
     if request.method == "POST":
         item.title = request.form.get("title", "").strip()
+        item.h1 = request.form.get("h1", "").strip()
         item.summary = request.form.get("summary", "").strip()
+        item.points = request.form.get("points", "").strip()
         item.body_md = request.form.get("body_md", "")
+        item.seo_title = item.title
+        item.seo_description = request.form.get("seo_description", "").strip()
         image = _save_image("image", "pages")
         if image:
             item.image = image
-        apply_seo(item, item.title, item.summary)
+        if not item.seo_description:
+            from app.utils.markdown import excerpt
+
+            item.seo_description = excerpt(item.summary or item.h1 or item.title, 160)
         _commit("Страница сохранена")
         return redirect(url_for("admin.page_edit", slug=slug))
     labels = {
@@ -367,24 +415,29 @@ def page_edit(slug):
 
 SECTION_FIELDS = {
     "header": [
-        ("header.phone", "Телефон в шапке"),
+        ("header.phone", "Телефон"),
         ("header.address", "Адрес"),
         ("header.hours", "Время работы"),
-        ("header.org", "Короткое описание компании"),
+        ("header.org", "Подпись компании в шапке"),
+        ("header.email", "Email (если отличается от контактов)"),
     ],
     "hero": [
-        ("hero.h1", "Главный заголовок на первом экране"),
-        ("hero.text", "Текст под заголовком"),
-        ("hero.video", "Видео (путь к файлу)"),
+        ("hero.h1", "H1 на первом экране"),
+        ("hero.text", "Текст под H1"),
+        ("hero.cta_primary", "Текст основной кнопки"),
+        ("hero.cta_secondary", "Текст второй кнопки"),
+        ("hero.video", "Видео (путь, например video/hero.mp4)"),
+        ("hero.poster", "Постер видео (путь)"),
     ],
     "about": [
+        ("about.label", "Надзаголовок"),
         ("about.title", "Заголовок блока «О компании»"),
-        ("about.text", "Текст о компании"),
-        ("about.video", "Ссылка на видео"),
+        ("about.text", "Текст о компании (абзацы через пустую строку)"),
+        ("about.video", "Ссылка или путь к видео"),
     ],
     "contacts": [
         ("contacts.email", "Почта"),
-        ("contacts.map", "Код карты"),
+        ("contacts.map", "Код или ссылка карты"),
         ("footer.ogrn", "ОГРН / реквизиты"),
         ("checkout.delivery", "Как доставляем (для каталога)"),
         ("checkout.payment", "Как оплачивают (для каталога)"),
