@@ -87,7 +87,10 @@
 
       var closeTarget = event.target.closest("[data-menu-close]");
       if (closeTarget) {
-        event.preventDefault();
+        // Anchors must keep default navigation; only block non-link close controls.
+        if (!(closeTarget instanceof HTMLAnchorElement)) {
+          event.preventDefault();
+        }
         closeMenu();
       }
     },

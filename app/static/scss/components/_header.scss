@@ -255,6 +255,7 @@
 }
 
 .hero-header__cart-text {
+  display: none;
   font-family: var(--font-text);
   font-size: 0.75rem;
   font-weight: 300;
@@ -268,11 +269,6 @@
   font-weight: 300;
   line-height: 1;
   text-align: center;
-}
-
-.hero-header__cart-count.is-empty,
-.hero-header__cart-count[hidden] {
-  display: none;
 }
 
 .hero-header .button--consult {
@@ -424,6 +420,10 @@
 
   .hero-header__social--mail {
     display: inline-flex;
+  }
+
+  .hero-header__cart-text {
+    display: inline;
   }
 
   .hero-header__meta {

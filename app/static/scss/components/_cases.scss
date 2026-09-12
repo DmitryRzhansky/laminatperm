@@ -563,32 +563,6 @@
   outline-offset: 0.15rem;
 }
 
-.cases__more {
-  flex-shrink: 0;
-  margin: 0;
-  text-align: center;
-}
-
-.cases__more-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: var(--font-text);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--color-accent);
-  text-decoration: none;
-}
-
-.cases__more-link:hover {
-  text-decoration: underline;
-}
-
-.cases__more-link:focus-visible {
-  outline: 0.125rem solid var(--color-accent);
-  outline-offset: 0.15rem;
-}
-
 .cases--detail {
   height: auto;
   max-height: none;

@@ -1,10 +1,10 @@
 function updateCartCount(count) {
   const value = Math.max(0, Number(count) || 0);
-  const label = value > 0 ? `Корзина: ${value}` : "Корзина";
+  const label = `Корзина: ${value}`;
 
   document.querySelectorAll("[data-cart-count]").forEach((node) => {
-    node.textContent = value > 0 ? `(${value})` : "0";
-    node.hidden = value <= 0;
+    node.textContent = `(${value})`;
+    node.hidden = false;
     node.classList.toggle("is-empty", value <= 0);
   });
 
