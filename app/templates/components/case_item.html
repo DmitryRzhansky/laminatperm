@@ -1,0 +1,82 @@
+{# Expects: case, index (optional), link_title (optional), title_tag (optional, default h3) #}
+{% set title_tag = title_tag|default('h3') %}
+<article class="cases__item">
+  <div class="cases__content">
+    {% if index is defined and index %}
+      <p class="cases__meta">
+        <span class="cases__index">{{ "%02d"|format(index) }}</span>
+      </p>
+    {% endif %}
+    {% if link_title %}
+      <{{ title_tag }} class="cases__item-title">
+        <a class="cases__item-title-link" href="{{ url_for('cases.detail', slug=case.slug) }}">{{ case.title }}</a>
+      </{{ title_tag }}>
+    {% else %}
+      <{{ title_tag }} class="cases__item-title">{{ case.page_heading if title_tag == 'h1' else case.title }}</{{ title_tag }}>
+    {% endif %}
+    {% if case.lead %}
+      <p class="cases__lead">{{ case.lead }}</p>
+    {% endif %}
+    {% if case.fact_list %}
+      <dl class="cases__facts">
+        {% for fact in case.fact_list %}
+          <div class="cases__fact">
+            <dt>
+              <img class="cases__fact-icon" src="{{ url_for('static', filename=fact.icon) }}" alt="" width="16" height="16" decoding="async">
+              <span class="cases__fact-label">{{ fact.label }}</span>
+            </dt>
+            <dd>{{ fact.value }}</dd>
+          </div>
+        {% endfor %}
+      </dl>
+    {% endif %}
+  </div>
+
+  {% if case.images %}
+    {% set image_count = case.images|length %}
+    <div class="cases__media {% if image_count >= 3 %}cases__media--triple{% else %}cases__media--single{% endif %}">
+      {% if image_count >= 3 %}
+        {% set main = case.images[0] %}
+        <figure class="cases__shot cases__shot--main">
+          <img
+            class="cases__image"
+            src="{{ main.filename|media }}"
+            alt="{{ main.alt or case.title }}"
+            width="1280"
+            height="960"
+            loading="{{ 'eager' if (index is defined and index == 1) else 'lazy' }}"
+            decoding="async"
+          >
+        </figure>
+        <div class="cases__thumbs">
+          {% for image in case.images[1:3] %}
+            <figure class="cases__shot cases__shot--thumb">
+              <img
+                class="cases__image"
+                src="{{ image.filename|media }}"
+                alt="{{ image.alt or case.title }}"
+                width="800"
+                height="600"
+                loading="lazy"
+                decoding="async"
+              >
+            </figure>
+          {% endfor %}
+        </div>
+      {% else %}
+        {% set image = case.images[0] %}
+        <figure class="cases__shot">
+          <img
+            class="cases__image"
+            src="{{ image.filename|media }}"
+            alt="{{ image.alt or case.title }}"
+            width="1280"
+            height="960"
+            loading="{{ 'eager' if (index is defined and index == 1) else 'lazy' }}"
+            decoding="async"
+          >
+        </figure>
+      {% endif %}
+    </div>
+  {% endif %}
+</article>

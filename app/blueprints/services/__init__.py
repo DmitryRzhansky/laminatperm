@@ -1,10 +1,17 @@
 from flask import Blueprint, abort, render_template, url_for
 from sqlalchemy.orm import joinedload
 
-from app.models import Service
+from app.models import Case, Service
 
 services_bp = Blueprint("services", __name__)
 
+
+def _home_cases():
+    return (
+        Case.query.filter_by(is_published=True, show_on_home=True)
+        .order_by(Case.sort_order, Case.id)
+        .all()
+    )
 
 def _published_services():
     return (
@@ -61,6 +68,7 @@ def detail(slug):
         "public/pages/service_detail.html",
         service=service,
         related=related_services(slug),
+        home_cases=_home_cases(),
         title=service.seo_title or service.display_heading or service.title,
         description=service.seo_description or service.intro or service.text,
         lead_source=f"service:{service.slug}",

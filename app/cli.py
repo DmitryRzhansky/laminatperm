@@ -358,52 +358,179 @@ def _seed_news():
         db.session.flush()
 
 
-def _seed_cases():
-    if Case.query.first():
-        return
-    items = [
+def _cases_seed_data():
+    return [
         {
-            "title": "Полный цикл: от старого пола до Ideal Form",
-            "location": "Пермь · Стахановская, 44",
-            "lead": "Сняли старое покрытие, подготовили основание полусухой стяжкой и уложили ламинат Ideal Form.",
-            "tags": "Под ключ, Демонтаж, Стяжка, Ламинат",
+            "slug": "ideal-form-stakhanovskaya",
+            "heading": "Полный цикл: от старого пола до Ideal Form",
+            "seo_title": "Укладка Ideal Form под ключ в Перми",
+            "seo_description": "Демонтаж старого пола, полусухая стяжка и укладка ламината Ideal Form ID78.",
+            "lead": (
+                "Сняли старое покрытие, подготовили основание полусухой стяжкой "
+                "и уложили ламинат Ideal Form ID78. Типичный сценарий, когда без "
+                "нормальной базы покрытие класть нельзя."
+            ),
             "material": "Ламинат Ideal Form ID78",
             "task": "Демонтаж, выравнивание и новая укладка",
-            "result": "Ровное основание и готовый пол",
-            "works": "Полный демонтаж старого покрытия и вывоз мусора\nПолусухая стяжка с контролем уровня\nПоставка и укладка Ideal Form",
-            "images": ["images/cases/stakhanovskaya.webp", "images/cases/screed.webp", "images/cases/ideal-form-aqua.webp"],
+            "method": "Полусухая стяжка + плавающий монтаж",
+            "images": [
+                {"filename": "images/cases/stakhanovskaya.webp", "alt": "Демонтаж старого пола"},
+                {"filename": "images/cases/screed.webp", "alt": "Подготовка основания перед стяжкой"},
+                {"filename": "images/cases/ideal-form-aqua.webp", "alt": "Готовый ламинат Ideal Form"},
+            ],
         },
         {
-            "title": "Art Floor в жилой комнате",
-            "location": "Пермь",
-            "lead": "Аккуратная укладка винилового покрытия с подрезкой и плинтусом.",
-            "tags": "LVT, Укладка",
-            "material": "Art Floor",
-            "task": "Замена покрытия без капитального ремонта",
-            "result": "Готовый пол за один заход",
-            "works": "Подготовка основания\nУкладка покрытия\nМонтаж плинтуса",
-            "images": ["images/cases/art-floor.webp"],
+            "slug": "art-floor-kim",
+            "heading": "Art Floor плавающим способом",
+            "seo_title": "Укладка ламината Art Floor в Перми",
+            "seo_description": "Плавающий монтаж ламината Art Floor с подложкой и зазорами у стен.",
+            "lead": (
+                "Укладка ламината Art Floor плавающим замком: подложка, "
+                "компенсационные зазоры у стен и раскладка вдоль длинной стороны комнаты."
+            ),
+            "material": "Ламинат Art Floor",
+            "task": "Замена покрытия в жилой комнате",
+            "method": "Плавающая укладка на подложку",
+            "images": [
+                {"filename": "images/cases/artfloor-kim.webp", "alt": "Ламинат Art Floor в комнате"},
+            ],
+        },
+        {
+            "slug": "tarkett-new-age",
+            "heading": "Клеевой винил Tarkett New Age",
+            "seo_title": "Укладка клеевого винила Tarkett New Age",
+            "seo_description": "Клеевой монтаж винила Tarkett New Age со стыковкой покрытий в проёме.",
+            "lead": (
+                "Смонтировали клеевой винил Tarkett New Age с ровным переходом "
+                "к соседнему покрытию в дверном проёме. Для клеевых систем важны "
+                "чистое основание, правильный клей и точная подрезка."
+            ),
+            "material": "Винил клеевой Tarkett New Age",
+            "task": "Стыковка разных покрытий в проёме",
+            "method": "Клеевая укладка",
+            "images": [
+                {"filename": "images/cases/tarkett-vinyl.webp", "alt": "Стык винила Tarkett New Age"},
+                {"filename": "images/cases/lvt-modular.webp", "alt": "Процесс укладки покрытия"},
+                {"filename": "images/cases/linoleum.webp", "alt": "Готовое покрытие"},
+            ],
+        },
+        {
+            "slug": "ideal-833-pipes",
+            "heading": "Ideal 8/33/V4 с обходом труб отопления",
+            "seo_title": "Укладка ламината Ideal с обходом труб",
+            "seo_description": "Точные вырезы ламината Ideal 8/33/V4 вокруг труб отопления.",
+            "lead": (
+                "Уложили ламинат Ideal 8/33/V4 с точными вырезами вокруг труб радиатора — "
+                "без широких щелей и силиконовых заплаток."
+            ),
+            "material": "Ламинат Ideal 8/33/V4",
+            "task": "Обход вертикальных труб отопления",
+            "method": "Плавающий монтаж с подрезкой",
+            "images": [
+                {"filename": "images/cases/ideal-laminate-pipes.webp", "alt": "Вырез ламината вокруг труб"},
+            ],
+        },
+        {
+            "slug": "ideal-form-aqua-aberhof",
+            "heading": "Ideal Form Aqua 24 и плинтус Aberhof 70",
+            "seo_title": "Ideal Form Aqua и плинтус Aberhof под ключ",
+            "seo_description": "Поставка и укладка Ideal Form Aqua 24 с плинтусом Aberhof 70.",
+            "lead": (
+                "Комплект под ключ: влагостойкий ламинат Ideal Form Aqua 24, "
+                "поставка на объект и монтаж вместе с плинтусом Aberhof 70 в тон пола."
+            ),
+            "material": "Ideal Form Aqua 24 + Aberhof 70",
+            "task": "Поставка, укладка и плинтус",
+            "method": "Плавающий монтаж + установка плинтуса",
+            "images": [
+                {"filename": "images/cases/ideal-form-aqua.webp", "alt": "Ideal Form Aqua с плинтусом"},
+                {"filename": "images/cases/plinth-duropolymer.webp", "alt": "Монтаж плинтуса"},
+                {"filename": "images/cases/aberhof-7013.webp", "alt": "Плинтус Aberhof"},
+            ],
+        },
+        {
+            "slug": "laminate-wall",
+            "heading": "Обшивка стены ламинатом по обрешётке",
+            "seo_title": "Ламинат на стену по обрешётке в Перми",
+            "seo_description": "Стеновая отделка ламинатом по деревянной обрешётке.",
+            "lead": (
+                "Ламинат использовали как стеновую отделку: на блочную стену "
+                "смонтировали деревянную обрешётку и набрали вертикальные панели."
+            ),
+            "material": "Ламинат на обрешётке",
+            "task": "Декоративная обшивка стены",
+            "method": "Вертикальный монтаж по направляющим",
+            "images": [
+                {"filename": "images/cases/laminate-wall.webp", "alt": "Обшивка стены ламинатом"},
+            ],
+        },
+        {
+            "slug": "carpet-lounge",
+            "heading": "Ковролин в зоне отдыха",
+            "seo_title": "Укладка ковролина в коммерческом помещении",
+            "seo_description": "Укладка коммерческого ковролина с аккуратной подрезкой по периметру.",
+            "lead": (
+                "Уложили ковролин в помещении с мебелью и проходной зоной: "
+                "ровное основание, плотная стыковка полотен и чистая подрезка у стен."
+            ),
+            "material": "Ковролин коммерческого назначения",
+            "task": "Бесшовный вид на большой площади",
+            "method": "Раскладка полотен с подрезкой",
+            "images": [
+                {"filename": "images/cases/aberhof-plinth.webp", "alt": "Укладка ковролина"},
+            ],
         },
     ]
-    for index, data in enumerate(items, start=1):
-        case = Case(
-            title=data["title"],
-            location=data["location"],
-            lead=data["lead"],
-            tags=data["tags"],
-            fact_material=data["material"],
-            fact_task=data["task"],
-            fact_result=data["result"],
-            works=data["works"],
-            show_on_home=True,
-            sort_order=index,
-        )
-        case.slug = unique_slug(Case, data["title"])
-        apply_seo(case, data["title"], data["lead"], Case)
-        db.session.add(case)
-        db.session.flush()
-        for order, filename in enumerate(data["images"]):
-            db.session.add(CaseImage(case_id=case.id, filename=filename, sort_order=order))
+
+
+def _seed_cases():
+    keep_slugs = set()
+    for index, data in enumerate(_cases_seed_data(), start=1):
+        keep_slugs.add(data["slug"])
+        case = Case.query.filter_by(slug=data["slug"]).first()
+        if case is None:
+            case = Case(
+                title=data["heading"],
+                slug=data["slug"],
+            )
+            db.session.add(case)
+            db.session.flush()
+
+        case.title = data["heading"]
+        case.heading = data["heading"]
+        case.location = ""
+        case.lead = data["lead"]
+        case.tags = ""
+        case.works = ""
+        case.fact_material = data["material"]
+        case.fact_task = data["task"]
+        case.fact_result = data["method"]
+        case.fact_material_label = "Материал"
+        case.fact_task_label = "Задача"
+        case.fact_result_label = "Способ"
+        case.fact_material_icon = "icons/cases/stack.svg"
+        case.fact_task_icon = "icons/cases/clipboard-text.svg"
+        case.fact_result_icon = "icons/cases/scales.svg"
+        case.show_on_home = True
+        case.is_published = True
+        case.sort_order = index
+        case.seo_title = data["seo_title"]
+        case.seo_description = data["seo_description"]
+
+        CaseImage.query.filter_by(case_id=case.id).delete()
+        for order, image in enumerate(data["images"]):
+            db.session.add(
+                CaseImage(
+                    case_id=case.id,
+                    filename=image["filename"],
+                    alt=image.get("alt", ""),
+                    sort_order=order,
+                )
+            )
+
+    extras = Case.query.filter(Case.slug.notin_(keep_slugs)).all()
+    for case in extras:
+        db.session.delete(case)
 
 
 def _seed_reviews():

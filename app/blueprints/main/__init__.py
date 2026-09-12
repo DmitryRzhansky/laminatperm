@@ -12,7 +12,6 @@ def _home_context():
         Advantage,
         Case,
         FaqItem,
-        News,
         Partner,
         ProcessVideo,
         ProductCategory,
@@ -29,7 +28,6 @@ def _home_context():
         "reviews": Review.query.filter_by(is_published=True).order_by(Review.sort_order, Review.id).all(),
         "home_cases": Case.query.filter_by(is_published=True, show_on_home=True).order_by(Case.sort_order, Case.id).all(),
         "process_videos": ProcessVideo.query.order_by(ProcessVideo.sort_order, ProcessVideo.id).all(),
-        "news_preview": News.query.filter_by(is_published=True).order_by(News.published_at.desc()).limit(7).all(),
         "faq_items": FaqItem.query.filter_by(is_published=True).order_by(FaqItem.sort_order, FaqItem.id).all(),
     }
 

@@ -100,27 +100,54 @@ def cases_list():
 def cases_edit(item_id=None):
     item = Case.query.get(item_id) if item_id else Case(is_published=True, show_on_home=True)
     if request.method == "POST":
-        item.title = request.form.get("title", "").strip()
-        item.location = request.form.get("location", "").strip()
+        heading = request.form.get("heading", "").strip()
+        item.heading = heading
+        item.title = heading
         item.lead = request.form.get("lead", "").strip()
-        item.tags = request.form.get("tags", "").strip()
         item.fact_material = request.form.get("fact_material", "").strip()
         item.fact_task = request.form.get("fact_task", "").strip()
         item.fact_result = request.form.get("fact_result", "").strip()
-        item.works = request.form.get("works", "")
-        item.show_on_home = bool(request.form.get("show_on_home"))
-        item.is_published = bool(request.form.get("is_published"))
-        if not item.slug:
-            item.slug = unique_slug(Case, item.title, item.id)
-        apply_seo(item, item.title, item.lead, Case)
+        item.fact_material_label = "Материал"
+        item.fact_task_label = "Задача"
+        item.fact_result_label = "Способ"
+        item.tags = ""
+        item.works = ""
+        item.location = ""
+        item.show_on_home = True
+        item.is_published = True
+
+        slug = (request.form.get("slug") or "").strip()
+        if slug:
+            item.slug = unique_slug(Case, slug, item.id)
+        elif not item.slug:
+            item.slug = unique_slug(Case, heading or "case", item.id)
+
+        item.seo_title = (request.form.get("seo_title") or heading).strip()
+        item.seo_description = (request.form.get("seo_description") or item.lead or heading).strip()[:500]
+
         if item.id is None:
             db.session.add(item)
             db.session.flush()
+
+        delete_ids = {int(value) for value in request.form.getlist("delete_image") if value.isdigit()}
+        for image in list(item.images):
+            if image.id in delete_ids:
+                db.session.delete(image)
+
         files = request.files.getlist("images")
+        next_order = len([image for image in item.images if image.id not in delete_ids])
         for file in files:
             filename = save_upload(file, current_app.config["UPLOAD_FOLDER"] / "cases", ALLOWED_IMAGE_EXTENSIONS)
             if filename:
-                db.session.add(CaseImage(case_id=item.id, filename=filename, sort_order=len(item.images)))
+                db.session.add(
+                    CaseImage(
+                        case_id=item.id,
+                        filename=filename,
+                        alt=heading,
+                        sort_order=next_order,
+                    )
+                )
+                next_order += 1
         _commit("Кейс сохранён")
         return redirect(url_for("admin.cases_list"))
     return render_template("admin/case_form.html", item=item)

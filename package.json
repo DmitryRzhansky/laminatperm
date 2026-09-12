@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:css": "sass app/static/scss/main.scss:app/static/css/main.css app/static/scss/admin.scss:app/static/css/admin.css --no-source-map",
-    "watch:css": "sass --watch app/static/scss/main.scss:app/static/css/main.css app/static/scss/admin.scss:app/static/css/admin.css --no-source-map",
+    "build:css": "sass app/static/scss/main.scss:app/static/css/main.css --no-source-map",
+    "watch:css": "sass --watch app/static/scss/main.scss:app/static/css/main.css --no-source-map",
+    "build:admin-css": "sass app/static/scss/admin.scss:app/static/css/admin.css --no-source-map",
     "start": "flask --app wsgi:app run --debug --port 5000"
   },
   "devDependencies": {

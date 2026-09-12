@@ -1,8 +1,6 @@
 (function initCases() {
-  function init() {
-    const root = document.querySelector("[data-cases]");
-
-    if (!root || root.dataset.casesReady === "true") {
+  function initSlider(root) {
+    if (root.dataset.casesReady === "true") {
       return;
     }
 
@@ -14,9 +12,6 @@
     const nextButton = root.querySelector("[data-cases-next]");
     const counter = root.querySelector("[data-cases-counter]");
     const dotsRoot = root.querySelector("[data-cases-dots]");
-    const lightbox = root.querySelector("[data-cases-lightbox]");
-    const lightboxImage = root.querySelector("[data-cases-lightbox-image]");
-    const lightboxClose = root.querySelector("[data-cases-lightbox-close]");
 
     let index = 0;
     let pointerStartX = 0;
@@ -103,10 +98,6 @@
     }
 
     root.addEventListener("keydown", (event) => {
-      if (event.target.closest("[data-cases-lightbox]") && !lightbox?.hidden) {
-        return;
-      }
-
       if (event.key === "ArrowLeft") {
         event.preventDefault();
         goTo(index - 1);
@@ -123,11 +114,6 @@
         "pointerdown",
         (event) => {
           if (event.pointerType === "mouse" && event.button !== 0) {
-            return;
-          }
-
-          // Не перехватывать клик по фото — нужен лайтбокс
-          if (event.target.closest("[data-cases-open]")) {
             return;
           }
 
@@ -173,62 +159,11 @@
       track.addEventListener("pointercancel", endPointer);
     }
 
-    function closeLightbox() {
-      if (!lightbox || !lightboxImage) {
-        return;
-      }
-
-      lightbox.hidden = true;
-      lightboxImage.removeAttribute("src");
-      lightboxImage.alt = "";
-      document.body.style.overflow = "";
-    }
-
-    function openLightbox(src, alt) {
-      if (!lightbox || !lightboxImage || !src) {
-        return;
-      }
-
-      lightboxImage.src = src;
-      lightboxImage.alt = alt || "Фото объекта";
-      lightbox.hidden = false;
-      document.body.style.overflow = "hidden";
-    }
-
-    root.addEventListener("click", (event) => {
-      const trigger = event.target.closest("[data-cases-open]");
-
-      if (!trigger || !root.contains(trigger)) {
-        return;
-      }
-
-      event.preventDefault();
-      event.stopPropagation();
-      openLightbox(
-        trigger.getAttribute("data-cases-open") || "",
-        trigger.getAttribute("data-cases-alt") || "Фото объекта",
-      );
-    });
-
-    if (lightboxClose) {
-      lightboxClose.addEventListener("click", closeLightbox);
-    }
-
-    if (lightbox) {
-      lightbox.addEventListener("click", (event) => {
-        if (event.target === lightbox) {
-          closeLightbox();
-        }
-      });
-    }
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && lightbox && !lightbox.hidden) {
-        closeLightbox();
-      }
-    });
-
     update();
+  }
+
+  function init() {
+    document.querySelectorAll("[data-cases]").forEach(initSlider);
   }
 
   if (document.readyState === "loading") {

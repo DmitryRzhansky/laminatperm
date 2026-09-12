@@ -19,23 +19,23 @@
             </div>
             <div class="admin-sidebar__group">
               <span class="admin-sidebar__label">Контент</span>
-              <a class="admin-sidebar__link {{ 'is-active' if 'news' in (request.endpoint or '') }}" href="{{ url_for('admin.news_list') }}" data-nav="news">Новости</a>
-              <a class="admin-sidebar__link {{ 'is-active' if 'cases' in (request.endpoint or '') }}" href="{{ url_for('admin.cases_list') }}" data-nav="cases">Кейсы</a>
-              <a class="admin-sidebar__link {{ 'is-active' if 'reviews' in (request.endpoint or '') }}" href="{{ url_for('admin.reviews_list') }}" data-nav="reviews">Отзывы</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.news') }}" href="{{ url_for('admin.news_list') }}" data-nav="news">Новости</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.cases') }}" href="{{ url_for('admin.cases_list') }}" data-nav="cases">Кейсы</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.reviews') }}" href="{{ url_for('admin.reviews_list') }}" data-nav="reviews">Отзывы</a>
             </div>
             <div class="admin-sidebar__group">
               <span class="admin-sidebar__label">Каталог</span>
-              <a class="admin-sidebar__link {{ 'is-active' if 'products' in (request.endpoint or '') or 'categories' in (request.endpoint or '') }}" href="{{ url_for('admin.categories_list') }}" data-nav="catalog">Каталог</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint and ('products' in request.endpoint or 'categories' in request.endpoint) }}" href="{{ url_for('admin.categories_list') }}" data-nav="catalog">Каталог</a>
             </div>
             <div class="admin-sidebar__group">
               <span class="admin-sidebar__label">Страницы</span>
-              <a class="admin-sidebar__link {{ 'is-active' if 'services' in (request.endpoint or '') }}" href="{{ url_for('admin.services_list') }}" data-nav="prices">Услуги</a>
-              <a class="admin-sidebar__link {{ 'is-active' if 'partners' in (request.endpoint or '') }}" href="{{ url_for('admin.partners_list') }}" data-nav="partners">Партнёры</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.services') }}" href="{{ url_for('admin.services_list') }}" data-nav="prices">Услуги</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.partners') }}" href="{{ url_for('admin.partners_list') }}" data-nav="partners">Партнёры</a>
               <a class="admin-sidebar__link {{ 'is-active' if request.args.get('slug') == 'akciya' or (request.view_args or {}).get('slug') == 'akciya' }}" href="{{ url_for('admin.page_edit', slug='akciya') }}" data-nav="promo">Акция</a>
               <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('slug') == 'garantiya' }}" href="{{ url_for('admin.page_edit', slug='garantiya') }}" data-nav="warranty">Гарантия</a>
               <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('slug') == 'oplata' }}" href="{{ url_for('admin.page_edit', slug='oplata') }}" data-nav="payment">Оплата</a>
               <a class="admin-sidebar__link {{ 'is-active' if (request.view_args or {}).get('slug') == 'dostavka' }}" href="{{ url_for('admin.page_edit', slug='dostavka') }}" data-nav="delivery">Доставка</a>
-              <a class="admin-sidebar__link {{ 'is-active' if 'faq' in (request.endpoint or '') }}" href="{{ url_for('admin.faq_list') }}" data-nav="faq">Вопросы</a>
+              <a class="admin-sidebar__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.faq') }}" href="{{ url_for('admin.faq_list') }}" data-nav="faq">Вопросы</a>
             </div>
             <div class="admin-sidebar__group">
               <span class="admin-sidebar__label">Сайт</span>

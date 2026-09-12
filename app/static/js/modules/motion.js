@@ -6,7 +6,6 @@ const FADE_TARGETS = [
   ".catalog__inner",
   ".partners__inner",
   ".reviews__inner",
-  ".videos__inner",
   ".faq__inner",
   ".contact-section__inner",
   ".site-footer",

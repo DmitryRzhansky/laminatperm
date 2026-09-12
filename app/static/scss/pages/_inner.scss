@@ -1,7 +1,13 @@
 @use "../abstracts/variables" as *;
 
+.page-shell {
+  min-height: calc(100svh - var(--header-offset));
+  background-color: var(--color-white);
+}
+
 .page-hero {
   padding: calc(var(--header-offset) + 1.25rem) 0 1.25rem;
+  background-color: var(--color-white);
 }
 
 .page-hero--compact {
