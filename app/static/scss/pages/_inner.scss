@@ -106,6 +106,15 @@
   color: var(--color-accent);
 }
 
+.page-card--link:hover {
+  border-color: rgba(25, 25, 25, 0.16);
+}
+
+.page-card--link:focus-visible {
+  outline: 0.125rem solid var(--color-accent);
+  outline-offset: 0.15rem;
+}
+
 .page-card__image {
   width: 100%;
   aspect-ratio: 16 / 10;

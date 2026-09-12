@@ -224,10 +224,26 @@ def _seed_services():
 def _seed_partners():
     if Partner.query.first():
         return
-    names = ["Tarkett", "Ideal", "Kastamonu", "Egger", "Swiss Krono", "La Moena", "Aberhof", "Solid"]
-    for index, name in enumerate(names, start=1):
+    items = [
+        ("Tarkett", "https://www.tarkett.ru/"),
+        ("Ideal", "https://laminat-ideal.com/"),
+        ("Kastamonu", "https://kastamonusteps.ru/"),
+        ("Egger", "https://www.egger.com/ru"),
+        ("Swiss Krono", "https://www.swisskrono.com/ru-ru/"),
+        ("La Moena", "https://www.lamoena.com/"),
+        ("Aberhof", "https://bigfloor.pro/brands/aberhof/"),
+        ("Solid", "https://www.solidfloor.com/"),
+    ]
+    for index, (name, url) in enumerate(items, start=1):
         slug = name.lower().replace(" ", "-")
-        db.session.add(Partner(name=name, text=f"Официальные коллекции {name}.", image=f"images/partners/{slug}.webp", sort_order=index))
+        db.session.add(
+            Partner(
+                name=name,
+                url=url,
+                image=f"images/partners/{slug}.webp",
+                sort_order=index,
+            )
+        )
 
 
 def _seed_faq():

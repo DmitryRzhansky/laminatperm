@@ -5,15 +5,31 @@
 {% block page_body %}
 <div class="container page-grid page-grid--3">
   {% for item in items %}
-    <article class="page-card">
-      {% if item.image %}
-        <img class="page-card__image page-card__image--contain" src="{{ item.image|media }}" alt="{{ item.name }}" width="640" height="400" loading="lazy">
-      {% endif %}
-      <div class="page-card__body">
-        <h2 class="page-card__title">{{ item.name }}</h2>
-        <p class="page-card__text">{{ item.text }}</p>
-      </div>
-    </article>
+    {% if item.url %}
+      <a
+        class="page-card page-card--link"
+        href="{{ item.url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="{{ item.name }} — официальный сайт"
+      >
+        {% if item.image %}
+          <img class="page-card__image page-card__image--contain" src="{{ item.image|media }}" alt="" width="640" height="400" loading="lazy" decoding="async">
+        {% endif %}
+        <div class="page-card__body">
+          <h2 class="page-card__title">{{ item.name }}</h2>
+        </div>
+      </a>
+    {% else %}
+      <article class="page-card">
+        {% if item.image %}
+          <img class="page-card__image page-card__image--contain" src="{{ item.image|media }}" alt="{{ item.name }}" width="640" height="400" loading="lazy" decoding="async">
+        {% endif %}
+        <div class="page-card__body">
+          <h2 class="page-card__title">{{ item.name }}</h2>
+        </div>
+      </article>
+    {% endif %}
   {% endfor %}
 </div>
 {% endblock %}

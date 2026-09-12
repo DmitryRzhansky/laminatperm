@@ -67,6 +67,7 @@ class Partner(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     text = db.Column(db.Text, default="")
+    url = db.Column(db.String(500), default="")
     image = db.Column(db.String(500), default="")
     sort_order = db.Column(db.Integer, default=0)
     is_published = db.Column(db.Boolean, default=True)

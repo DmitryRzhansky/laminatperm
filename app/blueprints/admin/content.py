@@ -293,6 +293,7 @@ def partners_edit(item_id=None):
     if request.method == "POST":
         item.name = request.form.get("name", "").strip()
         item.text = request.form.get("text", "").strip()
+        item.url = request.form.get("url", "").strip()
         item.is_published = bool(request.form.get("is_published"))
         image = _save_image("image", "partners")
         if image:
