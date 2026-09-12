@@ -353,10 +353,7 @@
 }
 
 .hero-header__socials {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  flex-shrink: 0;
+  display: contents;
 }
 
 /* Keep header within the visual viewport even if the page briefly overflows */
@@ -475,6 +472,7 @@
 
 @media (min-width: 75rem) {
   .hero-header__phone {
+    order: -1;
     width: auto;
     height: auto;
     padding: 0;
