@@ -188,7 +188,10 @@ main {
 
 .container {
   width: min(100% - 1.875rem, var(--container-width));
+  max-width: 100%;
+  min-width: 0;
   margin-inline: auto;
+  box-sizing: border-box;
 }
 
 @media (min-width: 75rem) {
@@ -313,7 +316,7 @@ main {
   display: flex;
   align-items: stretch;
   gap: 0;
-  width: auto;
+  width: 100%;
   max-width: 120rem;
   margin-inline: auto;
   padding: 0.75rem clamp(0.75rem, 2.4vw, 2.5rem);
@@ -519,7 +522,8 @@ main {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .hero-header__cart {
@@ -650,7 +654,7 @@ main {
 /* Keep header within the visual viewport even if the page briefly overflows */
 @supports (width: 100dvw) {
   .hero-header {
-    max-width: min(120rem, 100dvw);
+    max-width: min(120rem, 100%);
   }
 }
 .hero-header__social {
@@ -6600,6 +6604,8 @@ ul.about__stats {
 
 .breadcrumbs {
   margin: 0 0 0.85rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .breadcrumbs__list {
@@ -6611,6 +6617,11 @@ ul.about__stats {
   list-style: none;
   font-size: 0.875rem;
   color: var(--color-text-muted);
+}
+
+.breadcrumbs__item {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .breadcrumbs__item:not(:last-child)::after {
@@ -6631,6 +6642,7 @@ ul.about__stats {
 
 .breadcrumbs__current {
   color: var(--color-accent);
+  overflow-wrap: anywhere;
 }
 
 .page-grid {
@@ -7292,12 +7304,14 @@ ul.about__stats {
 .product {
   display: grid;
   gap: 1.5rem;
+  min-width: 0;
   padding-bottom: 3.5rem;
 }
 
 .product__layout {
   display: grid;
   gap: 1.5rem;
+  min-width: 0;
 }
 
 @media (min-width: 64rem) {
@@ -7422,6 +7436,7 @@ ul.about__stats {
   gap: 0.85rem;
   align-content: start;
   max-width: 40rem;
+  min-width: 0;
 }
 
 .product__title {
@@ -7430,6 +7445,7 @@ ul.about__stats {
   font-size: clamp(1.45rem, 1.2rem + 0.8vw, 2rem);
   font-weight: 300;
   line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .product__price {
@@ -7749,27 +7765,31 @@ ul.product__benefits {
 .related-products {
   padding-block: 2.5rem 3rem;
   background: #f6f7f8;
+  overflow-x: clip;
 }
 
 .related-products__inner {
   display: grid;
   gap: 1.25rem;
+  min-width: 0;
 }
 
 .related-products__header {
   display: grid;
   gap: 0.35rem;
+  min-width: 0;
 }
 
 .related-products__title {
   margin: 0;
+  max-width: 100%;
   font-family: var(--font-headline);
-  font-size: var(--font-size-h2);
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, var(--font-size-h2));
   font-weight: 300;
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--color-text-dark);
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .related-products__slider {
@@ -7800,12 +7820,19 @@ ul.product__benefits {
 
 .related-products__slide {
   box-sizing: border-box;
-  flex: 0 0 calc((100cqi - (var(--related-per-view) - 1) * var(--related-gap)) / var(--related-per-view));
-  width: calc((100cqi - (var(--related-per-view) - 1) * var(--related-gap)) / var(--related-per-view));
-  max-width: calc((100cqi - (var(--related-per-view) - 1) * var(--related-gap)) / var(--related-per-view));
+  flex: 0 0 100%;
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
 }
 
+@supports (width: 1cqi) {
+  .related-products__slide {
+    flex: 0 0 calc((100cqi - (var(--related-per-view) - 1) * var(--related-gap)) / var(--related-per-view));
+    width: calc((100cqi - (var(--related-per-view) - 1) * var(--related-gap)) / var(--related-per-view));
+    max-width: calc((100cqi - (var(--related-per-view) - 1) * var(--related-gap)) / var(--related-per-view));
+  }
+}
 .related-products__slide .product-card {
   height: 100%;
 }
