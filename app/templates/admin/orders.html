@@ -3,10 +3,6 @@
 {% block title %}Заказы{% endblock %}
 {% block heading %}Заказы{% endblock %}
 {% block content %}
-<p class="admin-lead">
-  {% if pagination %}Всего: {{ pagination.total }}{% else %}Всего: {{ items|length }}{% endif %}
-</p>
-
 {% if not items %}
 <div class="admin-empty">
   <p>Заказов пока нет.</p>

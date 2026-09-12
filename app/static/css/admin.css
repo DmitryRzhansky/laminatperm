@@ -386,6 +386,11 @@
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
+.admin-sidebar__logout.admin-btn {
+  width: 100%;
+  min-width: 0;
+}
+
 a.admin-btn {
   text-decoration: none;
 }

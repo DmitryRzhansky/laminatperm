@@ -3,10 +3,6 @@
 {% block title %}Заявки{% endblock %}
 {% block heading %}Заявки{% endblock %}
 {% block content %}
-<p class="admin-lead">
-  Новых заявок: {{ new_leads }}. Новых заказов: {{ new_orders }}.
-</p>
-
 {% if not leads %}
 <div class="admin-empty">
   <p>Заявок пока нет.</p>

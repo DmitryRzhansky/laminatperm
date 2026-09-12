@@ -93,8 +93,6 @@ def dashboard():
         "admin/dashboard.html",
         leads=pagination.items,
         pagination=pagination,
-        new_leads=Lead.query.filter(Lead.deleted_at.is_(None), Lead.status == "new").count(),
-        new_orders=Order.query.filter(Order.deleted_at.is_(None), Order.status == "new").count(),
     )
 
 
