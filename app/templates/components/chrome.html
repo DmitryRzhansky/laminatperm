@@ -213,9 +213,6 @@
               <a class="mobile-menu__link" href="{{ url_for('news.index') }}" data-menu-close>Новости</a>
             </li>
             <li>
-              <a class="mobile-menu__link" href="{{ url_for('news.index') }}" data-menu-close>Новости</a>
-            </li>
-            <li>
               <a class="mobile-menu__link" href="{{ url_for('cases.index') }}" data-menu-close>Кейсы</a>
             </li>
             <li>
@@ -225,7 +222,7 @@
               <a class="mobile-menu__link" href="{{ url_for('pages.prices') }}" data-menu-close>Цены</a>
             </li>
             <li>
-              <a class="mobile-menu__link" href="#consultation" data-menu-close>Контакты</a>
+              <a class="mobile-menu__link" href="{{ url_for('pages.contacts') }}" data-menu-close>Контакты</a>
             </li>
           </ul>
         </nav>
