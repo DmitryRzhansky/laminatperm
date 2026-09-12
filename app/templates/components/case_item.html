@@ -1,5 +1,5 @@
-{# Expects: case, index (optional), link_title (optional), title_tag (optional, default h3) #}
-{% set title_tag = title_tag|default('h3') %}
+{# Expects: case, index (optional), link_title (optional), title_tag (optional, default span) #}
+{% set title_tag = title_tag|default('span') %}
 <article class="cases__item">
   <div class="cases__content">
     {% if index is defined and index %}

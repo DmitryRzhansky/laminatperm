@@ -2344,6 +2344,7 @@ ul.about__stats {
 }
 
 .services__card-title {
+  display: block;
   margin: 0;
   font-family: var(--font-headline);
   font-size: 1.1875rem;
@@ -2604,6 +2605,7 @@ ul.about__stats {
 }
 
 .catalog__card-title {
+  display: block;
   margin: 0;
   font-family: var(--font-headline);
   font-size: 1.1875rem;
@@ -3703,6 +3705,7 @@ ul.about__stats {
 }
 
 .cases__item-title {
+  display: block;
   margin: 0;
   font-family: var(--font-headline);
   font-size: clamp(1.2rem, 1.05rem + 0.7vw, 1.75rem);

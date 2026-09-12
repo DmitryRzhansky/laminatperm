@@ -389,7 +389,7 @@
           <ul class="related-products__track" role="list" data-related-track>
             {% for related in related_products %}
               <li class="related-products__slide">
-                {% with item=related, heading_tag='h3' %}
+                {% with item=related, heading_tag='span' %}
                   {% include "components/product-card.html" %}
                 {% endwith %}
               </li>
