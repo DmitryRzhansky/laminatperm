@@ -3502,6 +3502,7 @@ ul.about__stats {
   flex: 1 1 auto;
   gap: 0.75rem;
   width: 100%;
+  min-width: 0;
   min-height: 0;
   margin-inline: auto;
   padding-inline: 0.75rem;
@@ -3511,8 +3512,9 @@ ul.about__stats {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  flex-shrink: 0;
-  max-width: 42rem;
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: min(42rem, 100%);
 }
 
 .cases__top {
@@ -3522,12 +3524,13 @@ ul.about__stats {
   justify-content: space-between;
   gap: 0.75rem 1rem;
   flex-shrink: 0;
+  min-width: 0;
 }
 
 .cases__title {
   margin: 0;
   font-family: var(--font-headline);
-  font-size: var(--font-size-h2);
+  font-size: clamp(1.75rem, 1.45rem + 1.2vw, var(--font-size-h2));
   font-weight: 300;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -3548,6 +3551,7 @@ ul.about__stats {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
   margin-left: auto;
 }
 
@@ -3907,6 +3911,9 @@ ul.about__stats {
   .cases__inner {
     padding-inline: 1rem;
     gap: 0.875rem;
+  }
+  .cases__header {
+    flex: 1 1 18rem;
   }
   .cases__item {
     grid-template-rows: minmax(0, 1.15fr) minmax(0, 0.85fr);
