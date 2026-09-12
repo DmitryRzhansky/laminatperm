@@ -55,13 +55,16 @@
   color: var(--color-text-muted);
 }
 
-.about__stats {
+ul.about__stats {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
-  margin: 2.75rem 0 0;
-  padding: 0;
+  gap: 1.25rem;
+  margin: 0;
+  padding-block: 2.5rem;
+  padding-inline: 1.25rem;
   list-style: none;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-white);
 }
 
 .about__stat {
@@ -148,9 +151,11 @@
     padding-inline: 1rem;
   }
 
-  .about__stats {
+  ul.about__stats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.75rem;
+    padding-block: 2.25rem;
+    padding-inline: 1.5rem;
   }
 
   .about__stat-value {
@@ -183,20 +188,12 @@
 
   .about__text:last-of-type {
     flex: 1 0 auto;
-    padding-bottom: 2.5rem;
   }
 
-  .about__stats {
-    margin-top: 0;
-  }
-
-  .about__stat {
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .about__stat-label {
-    margin-inline: 0;
+  ul.about__stats {
+    grid-column: 1 / -1;
+    padding-block: 2.25rem;
+    padding-inline: 2rem;
   }
 
   .about__stat-value {
