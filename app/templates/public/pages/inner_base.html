@@ -10,8 +10,18 @@
       {% endif %}
       {% if not hide_page_hero_title %}
         <h1 class="page-hero__title">{{ title }}</h1>
-        {% if intro %}
-          <p class="page-hero__text">{{ intro }}</p>
+        {% if intro_paragraphs is defined and intro_paragraphs %}
+          <div class="page-hero__lead">
+            {% for paragraph in intro_paragraphs %}
+              <p class="page-hero__text">{{ paragraph }}</p>
+            {% endfor %}
+          </div>
+        {% elif intro %}
+          <div class="page-hero__lead">
+            {% for paragraph in intro.split('\n\n') if paragraph.strip() %}
+              <p class="page-hero__text">{{ paragraph.strip() }}</p>
+            {% endfor %}
+          </div>
         {% endif %}
       {% endif %}
     </div>

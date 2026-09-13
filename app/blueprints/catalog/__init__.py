@@ -78,7 +78,7 @@ def category(category_slug):
     products = sort_products(apply_product_filters(all_in_cat))
     current_sort = request.args.get("sort", "default")
     path = url_for("catalog.category", category_slug=current.slug)
-    title = (current.seo_title or current.name).strip()
+    title = (current.seo_title or current.display_heading or current.name).strip()
     description = (current.seo_description or current.intro or current.name).strip()
     json_ld = seo_meta.collect_json_ld(
         seo_meta.webpage_ld(

@@ -626,11 +626,14 @@ def categories_edit(item_id):
     item = ProductCategory.query.get_or_404(item_id)
     if request.method == "POST":
         item.name = request.form.get("name", "").strip()
+        item.heading = request.form.get("heading", "").strip()
         item.intro = request.form.get("intro", "").strip()
+        item.seo_title = request.form.get("seo_title", "").strip()
+        item.seo_description = request.form.get("seo_description", "").strip()
         cover = _save_image("cover", "catalog")
         if cover:
             item.cover = cover
-        apply_seo(item, item.name, item.intro)
+        apply_seo(item, item.heading or item.name, item.intro)
         _commit("Категория сохранена")
         return redirect(url_for("admin.categories_list"))
     return render_template("admin/category_form.html", item=item)

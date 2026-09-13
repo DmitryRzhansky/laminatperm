@@ -8,6 +8,7 @@ class ProductCategory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     slug = db.Column(db.String(120), unique=True, nullable=False, index=True)
+    heading = db.Column(db.String(255), default="")
     intro = db.Column(db.Text, default="")
     cover = db.Column(db.String(500), default="")
     seo_title = db.Column(db.String(255), default="")
@@ -15,6 +16,17 @@ class ProductCategory(db.Model):
     sort_order = db.Column(db.Integer, default=0)
 
     products = db.relationship("Product", backref="category", lazy="dynamic")
+
+    @property
+    def display_heading(self) -> str:
+        return (self.heading or self.name or "").strip()
+
+    @property
+    def intro_paragraphs(self) -> list[str]:
+        text = (self.intro or "").strip()
+        if not text:
+            return []
+        return [part.strip() for part in text.split("\n\n") if part.strip()]
 
 
 class Product(db.Model):
