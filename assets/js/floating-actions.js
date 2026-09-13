@@ -68,6 +68,9 @@
     }
   };
 
+  const getViewportHeight = () =>
+    window.visualViewport?.height ?? window.innerHeight;
+
   const updateFooterOffset = () => {
     if (!footer) {
       root.style.setProperty("--floating-offset", "0px");
@@ -75,18 +78,17 @@
     }
 
     const footerTop = footer.getBoundingClientRect().top;
-    const rootHeight = root.getBoundingClientRect().height || 0;
-    const overlap = window.innerHeight - footerTop;
+    const overlap = getViewportHeight() - footerTop;
 
     if (overlap <= 0) {
       root.style.setProperty("--floating-offset", "0px");
       return;
     }
 
-    const maxOffset = Math.max(0, window.innerHeight - rootHeight - 16);
-    const offset = Math.min(overlap + FOOTER_GAP_PX, maxOffset);
-
-    root.style.setProperty("--floating-offset", `${Math.round(offset)}px`);
+    root.style.setProperty(
+      "--floating-offset",
+      `${Math.round(overlap + FOOTER_GAP_PX)}px`,
+    );
   };
 
   const update = () => {
@@ -180,4 +182,10 @@
   });
   window.addEventListener("resize", requestUpdate, { passive: true });
   window.addEventListener("load", requestUpdate, { passive: true });
+  window.visualViewport?.addEventListener("resize", requestUpdate, {
+    passive: true,
+  });
+  window.visualViewport?.addEventListener("scroll", requestUpdate, {
+    passive: true,
+  });
 })();
