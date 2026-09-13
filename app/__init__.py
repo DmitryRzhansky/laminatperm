@@ -42,9 +42,11 @@ def create_app(config_class=Config):
     from app.blueprints.main import main_bp
     from app.blueprints.news import news_bp
     from app.blueprints.pages import pages_bp
+    from app.blueprints.seo import seo_bp
     from app.blueprints.services import services_bp
     from app.errors import errors_bp
 
+    app.register_blueprint(seo_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(admin_bp)
