@@ -7407,6 +7407,7 @@ ul.about__stats {
   display: grid;
   gap: 1.5rem;
   min-width: 0;
+  padding-top: 1rem;
   padding-bottom: 3.5rem;
 }
 
