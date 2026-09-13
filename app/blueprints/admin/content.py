@@ -23,6 +23,7 @@ from app.models import (
     SitePage,
 )
 from app.utils.files import ALLOWED_IMAGE_EXTENSIONS, save_upload
+from app.utils.images import save_catalog_product_image
 from app.utils.markdown import excerpt, render_markdown
 from app.utils.seo import apply_seo
 from app.utils.settings import get_setting, set_setting
@@ -591,7 +592,7 @@ def products_edit(item_id=None):
         next_sort = len(remaining_images)
         files = request.files.getlist("images")
         for file in files:
-            filename = save_upload(file, current_app.config["UPLOAD_FOLDER"] / "catalog", ALLOWED_IMAGE_EXTENSIONS)
+            filename = save_catalog_product_image(file, item, next_sort)
             if filename:
                 db.session.add(ProductImage(product_id=item.id, filename=filename, alt="", sort_order=next_sort))
                 next_sort += 1

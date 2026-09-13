@@ -210,6 +210,34 @@ def register_cli(app):
         orders_count, leads_count = _seed_test_orders_and_leads()
         print(f"Created test orders: {orders_count}, test leads: {leads_count}")
 
+    @app.cli.command("optimize-catalog-images")
+    def optimize_catalog_images():
+        """Convert catalog product images to lossless WebP with SEO filenames."""
+        from sqlalchemy.orm import joinedload
+
+        from app.utils.images import optimize_product_image
+
+        updated = 0
+        skipped = 0
+        products = (
+            Product.query.options(joinedload(Product.images))
+            .order_by(Product.id)
+            .all()
+        )
+        for product in products:
+            images = sorted(product.images, key=lambda item: (item.sort_order, item.id))
+            for index, image in enumerate(images):
+                try:
+                    if optimize_product_image(image, product, index):
+                        updated += 1
+                    else:
+                        skipped += 1
+                except Exception as error:  # noqa: BLE001 - keep batch going
+                    skipped += 1
+                    print(f"skip image id={image.id}: {error}")
+        db.session.commit()
+        print(f"Catalog images optimized: updated={updated}, skipped={skipped}")
+
     @app.cli.command("sync-service-pages")
     def sync_service_pages():
         """Import /uslugi/ content from service_pages.py into the services table."""
@@ -709,7 +737,7 @@ def _import_tilda_products():
             src = photo.get("img") if isinstance(photo, dict) else None
             if not src:
                 continue
-            local = _download_image(src, upload_dir)
+            local = _download_image(src, product, order)
             if local:
                 db.session.add(ProductImage(product_id=product.id, filename=local, sort_order=order))
 
@@ -744,18 +772,13 @@ def _attrs_from_descr(product: Product, descr: str) -> None:
         order += 1
 
 
-def _download_image(url: str, folder: Path) -> str | None:
+def _download_image(url: str, product: Product, index: int = 0) -> str | None:
+    from app.utils.images import save_catalog_image_bytes
+
     try:
         with urlopen(url, timeout=30) as response:
             data = response.read()
-        name = Path(url.split("?")[0]).name or "image.webp"
-        target = folder / name
-        counter = 2
-        while target.exists():
-            target = folder / f"{target.stem}-{counter}{target.suffix}"
-            counter += 1
-        target.write_bytes(data)
-        return f"uploads/catalog/{target.name}"
+        return save_catalog_image_bytes(data, product, index)
     except Exception as error:
         print("image download failed", url, error)
         return None
