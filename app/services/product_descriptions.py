@@ -90,6 +90,36 @@ def display_name(product: Product) -> str:
     return "".join(pieces).strip() or raw
 
 
+def _format_price(value) -> str:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return str(value or "0")
+    return f"{number:,.0f}".replace(",", " ")
+
+
+def _unit_suffix(product: Product) -> str:
+    return "м²" if (product.unit or "m2") == "m2" else "шт"
+
+
+def product_price_label(product: Product) -> str:
+    """Price with unit for SEO strings, e.g. «1 250 ₽/м²»."""
+    return f"{_format_price(product.price)} ₽/{_unit_suffix(product)}"
+
+
+def product_seo_title(product: Product) -> str:
+    name = display_name(product) or product.name or "товар"
+    return f"Купить {name} в Перми — {product_price_label(product)}"
+
+
+def product_seo_description(product: Product) -> str:
+    name = display_name(product) or product.name or "товар"
+    return (
+        f"{name} в Перми — {product_price_label(product)}. "
+        "Поможем рассчитать количество, доставим и выполним укладку."
+    )
+
+
 def product_buybox_teaser(product: Product) -> str:
     """Short buy-box blurb without repeating the full product title."""
     custom = (product.short_description or "").strip()

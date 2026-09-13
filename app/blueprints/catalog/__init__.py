@@ -14,7 +14,12 @@ from app.services.catalog_filters import (
     collect_filter_options,
     sort_products,
 )
-from app.services.product_descriptions import display_name, product_buybox_teaser
+from app.services.product_descriptions import (
+    display_name,
+    product_buybox_teaser,
+    product_seo_description,
+    product_seo_title,
+)
 from app.services.related_products import products_same_brand
 from app.utils.settings import get_setting
 
@@ -139,16 +144,25 @@ def product(category_slug, product_slug):
             "На работы по укладке даём отдельную гарантию — условия уточняйте у менеджера."
         )
     title = display_name(item)
+    meta_title = product_seo_title(item)
+    meta_description = product_seo_description(item)
     related_products = products_same_brand(item)
     path = url_for("catalog.product", category_slug=current.slug, product_slug=item.slug)
     json_ld = seo_meta.collect_json_ld(
-        seo_meta.product_ld(item, product_title=title, path=path),
+        seo_meta.product_ld(
+            item,
+            product_title=title,
+            description=meta_description,
+            path=path,
+        ),
         seo_meta.faq_ld(item.faqs, path=path),
     )
     return render_template(
         "public/pages/product.html",
         item=item,
         product_title=title,
+        meta_title=meta_title,
+        meta_description=meta_description,
         product_teaser=product_buybox_teaser(item),
         related_products=related_products,
         delivery_text=get_setting(

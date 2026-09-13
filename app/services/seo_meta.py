@@ -194,13 +194,20 @@ def offer_price(value: Any) -> str | None:
     return digits or None
 
 
-def product_ld(product, *, product_title: str, path: str | None = None) -> dict[str, Any]:
+def product_ld(
+    product,
+    *,
+    product_title: str,
+    description: str | None = None,
+    path: str | None = None,
+) -> dict[str, Any]:
     url = absolute_url(path)
     images = [absolute_media(img.filename) for img in (product.images or []) if img.filename]
     if not images and product.cover:
         images = [absolute_media(product.cover)]
-    description = (
-        (product.seo_description or "").strip()
+    meta_description = (
+        (description or "").strip()
+        or (product.seo_description or "").strip()
         or (product.short_description or "").strip()
         or product_title
     )
@@ -225,7 +232,7 @@ def product_ld(product, *, product_title: str, path: str | None = None) -> dict[
         "@context": "https://schema.org",
         "@type": "Product",
         "name": product_title,
-        "description": description,
+        "description": meta_description,
         "url": url,
         "offers": offer,
     }
