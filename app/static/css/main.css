@@ -6344,8 +6344,8 @@ ul.about__stats {
   --floating-offset: 0px;
   position: fixed;
   right: max(1rem, env(safe-area-inset-right));
-  bottom: max(1rem, env(safe-area-inset-bottom), var(--floating-offset));
-  z-index: 120;
+  bottom: max(1rem, env(safe-area-inset-bottom), var(--floating-offset), var(--cookie-banner-offset, 0px));
+  z-index: 160;
   display: grid;
   justify-items: end;
   gap: 0.75rem;
@@ -6551,11 +6551,13 @@ ul.about__stats {
   position: fixed;
   left: 1rem;
   bottom: 1rem;
-  z-index: 80;
-  display: grid;
-  gap: 0.75rem;
-  width: min(21rem, 100vw - 2rem);
-  padding: 1rem;
+  z-index: 140;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: min(40rem, 100vw - 2rem);
+  padding: 0.875rem 1rem;
   color: var(--color-text-dark);
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(25, 25, 25, 0.12);
@@ -6568,6 +6570,8 @@ ul.about__stats {
 }
 
 .cookie-banner__text {
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.45;
@@ -6581,14 +6585,14 @@ ul.about__stats {
 }
 
 .cookie-banner__button {
-  justify-self: start;
+  flex: 0 0 auto;
   min-height: 2.25rem;
   padding: 0.45rem 0.9rem;
   border: 0;
   border-radius: var(--radius-button);
   font: inherit;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1;
   color: var(--color-white);
   background: var(--color-text-dark);
@@ -6608,8 +6612,16 @@ ul.about__stats {
 
 @media (max-width: 36rem) {
   .cookie-banner {
-    right: 1rem;
-    width: auto;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: max(1rem, env(safe-area-inset-bottom) + 1rem);
+    gap: 0.75rem;
+    width: calc(100vw - 1.5rem);
+    padding: 0.75rem;
+  }
+  .cookie-banner__text {
+    font-size: 0.8125rem;
+    line-height: 1.35;
   }
 }
 @media (prefers-reduced-motion: no-preference) {

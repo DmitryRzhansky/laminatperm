@@ -1,6 +1,6 @@
 import { initAddToCart } from "./modules/add-to-cart.js";
 import { initCart } from "./modules/cart.js";
-import { initCookieBanner } from "./modules/cookie-banner.js";
+import { initCookieBanner } from "./modules/cookie-banner.js?v=2";
 import { initFadeMotion } from "./modules/motion.js";
 import { initPartners } from "./modules/partners.js";
 import { initProductPage } from "./modules/product.js";

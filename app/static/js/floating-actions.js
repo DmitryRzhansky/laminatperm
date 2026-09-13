@@ -1,6 +1,7 @@
 (() => {
   const SCROLL_TOP_THRESHOLD_PX = 240;
   const FOOTER_GAP_PX = 20;
+  const MOBILE_FOOTER_GAP_PX = 72;
 
   const root = document.querySelector("[data-floating-actions]");
   const chatRoot = root?.querySelector("[data-floating-chat]");
@@ -71,6 +72,11 @@
   const getViewportHeight = () =>
     window.visualViewport?.height ?? window.innerHeight;
 
+  const getFooterGap = () =>
+    window.matchMedia("(max-width: 36rem)").matches
+      ? MOBILE_FOOTER_GAP_PX
+      : FOOTER_GAP_PX;
+
   const updateFooterOffset = () => {
     if (!footer) {
       root.style.setProperty("--floating-offset", "0px");
@@ -87,7 +93,7 @@
 
     root.style.setProperty(
       "--floating-offset",
-      `${Math.round(overlap + FOOTER_GAP_PX)}px`,
+      `${Math.round(overlap + getFooterGap())}px`,
     );
   };
 

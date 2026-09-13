@@ -26,7 +26,7 @@
     <link rel="icon" href="{{ url_for('static', filename='images/favicons/favicon.ico') }}" sizes="32x32" media="(prefers-color-scheme: light)">
     <link rel="icon" href="{{ url_for('static', filename='images/favicons/favicon-dark.ico') }}" sizes="32x32" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicons/apple-touch-icon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}?v=21">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}?v=22">
 
     {% for graph in seo_base_json_ld %}
       <script type="application/ld+json">{{ graph|tojson }}</script>
@@ -61,11 +61,11 @@
     {% include "components/footer.html" %}
     {% include "components/chrome.html" %}
     {% include "components/cookie_banner.html" %}
-    <script src="{{ url_for('static', filename='js/floating-actions.js') }}?v=6" defer></script>
+    <script src="{{ url_for('static', filename='js/floating-actions.js') }}?v=7" defer></script>
     <script src="{{ url_for('static', filename='js/mobile-menu.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/services-menu.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/about-menu.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}?v=2"></script>
     <script src="{{ url_for('static', filename='js/reviews.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/cases.js') }}?v=12" defer></script>
     <script src="{{ url_for('static', filename='js/faq.js') }}" defer></script>
