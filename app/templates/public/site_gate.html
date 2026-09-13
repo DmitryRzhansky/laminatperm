@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Сайт временно закрыт</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body class="site-gate">
+    <main class="site-gate__panel">
+      <h1 class="visually-hidden">Вход</h1>
+      <form class="site-gate__form" method="post" action="{{ url_for('site_gate') }}">
+        {{ form.hidden_tag() }}
+        <label class="site-gate__label" for="password">Пароль</label>
+        <input
+          class="site-gate__input"
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          autofocus
+        >
+        {% if error %}
+          <p class="site-gate__error" role="alert">{{ error }}</p>
+        {% endif %}
+        <button class="site-gate__submit button button--primary" type="submit">Войти</button>
+      </form>
+    </main>
+  </body>
+</html>

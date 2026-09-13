@@ -61,11 +61,16 @@ def create_app(config_class=Config):
 
     register_cli(app)
 
+    from app.utils.site_gate import register_site_gate
+
+    register_site_gate(app)
+
     @login_manager.user_loader
     def load_user(user_id):
         if user_id == "admin":
             return AdminUser()
         return None
+
 
     @app.template_filter("media")
     def media_url(path):

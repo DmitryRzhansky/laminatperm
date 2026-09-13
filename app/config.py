@@ -19,10 +19,14 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL") or _default_database_uri()
     ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
     ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin")
+    # Temporary public-site password gate (admin area stays open).
+    SITE_GATE_ENABLED = os.getenv("SITE_GATE_ENABLED", "1") in {"1", "true", "True"}
+    SITE_GATE_PASSWORD = os.getenv("SITE_GATE_PASSWORD", "admin")
     # Public site origin for canonical / Open Graph / JSON-LD absolute URLs.
     # Example: https://laminashion.ru — without trailing slash.
     SITE_URL = (os.getenv("SITE_URL") or "").rstrip("/")
     WTF_CSRF_ENABLED = True
+
     MAX_CONTENT_LENGTH = 32 * 1024 * 1024
     UPLOAD_FOLDER = BASE_DIR / "app" / "static" / "uploads"
     SESSION_COOKIE_HTTPONLY = True
@@ -45,3 +49,5 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
     ADMIN_USERNAME = "admin"
     ADMIN_PASSWORD = "secret"
+    SITE_GATE_ENABLED = False
+

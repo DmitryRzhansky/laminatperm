@@ -8924,3 +8924,70 @@ ul.product__benefits {
 .legal-page__content a:focus-visible {
   color: var(--color-accent-hover);
 }
+
+.site-gate {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at top, rgba(22, 163, 74, 0.12), transparent 42%), linear-gradient(180deg, #f7f8f9 0%, #eef1f3 100%);
+  color: var(--color-text-dark);
+  font-family: var(--font-text);
+}
+
+.site-gate__panel {
+  width: min(100%, 24rem);
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.08);
+}
+
+.site-gate__title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-headline);
+  font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  line-height: 1.15;
+}
+
+.site-gate__text {
+  margin: 0 0 1.5rem;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-body-sm);
+}
+
+.site-gate__form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.site-gate__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.site-gate__input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.625rem 0.875rem;
+  border: 0.0625rem solid #d7dce0;
+  border-radius: var(--radius-md);
+  font: inherit;
+  background: var(--color-white);
+}
+
+.site-gate__input:focus-visible {
+  outline: 0.1875rem solid var(--color-accent);
+  outline-offset: 0.125rem;
+}
+
+.site-gate__error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 0.875rem;
+}
+
+.site-gate__submit {
+  margin-top: 0.5rem;
+  width: 100%;
+}
