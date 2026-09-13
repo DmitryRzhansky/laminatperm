@@ -1,6 +1,9 @@
 {% extends "public/base.html" %}
-{% block title %}{{ item.seo_title or item.name }}{% endblock %}
-{% block description %}{{ item.seo_description or item.name }}{% endblock %}
+{% block title %}{{ item.seo_title or product_title or item.name }} — Ламинейшен{% endblock %}
+{% block description %}{{ item.seo_description or item.short_description or item.name }}{% endblock %}
+{% block og_type %}product{% endblock %}
+{% block og_image %}{{ absolute_media(item.cover) if item.cover else seo_default_image }}{% endblock %}
+{% block og_image_alt %}{{ item.name }}{% endblock %}
 {% block content %}
 <section class="page-hero page-hero--compact">
   <div class="container">

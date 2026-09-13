@@ -1,5 +1,7 @@
 {% extends "public/base.html" %}
 {% block title %}Ошибка сервера{% endblock %}
+{% block description %}Временная ошибка сервера. Попробуйте открыть главную страницу Ламинейшен.{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
 {% block content %}
 <section class="page-hero"><div class="container"><h1 class="page-hero__title">Что-то пошло не так</h1><p><a href="{{ url_for('main.home') }}">На главную</a></p></div></section>
 {% endblock %}

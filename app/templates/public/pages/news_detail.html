@@ -2,6 +2,8 @@
 {% set title = item.title %}
 {% set description = item.seo_description or item.summary %}
 {% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Новости", "url": url_for("news.index")}, {"label": item.title}] %}
+{% block title %}{{ item.seo_title or item.title }} — Ламинейшен{% endblock %}
+{% block og_type %}article{% endblock %}
 {% block page_body %}
 <article class="container page-prose">
   {% if item.image %}

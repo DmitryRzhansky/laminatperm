@@ -2,7 +2,8 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from app.extensions import db
 from app.models import Lead
-from app.utils.settings import settings_map
+from app.services import seo_meta
+from app.utils.settings import get_setting, settings_map
 
 main_bp = Blueprint("main", __name__)
 
@@ -19,6 +20,18 @@ def _home_context():
         Service,
     )
 
+    faq_items = FaqItem.query.filter_by(is_published=True).order_by(FaqItem.sort_order, FaqItem.id).all()
+    title = get_setting("seo.title", "Ламинейшен — подбор и укладка напольных покрытий в Перми")
+    description = get_setting("seo.description", "")
+    json_ld = seo_meta.collect_json_ld(
+        seo_meta.webpage_ld(
+            name=title,
+            description=description,
+            path="/",
+            page_type="WebPage",
+        ),
+        seo_meta.faq_ld(faq_items, path="/"),
+    )
     return {
         "settings": settings_map(),
         "advantages": Advantage.query.order_by(Advantage.sort_order, Advantage.id).all(),
@@ -28,7 +41,8 @@ def _home_context():
         "reviews": Review.query.filter_by(is_published=True).order_by(Review.sort_order, Review.id).all(),
         "home_cases": Case.query.filter_by(is_published=True, show_on_home=True).order_by(Case.sort_order, Case.id).all(),
         "process_videos": ProcessVideo.query.order_by(ProcessVideo.sort_order, ProcessVideo.id).all(),
-        "faq_items": FaqItem.query.filter_by(is_published=True).order_by(FaqItem.sort_order, FaqItem.id).all(),
+        "faq_items": faq_items,
+        "json_ld": json_ld,
     }
 
 

@@ -5,11 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ get_setting('seo.title', 'Ламинейшен') }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ get_setting('seo.description', '') }}{% endblock %}">
+    {% block robots %}{% endblock %}
+    <link rel="canonical" href="{% block canonical %}{{ seo_canonical }}{% endblock %}">
+
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:site_name" content="{{ seo_site_name }}">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}{{ self.canonical() }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ seo_default_image }}{% endblock %}">
+    <meta property="og:image:alt" content="{% block og_image_alt %}{{ seo_site_name }}{% endblock %}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ self.og_title() }}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{{ self.og_description() }}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ self.og_image() }}{% endblock %}">
+
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="32x32">
     <link rel="icon" href="{{ url_for('static', filename='images/favicons/favicon.ico') }}" sizes="32x32" media="(prefers-color-scheme: light)">
     <link rel="icon" href="{{ url_for('static', filename='images/favicons/favicon-dark.ico') }}" sizes="32x32" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicons/apple-touch-icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}?v=20">
+
+    {% for graph in seo_base_json_ld %}
+      <script type="application/ld+json">{{ graph|tojson }}</script>
+    {% endfor %}
+    {% if breadcrumbs %}
+      {% set breadcrumb_graph = seo_breadcrumb_ld(breadcrumbs) %}
+      {% if breadcrumb_graph %}
+        <script type="application/ld+json">{{ breadcrumb_graph|tojson }}</script>
+      {% endif %}
+    {% endif %}
+    {% for graph in json_ld or [] %}
+      <script type="application/ld+json">{{ graph|tojson }}</script>
+    {% endfor %}
+    {% block json_ld_extra %}{% endblock %}
+
     {% block extra_head %}{% endblock %}
   </head>
   <body>

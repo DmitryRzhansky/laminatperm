@@ -2,6 +2,7 @@
 {% set title = page.title %}
 {% set description = page.seo_description or page.summary %}
 {% set intro = page.summary %}
+{% block title %}{{ page.seo_title or page.title }} — Ламинейшен{% endblock %}
 {% block page_body %}
 <div class="container page-prose">
   {% if page.image %}

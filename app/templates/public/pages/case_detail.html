@@ -4,6 +4,7 @@
 {% set hide_page_hero_title = true %}
 {% set breadcrumbs = [{"label": "Главная", "url": url_for("main.home")}, {"label": "Кейсы", "url": url_for("cases.index")}, {"label": item.page_heading}] %}
 {% block title %}{{ item.seo_title or item.page_heading }} — Ламинейшен{% endblock %}
+{% block og_type %}article{% endblock %}
 {% block page_body %}
 <section class="cases cases--detail" data-cases aria-label="{{ item.page_heading }}">
   <div class="cases__inner cases__inner--detail">

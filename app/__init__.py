@@ -109,6 +109,7 @@ def create_app(config_class=Config):
     @app.context_processor
     def inject_globals():
         from app.models import ProductCategory
+        from app.services import seo_meta
 
         cart = CartService()
         return {
@@ -122,6 +123,17 @@ def create_app(config_class=Config):
             "address": get_setting("header.address", "Агатовая улица, 28, Пермь"),
             "hours": get_setting("header.hours", "7 дней в неделю: 09:00–20:00"),
             "email": get_setting("contacts.email", "vip.shapen@mail.ru"),
+            "seo_site_name": seo_meta.SITE_NAME,
+            "seo_canonical": seo_meta.canonical_url(),
+            "seo_default_image": seo_meta.default_og_image(),
+            "seo_base_json_ld": [
+                seo_meta.organization_ld(),
+                seo_meta.website_ld(),
+            ],
+            "seo_breadcrumb_ld": seo_meta.breadcrumb_ld,
+            "absolute_url": seo_meta.absolute_url,
+            "absolute_media": seo_meta.absolute_media,
+            "json_ld": [],
         }
 
     return app

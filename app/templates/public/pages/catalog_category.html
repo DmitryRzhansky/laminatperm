@@ -1,5 +1,7 @@
 {% extends "public/pages/inner_base.html" %}
 {% set title = current_category.name %}
+{% set description = current_category.seo_description or current_category.intro or current_category.name %}
+{% block title %}{{ current_category.seo_title or current_category.name }} — Ламинейшен{% endblock %}
 {% block page_body %}
 <div class="container shop">
   <form class="shop-filters" method="get" id="shop-filters" data-shop-filters>
