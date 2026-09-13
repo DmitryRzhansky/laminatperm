@@ -251,6 +251,12 @@
   }
 }
 
+.admin-login__card.admin-form {
+  width: min(100% - 2rem, 26rem);
+  max-width: 26rem;
+  padding: 1.75rem;
+}
+
 .admin-form--wide {
   width: 100%;
 }
