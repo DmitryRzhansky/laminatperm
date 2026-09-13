@@ -81,17 +81,22 @@
 
           <div class="about__media">
             <figure class="about__figure about__figure--main">
-              <iframe
+              <video
                 class="about__video"
-                src="https://runtime.strm.yandex.ru/player/video/vplv2waviwwfwnhrlpw3?autoplay=1&mute=1"
-                title="Видео о компании"
+                autoplay
+                muted
+                loop
+                playsinline
+                webkit-playsinline
+                preload="metadata"
                 width="1280"
                 height="720"
-                allow="autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write"
-                allowfullscreen
-                loading="lazy"
-                referrerpolicy="strict-origin-when-cross-origin"
-              ></iframe>
+              >
+                <source
+                  src="{{ get_setting('about.video', 'video/about.mp4')|media }}"
+                  type="video/mp4"
+                >
+              </video>
             </figure>
             <div class="about__gallery">
               <figure class="about__figure">
