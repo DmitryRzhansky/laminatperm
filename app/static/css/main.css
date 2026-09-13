@@ -6745,6 +6745,27 @@ ul.about__stats {
   padding-bottom: 3.5rem;
 }
 
+.page-prose > * {
+  margin-block: 0;
+}
+
+.page-prose > * + * {
+  margin-top: 1rem;
+}
+
+.page-prose > h2,
+.page-prose > h4,
+.page-prose > span {
+  display: block;
+  margin-top: 1.65rem;
+}
+
+.page-prose > h2 + *,
+.page-prose > h4 + *,
+.page-prose > span + * {
+  margin-top: 0.75rem;
+}
+
 .page-prose img {
   width: 100%;
   height: auto;
