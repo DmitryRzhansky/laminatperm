@@ -100,7 +100,9 @@
     {% if products %}
       <div class="shop-grid">
         {% for item in products %}
-          {% include "components/product-card.html" %}
+          {% with item=item, heading_tag='span' %}
+            {% include "components/product-card.html" %}
+          {% endwith %}
         {% endfor %}
       </div>
     {% else %}
