@@ -272,8 +272,9 @@ def checkout():
             return redirect(url_for("catalog.cart_view"))
         first_name = (request.form.get("name") or "").strip()
         phone = (request.form.get("phone") or "").strip()
-        if not first_name or not phone:
-            flash("Укажите имя и телефон", "error")
+        consent = request.form.get("consent")
+        if not first_name or not phone or not consent:
+            flash("Укажите имя, телефон и согласие на обработку персональных данных", "error")
             return redirect(url_for("catalog.checkout"))
         order = Order(
             first_name=first_name,

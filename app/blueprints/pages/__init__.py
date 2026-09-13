@@ -219,3 +219,47 @@ def contacts():
         org,
     )
     return render_template("public/pages/contacts.html", json_ld=json_ld)
+
+
+@pages_bp.route("/privacy/")
+def privacy():
+    title = "Политика конфиденциальности"
+    description = "Как Ламинейшен собирает, использует и защищает данные посетителей сайта."
+    path = url_for("pages.privacy")
+    json_ld = seo_meta.collect_json_ld(
+        seo_meta.webpage_ld(
+            name=title,
+            description=description,
+            path=path,
+            page_type="PrivacyPolicy",
+        )
+    )
+    return render_template(
+        "public/pages/privacy.html",
+        title=title,
+        description=description,
+        breadcrumbs=_crumbs(title),
+        json_ld=json_ld,
+    )
+
+
+@pages_bp.route("/personal-data-consent/")
+def personal_data_consent():
+    title = "Согласие на обработку персональных данных"
+    description = "Условия согласия на обработку персональных данных для заявок и заказов на сайте Ламинейшен."
+    path = url_for("pages.personal_data_consent")
+    json_ld = seo_meta.collect_json_ld(
+        seo_meta.webpage_ld(
+            name=title,
+            description=description,
+            path=path,
+            page_type="WebPage",
+        )
+    )
+    return render_template(
+        "public/pages/personal_data_consent.html",
+        title=title,
+        description=description,
+        breadcrumbs=_crumbs(title),
+        json_ld=json_ld,
+    )

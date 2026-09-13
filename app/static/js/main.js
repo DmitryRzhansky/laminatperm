@@ -1,5 +1,6 @@
 import { initAddToCart } from "./modules/add-to-cart.js";
 import { initCart } from "./modules/cart.js";
+import { initCookieBanner } from "./modules/cookie-banner.js";
 import { initFadeMotion } from "./modules/motion.js";
 import { initPartners } from "./modules/partners.js";
 import { initProductPage } from "./modules/product.js";
@@ -77,5 +78,6 @@ safeInit("product-page", initProductPage);
 safeInit("related-products", initRelatedProducts);
 safeInit("add-to-cart", initAddToCart);
 safeInit("cart", initCart);
+safeInit("cookie-banner", initCookieBanner);
 safeInit("hero-video", initHeroVideo);
 safeInit("fade-motion", initFadeMotion);

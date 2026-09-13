@@ -157,8 +157,12 @@
           <input id="request-consent" name="consent" type="checkbox" required>
           <span class="request-form__consent-text">
             Даю согласие на
-            <a class="request-form__consent-link" href="#consultation">
+            <a class="request-form__consent-link" href="{{ url_for('pages.personal_data_consent') }}">
               обработку персональных данных
+            </a>
+            и ознакомлен(а) с
+            <a class="request-form__consent-link" href="{{ url_for('pages.privacy') }}">
+              политикой конфиденциальности
             </a>
           </span>
         </label>

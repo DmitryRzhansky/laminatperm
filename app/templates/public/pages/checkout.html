@@ -119,6 +119,16 @@
         </label>
       </div>
 
+      <label class="shop-checkout__consent" for="checkout-consent">
+        <input id="checkout-consent" name="consent" type="checkbox" required>
+        <span>
+          Даю согласие на
+          <a href="{{ url_for('pages.personal_data_consent') }}">обработку персональных данных</a>
+          и ознакомлен(а) с
+          <a href="{{ url_for('pages.privacy') }}">политикой конфиденциальности</a>
+        </span>
+      </label>
+
       <button class="button button--accent shop-checkout__submit" type="submit">Отправить заказ</button>
     </form>
   </div>

@@ -6547,6 +6547,71 @@ ul.about__stats {
     transform: none;
   }
 }
+.cookie-banner {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 80;
+  display: grid;
+  gap: 0.75rem;
+  width: min(21rem, 100vw - 2rem);
+  padding: 1rem;
+  color: var(--color-text-dark);
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(25, 25, 25, 0.12);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1rem 2.5rem rgba(25, 25, 25, 0.14);
+}
+
+.cookie-banner[hidden] {
+  display: none;
+}
+
+.cookie-banner__text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.cookie-banner__text a {
+  color: var(--color-text-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.cookie-banner__button {
+  justify-self: start;
+  min-height: 2.25rem;
+  padding: 0.45rem 0.9rem;
+  border: 0;
+  border-radius: var(--radius-button);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-white);
+  background: var(--color-text-dark);
+  cursor: pointer;
+  transition: background-color var(--transition-base);
+}
+
+.cookie-banner__button:hover,
+.cookie-banner__button:focus-visible {
+  background: var(--color-text-hover);
+}
+
+.cookie-banner__button:focus-visible {
+  outline: 0.125rem solid var(--color-accent);
+  outline-offset: 0.125rem;
+}
+
+@media (max-width: 36rem) {
+  .cookie-banner {
+    right: 1rem;
+    width: auto;
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   html.has-motion [data-fade] {
     opacity: 0;
@@ -8311,6 +8376,34 @@ ul.product__benefits {
   border-color: var(--color-accent);
 }
 
+.shop-checkout__consent {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.shop-checkout__consent input {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.12rem;
+  accent-color: var(--color-text-dark);
+}
+
+.shop-checkout__consent a {
+  color: var(--color-text-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.shop-checkout__consent a:hover,
+.shop-checkout__consent a:focus-visible {
+  color: var(--color-accent-hover);
+}
+
 .shop-checkout__submit {
   width: 100%;
   min-height: 3rem;
@@ -8774,4 +8867,47 @@ ul.product__benefits {
   .hero--service .hero__content--cols-3 {
     column-gap: 3.5rem;
   }
+}
+.legal-page {
+  padding-bottom: clamp(3rem, 2.4rem + 2vw, 4.5rem);
+}
+
+.legal-page__content {
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  padding: clamp(1.25rem, 1rem + 1vw, 2rem);
+  background: var(--color-white);
+  border: 1px solid rgba(25, 25, 25, 0.08);
+  border-radius: var(--radius-lg);
+}
+
+.legal-page__content h2 {
+  margin: 2rem 0 0.75rem;
+  font-family: var(--font-headline);
+  font-size: clamp(1.15rem, 1.05rem + 0.35vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--color-text-dark);
+}
+
+.legal-page__content h2:first-child {
+  margin-top: 0;
+}
+
+.legal-page__content p {
+  margin: 0 0 0.9rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.legal-page__content a {
+  color: var(--color-text-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.legal-page__content a:hover,
+.legal-page__content a:focus-visible {
+  color: var(--color-accent-hover);
 }
